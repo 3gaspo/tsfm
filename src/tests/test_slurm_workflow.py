@@ -10,6 +10,7 @@ def test_root_fronts_and_workflows() -> None:
     fronts = sorted(PROJECT_ROOT.glob("[0-9][0-9]_*.slurm"))
     assert (PROJECT_ROOT / "publish_job.sh").is_file()
     assert [path.name for path in fronts] == [
+        "00_prepare_time.slurm",
         "01_univariate.slurm",
         "02_controls.slurm",
         "03_covariates.slurm",
@@ -22,6 +23,16 @@ def test_root_fronts_and_workflows() -> None:
         assert "logs/%x_%j.out" in text
         assert "BASH_SOURCE" not in text
         assert "--array" not in text
+    preparation = (PROJECT_ROOT / "src/slurm/prepare_time.sh").read_text(
+        encoding="utf-8"
+    )
+    assert "srun --ntasks=1" in preparation
+    assert "scripts.prepare_time_csv" in preparation
+    assert 'TIME_OUTPUT_ROOT:-$PROJECT_ROOT/datasets/time' in preparation
+    assert 'TIME_FREQUENCIES:-15T H D' in preparation
+    assert 'TIME_SETTINGS:-336:48 504:168' in preparation
+    assert "TIME_OVERWRITE:-false" in preparation
+    assert "TIME preparation completed successfully" in preparation
     common = (PROJECT_ROOT / "src/slurm/benchmark_common.sh").read_text(encoding="utf-8")
     assert "STAGES:-evaluate,report" in common
     assert "srun --ntasks=1" in common

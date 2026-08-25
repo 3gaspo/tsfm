@@ -119,6 +119,29 @@ in every series, and uses the Hugging Face cache across runs:
 PYTHONPATH=src uv run python -m scripts.prepare_time_csv
 ```
 
+On the cluster, the normal interface is the CPU-only preparation front:
+
+```bash
+sbatch 00_prepare_time.slurm
+```
+
+It writes stdout and stderr to `logs/timeprep_<job-id>.out` and `.err`, fails
+the Slurm job on any download, conversion, or validation error, and ends with
+`TIME preparation completed successfully` only after validating a non-empty
+catalog and every catalogued CSV/config pair. It accepts whitespace-separated
+`TIME_DATASETS`, `TIME_FREQUENCIES`, and `TIME_SETTINGS`, plus
+`TIME_STRIDE`, `TIME_MAX_SERIES`, `TIME_MAX_DATES_PER_SERIES`,
+`TIME_OUTPUT_ROOT`, `TIME_SOURCE_ROOT`, `TIME_CACHE_DIR`, `TIME_REPO_ID`, and
+`TIME_REVISION`. Existing outputs are protected by default; set
+`TIME_OVERWRITE=true` only for a deliberate replacement.
+
+For example:
+
+```bash
+TIME_DATASETS="CPHL Crypto" TIME_FREQUENCIES="H D" \
+  sbatch 00_prepare_time.slurm
+```
+
 Restrict it further by TIME dataset name, or select other frequency folders:
 
 ```bash
@@ -228,15 +251,18 @@ PYTHONPATH=src uv run python -m scripts.evaluate \
 
 The numbered root launchers are the user-facing submission interface:
 
-1. `01_univariate.slurm` compares persistence, expected, repeat, the weekly
+1. `00_prepare_time.slurm` downloads, converts, inventories, and validates the
+   selected TIME datasets. It prepares evaluation inputs and does not create a
+   model-evaluation workflow or manifest.
+2. `01_univariate.slurm` compares persistence, expected, repeat, the weekly
    aligned lookback baseline, and Chronos-2. Lookback settings without enough
    history for the required whole-week offset are skipped.
-2. `02_controls.slurm` crosses the models with instance normalization and
+3. `02_controls.slurm` crosses the models with instance normalization and
    constant-window removal.
-3. `03_covariates.slurm` compares univariate and identity-covariate inference;
+4. `03_covariates.slurm` compares univariate and identity-covariate inference;
    set `COVARIATE_MODES_OVERRIDE=known` with prepared covariate paths for other
    covariate experiments.
-4. `04_foundation_models.slurm` compares the official Chronos-2,
+5. `04_foundation_models.slurm` compares the official Chronos-2,
    Chronos-Bolt, TS-ICL, TiRex-2, and TabPFN-TS inference pipelines on the
    univariate benchmark. Its `full` profile
    is Electricity, Traffic, Solar, Weather, and Exchange Rate at `336:48` and

@@ -4,6 +4,20 @@ Last successful maintenance: 2026-08-11 10:45 +02:00.
 
 ## Pending
 
+- 2026-08-25: Added `00_prepare_time.slurm` as the cluster interface for TIME
+  materialization. It runs the existing selective downloader/converter in one
+  explicit Slurm job step, exposes source, frequency, setting, size, cache,
+  revision, and overwrite controls, and fails unless the resulting catalog is
+  non-empty and every catalogued CSV/config pair exists. Affected contracts:
+  root Slurm fronts, scheduler implementation, workflow regression, README,
+  and cluster handoff. Focused checks: Git Bash syntax passed for the new
+  front and implementation, the focused Slurm workflow regression passed in
+  the shared thesis runtime, and `git diff --check` passed. Deferred
+  integration: run the downloader on the remote cluster
+  and inspect the retained/skipped catalog; reconcile the preparation command
+  into the experiment guideline during maintenance. Required reruns: none;
+  this prepares new inputs for the already-required TIME evaluations.
+
 - 2026-08-20: Inventoried the official TIME Arrow release at revision
   `83e3d0b3be28d11c7182bffcc1892d19b36c4da1` and generated ignored exploratory
   CSV/JSON/PNG artifacts under `outputs/time_inventory/`. The inventory expands
