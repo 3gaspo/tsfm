@@ -4,6 +4,22 @@ Last successful maintenance: 2026-08-11 10:45 +02:00.
 
 ## Pending
 
+- 2026-08-25: Added explicit DGX-to-Selena code synchronization and
+  Selena-to-DGX result synchronization scripts. Code synchronization mirrors
+  the maintained project while preserving Selena-local environments, secrets,
+  datasets, weights, outputs, and logs; result synchronization copies outputs
+  and logs without remote deletion. The user-facing scripts live at the
+  project root beside the publisher, read the ignored uppercase NNI from
+  the shared `$HOME/codes/.secrets/nni`, and lowercase it only for SSH
+  usernames and home paths.
+  Affected files/contracts: two operational
+  scripts and README commands. Focused checks: Git Bash syntax passed for both
+  scripts, static inspection confirmed the requested endpoints, protected
+  directories, secret lookup and lowercase conversion, no hardcoded NNI
+  remains, and `git diff --check` passed. Deferred integration: execute each
+  direction once between the real hosts. README is updated; no LaTeX change or
+  scientific rerun is required.
+
 - 2026-08-20: Inventoried the official TIME Arrow release at revision
   `83e3d0b3be28d11c7182bffcc1892d19b36c4da1` and generated ignored exploratory
   CSV/JSON/PNG artifacts under `outputs/time_inventory/`. The inventory expands

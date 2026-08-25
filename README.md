@@ -351,6 +351,40 @@ and required TSFM summary/metric/config files are specific to this project.
 Runtime and Slurm logs belong in `logs/`. Dataset and model payloads remain in
 the ignored `datasets/` and `weights/` directories.
 
+## Synchronizing DGX and Selena
+
+On each machine, store the uppercase NNI beside the existing shared proxy
+credentials, outside the project repository:
+
+```bash
+mkdir -p "$HOME/codes/.secrets"
+printf '%s\n' 'YOUR_NNI' > "$HOME/codes/.secrets/nni"
+chmod 600 "$HOME/codes/.secrets/nni"
+```
+
+Both synchronization scripts read this file and convert the NNI to lowercase
+for SSH usernames and home-directory paths. Because `codes/.secrets/` is
+outside `codes/tsfm/`, the NNI is never copied or committed with the project.
+
+After pulling code updates on DGX, synchronize the execution copy on Selena:
+
+```bash
+bash sync_code_to_selena.sh
+```
+
+The transfer makes Selena's code match DGX while preserving Selena's `.venv`,
+`.secrets`, datasets, weights, outputs, and logs. Git metadata is not
+transferred; Selena is an execution copy and does not need Git operations.
+
+After Selena jobs finish, transfer their lightweight results back to DGX:
+
+```bash
+bash sync_results_to_dgx.sh
+```
+
+This copies new or changed files from `outputs/` and `logs/` without deleting
+anything already present on DGX.
+
 ## Publishing terminal Slurm artifacts
 
 Slurm jobs never submit a publisher or run Git commands. After any job reaches
