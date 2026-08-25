@@ -1,0 +1,31 @@
+Last updated: 2026-08-25
+
+Latest completed job/profile: none; expanded evaluator and reporting workflow
+prepared locally.
+Artifacts synchronized/analyzed: no remote artifacts yet.
+Running or queued jobs: none.
+Current contract: schema 1 roots are outputs/univariate, outputs/controls,
+outputs/covariates, and outputs/foundation_models with mode selecting subsets
+of the same identity trees. Each
+run now writes MSE/MAE/nMSE/nMAE/MASE window, user, horizon, dispersion, W10,
+and timing artifacts. The univariate report compares Chronos-2 with every
+legacy TimeTensor baseline, writes best-baseline win rates, publication plots,
+and chosen-metric dataset/setting marginal tables. The sole lookback baseline
+uses the most recent whole-week-aligned horizon block, inferring 168 steps for
+hourly data and 7 for daily data; absolute lookback-0/lookback-168 variants no
+longer exist. Tensor inputs use the current
+TimeTensors individual/global context and dataset metadata filenames; no older
+TSFM run exists or requires migration.
+The foundation-model workflow loads the official Chronos-2, Chronos-Bolt,
+TS-ICL, TiRex-2, and TabPFN-TS inference packages from local checkpoints and
+uses raw TSFM inputs where the released model owns preprocessing.
+Its full profile is the five primary datasets at 336:48 and 504:168.
+Next jobs: place the official checkpoints in the documented weight paths,
+submit `EXPERIMENT_MODE=test sbatch 04_foundation_models.slurm`, and inspect all
+five model summaries and the fixed-Chronos report. Then submit
+`EXPERIMENT_MODE=full sbatch 04_foundation_models.slurm`. The original next jobs
+remain bare `EXPERIMENT_MODE=test sbatch 01_univariate.slurm`, inspect its
+metric CSVs and plots, then submit
+`EXPERIMENT_MODE=full sbatch 01_univariate.slurm` for the four-dataset,
+three-setting ICLR grid. Controls and covariates remain later workflows.
+Known job IDs/dependencies: none.

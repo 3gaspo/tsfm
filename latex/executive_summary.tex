@@ -1,0 +1,51 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern,microtype}
+\usepackage[margin=22mm]{geometry}
+\usepackage{xcolor,hyperref,booktabs,tabularx,array}
+\definecolor{navy}{HTML}{17365D}
+\definecolor{amber}{HTML}{A05A00}
+\hypersetup{colorlinks=true,linkcolor=navy,urlcolor=navy}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.75\baselineskip}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcommand{\code}[1]{\texttt{\detokenize{#1}}}
+\title{\textbf{Time-series Foundation Model Evaluation}\\Executive Summary}
+\author{Thesis project}
+\date{Evidence checked through 7 August 2026}
+\begin{document}
+\maketitle
+
+\section*{Decision snapshot}
+\textcolor{amber}{\textbf{No remote TSFM evaluation has completed.}}
+There is no quantitative basis for choosing univariate, known-covariate, or
+identity-covariate inference.
+
+\section{Evidence inventory}
+\begin{center}
+\small
+\begin{tabularx}{\linewidth}{@{}Yr@{}}
+\toprule
+\textbf{Result object} & \textbf{Count} \\
+\midrule
+Archived result files & 0 \\
+Completed schema-1 manifests & 0 \\
+Recorded remote evaluations & 0 \\
+Chronos-2/TabPFN-TS result tables & 0 \\
+Result plots & 0 \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\section{Claims retained}
+None about model accuracy, covariate value, preprocessing, or runtime. The local
+repeat smoke validates code paths only and is not included as foundation-model
+evidence. The zero-count inventory is the complete result record.
+
+\section{Next evidence}
+Submit one unmodified test launcher and verify its completed
+\code{summary.json}, per-user metrics, and report ingestion. Then run the full
+univariate family before controls and covariates. Protocol details remain in
+the experiment guideline.
+\end{document}

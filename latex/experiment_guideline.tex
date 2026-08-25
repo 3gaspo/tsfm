@@ -1,0 +1,241 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern,microtype}
+\usepackage[margin=18mm]{geometry}
+\usepackage{amsmath,booktabs,tabularx,array}
+\usepackage{xcolor,hyperref,enumitem}
+\definecolor{navy}{HTML}{17365D}
+\hypersetup{colorlinks=true,linkcolor=navy,urlcolor=navy}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.55\baselineskip}
+\setlist{nosep,leftmargin=*}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcommand{\code}[1]{\texttt{\detokenize{#1}}}
+\title{\textbf{Time-series Foundation Model Evaluation}\\Experiment Guideline}
+\author{Thesis project}
+\date{25 August 2026}
+\begin{document}
+\maketitle
+
+\section{Scope}
+This is an inference-only evaluation of frozen Chronos-2 and Chronos-Bolt,
+official TS-ICL and TiRex-2 inference packages, in-context TabPFN-TS, and four legacy TimeTensor
+baselines: persistence, expected value, repeat, and weekly aligned lookback.
+It reproduces and extends the accepted ICLR TSALM covariate study. It contains
+no optimization, forecasting-model training, PatchTST training, or
+data-generating process.
+
+\section{Forecasting and evaluation contract}
+Targets are wide univariate panels with shape
+$(\text{users},1,\text{dates})$. For query date $t$,
+\[
+X=(t-L,t],\qquad Y=(t,t+H].
+\]
+Query dates are deterministic, date-major, spaced by
+\code{evaluation.stride} (512 for the paper protocol), and evaluated for every
+user. Evaluation fractions own target dates. Pairwise constant-window removal
+removes only user/query pairs whose lookback standard deviation is at most the
+configured threshold.
+
+Target-only reversible instance normalization standardizes the target history
+before inference and reverses it on predictions. Covariates remain on their
+raw source scale. Evaluation nMSE always divides errors by the lookback scale,
+independently of preprocessing.
+
+\section{Models and covariates}
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}lY@{}}
+\toprule
+Axis & Cases \\
+\midrule
+Models & Persistence, expected value, repeat, weekly aligned lookback, frozen
+Chronos-2 and Chronos-Bolt, official TS-ICL 0.2.0 and TiRex-2 0.2.1 adapters, and in-context
+TabPFN-TS. \\
+Covariates & \code{none}; \code{identity} (target history supplied as known
+covariate); \code{known} (prepared target-aligned covariate panels). \\
+Controls & Instance normalization on/off; constant-window removal on/off;
+TabPFN time features on/off where applicable. \\
+\bottomrule
+\end{tabularx}
+\end{center}
+External covariate panels must share the target timeline and either match user
+names/order or contain one global column.
+
+The lookback baseline infers the number of observations in seven days from
+dated inputs, or accepts an explicit positive period override. For horizon
+$H$ and period $P$, it returns the latest complete $H$-step history block whose
+start is shifted back by $\lceil H/P\rceil P$ observations. This preserves
+weekly alignment and prevents overlap with the forecast horizon. Inputs without
+a cadence that divides one week require an explicit period. The former
+absolute-index variants are not part of the current model set.
+
+All five frozen models use thin adapters over official packages. Chronos-2 and
+Chronos-Bolt use version 2.0.1 of the official Chronos Forecasting package;
+TS-ICL, TiRex-2, and
+TabPFN-TS use \code{tsicl==0.2.0}, \code{tirex-2==0.2.1}, and
+\code{tabpfn==6.3.1}. TS-ICL and TiRex-2 retain native preprocessing and
+test-time behavior and select the median point forecast. The TSFM boundary
+supplies raw targets for these two models, so the foundation workflow disables
+the outer instance-normalization wrapper. Their sole shared aliases are
+\code{chronos2}, \code{chronos_bolt}, \code{ts_icl}, \code{tirex2}, and
+\code{tabpfn_ts}. Covariate configuration does not alter model identity, and
+an adapter without covariate support raises on a non-empty covariate input.
+Expected checkpoints are
+\begin{itemize}
+  \item Chronos-2: \path{weights/chronos2};
+  \item Chronos-Bolt: \path{weights/chronos-bolt-base};
+  \item TS-ICL: \path{weights/tsicl/tsicl-v1.ckpt};
+  \item TiRex-2: \path{weights/tirex2/model-config.yaml} and
+        \path{weights/tirex2/model.ckpt};
+  \item TabPFN-TS:
+        \path{weights/tabpfnts/tabpfn-v2.5-regressor-v2.5_default.ckpt}.
+\end{itemize}
+
+\section{Metrics and seed}
+Every run reports MSE, MAE, nMSE, nMAE, and MASE with configurable seasonality.
+For each metric it records the sample mean and population standard deviation,
+equal-user mean and population standard deviation across user means, the mean
+of the worst $\lceil0.1U\rceil$ users, per-user within-user dispersion, and
+per-horizon mean and dispersion. It also records total model inference time and
+amortized time per user and per series/window; model and data loading are
+excluded from inference timing. One run seed fixes every stochastic choice
+exposed by a model or sampler; deterministic evaluation ordering remains fixed.
+
+\section{Experiment families and grid}
+The root fronts are:
+\begin{enumerate}
+\item \code{01_univariate.slurm}: the four baselines and Chronos-2;
+\item \code{02_controls.slurm}: normalization and constant-window controls;
+\item \code{03_covariates.slurm}: univariate and identity-covariate inference,
+      with prepared known covariates available by override;
+\item \code{04_foundation_models.slurm}: frozen Chronos-2, Chronos-Bolt,
+      TS-ICL, TiRex-2, and TabPFN-TS with model-native preprocessing.
+\end{enumerate}
+\code{test} is Electricity at $504{:}168$, seed 1. \code{full} crosses
+Electricity, Traffic, Solar, and Exchange Rate with $168{:}24$, $336{:}48$,
+and $504{:}168$. \code{ultra} adds the documented extended datasets at the
+shared $336{:}48$ and $504{:}168$ settings. Supersets select from the same
+identity trees and reuse only signature-matched completed runs.
+
+The foundation-model family uses Electricity at $504{:}168$ for \code{test};
+its \code{full} profile crosses Electricity, Traffic, Solar, Weather, and
+Exchange Rate with $336{:}48$ and $504{:}168$. Its report fixes Chronos-2 as
+the default reference. \code{ultra} adds ETTh1 and $168{:}24$.
+
+\section{Execution}
+\begin{verbatim}
+EXPERIMENT_MODE=test sbatch 01_univariate.slurm
+EXPERIMENT_MODE=full sbatch 01_univariate.slurm
+EXPERIMENT_MODE=full sbatch 02_controls.slurm
+EXPERIMENT_MODE=full sbatch 03_covariates.slurm
+EXPERIMENT_MODE=test sbatch 04_foundation_models.slurm
+EXPERIMENT_MODE=full sbatch 04_foundation_models.slurm
+\end{verbatim}
+The default workflow is \code{STAGES=evaluate,report}; stage selection is a
+recovery override. Dataset, setting, model, seed, normalization, constant
+handling, covariates, and time-feature controls can be narrowed with the
+documented environment overrides. Foundation-model inference is remote only.
+\code{LOOKBACK_PERIOD_STEPS} overrides weekly cadence inference for the
+lookback baseline, and \code{MASE_SEASONALITY} sets the MASE denominator lag.
+
+Slurm workflows never submit a publisher or execute Git commands. After any
+terminal state, including failure, cancellation, or timeout, the user runs
+\code{bash publish_job.sh <job-id>} from the project root. The script verifies
+\code{main}, sources \code{$HOME/codes/proxy.sh} (or
+\code{PROXY_SCRIPT_PATH}), and fast-forward pulls \code{origin/main} before
+artifact selection or staging. With a job ID, it commits only that job's exact
+stdout/stderr pair. Omitting the job ID publishes all logs and lightweight
+outputs, excluding \code{*.pt}, \code{*.npy}, and \code{*.cbm}. It then pushes
+\code{origin/main} without opening a pull request. A
+non-fast-forward pull stops without a merge commit, and unrelated staged paths
+remain outside the publisher commit.
+
+\section{Data provenance and artifacts}
+The loader discovers \code{config.json} beside the CSV/tensor directory.
+Portable settings are top-level, project overrides live under
+\code{tsfm_evaluation}, explicit run values override both, and
+\code{drop_users} is additive. The selected path and applied keys are logged.
+Tensor directories follow the current TimeTensors contract: \path{values.pt},
+optional \path{datetimes.pt} and \path{individual_ids.pt}, optional
+\path{individual_context.pt} and \path{global_context.pt}, and
+\path{dataset_metadata.json}. Static individual context is broadcast across
+dates and global context across users.
+
+\subsection*{Selective TIME preparation}
+\code{python -m scripts.prepare_time_csv} resolves an immutable revision of
+\path{Real-TSF/TIME-ProcessedCSV} and downloads only selected CSV paths. The
+default considers 15-minute, hourly, and daily sources, retaining source tasks
+with at most 500 usable series and at most 10,000 dates per series. Files are
+merged only when their complete timestamp indices match; non-aligned groups
+become separate datasets, while irregular, short, or non-finite series are
+recorded as skips. Each accepted panel is written below
+\path{datasets/time/<dataset>/} with a directly loadable wide CSV and
+\path{config.json}. \path{datasets/time/catalog.json} records source revision,
+counts, skips, and eligible query/window totals for the requested settings and
+stride. The current revision inventory retains five hourly and seven daily
+source configurations under the default limits; no 15-minute source qualifies.
+
+The four independent family roots are \code{outputs/univariate},
+\code{outputs/controls}, \code{outputs/covariates}, and
+\code{outputs/foundation_models}. Their ordered identity is
+\begin{verbatim}
+outputs/family/dataset/L_H/backbone/covariate_mode/normalization/
+  constant_policy/time_features/run_n/
+\end{verbatim}
+Every model config owns one directory. Batch size, data split and stride,
+metric/window export, model inference options, and explicit covariate bindings
+are pipeline configs; device and Slurm placement are runtime-only. One seed
+fixes every stochastic choice. Mode filters path subsets and is not part of the
+path or computation signature.
+TSFM launches one seed per run, records it in the manifest, and stores its
+artifacts directly under \path{run_n}; a seed leaf is reserved for a future
+multi-seed launcher. The manifest structure, statuses, collision and selection
+policies, purposes, and report manifests are thesis-wide conventions. The
+workflow roots, ordered identity, and required summary artifacts are
+TSFM-specific.
+
+Each completed run contains \path{summary.json},
+\path{per_user_metrics.csv}, \path{horizon_metrics.csv}, optional
+\path{window_metrics.csv}, \path{resolved_config.json}, and a
+\code{schema_version: 1} manifest with
+declared configs, optional plain provenance, launch attempts, required artifacts,
+per-seed state, and one of four overall statuses; seed state may additionally be
+\code{ready}. Run identity contains only the schema,
+identity/model configs, pipeline/experiment configs, and seeds. It never
+fingerprints or hashes code, Slurm files, data, weights, logs, outputs, or directories;
+code/data changes are manual rerun decisions. The schema changes only for a
+deliberate global contract break, and \code{new} creates another repeat with
+unchanged parameters. The default \code{overwrite_exact} policy skips exact
+completed work, resumes exact interruption, and creates a new \code{run_n} for
+a changed pipeline. The evaluator records ready artifacts, and completion is
+written immediately after that evaluation's \code{srun} returns successfully.
+Later evaluation or report failures preserve completed runs and interrupt only
+unfinished work. Completed
+manifests are authoritative, without later file hashing or synchronization
+checks. Reports accept distinct/latest/average config handling,
+selected/latest/distinct/average repeat selection, explicit pipeline filters,
+and purpose filters. Explicit pipeline filters select configurations and must
+match even with one run. Nested pipeline and experiment fields, including the
+scientific identity embedded for an upstream dependency, are exposed through
+dotted filter keys and every differing nested field appears in a distinct
+label. If latest-run timestamps tie, the larger \code{run_n} index wins, making
+selection deterministic. Reports write requested filters and obtained inputs to
+\path{outputs/reports/family/mode}, while \code{SELECTED_RUNS.txt} stores only
+automatic or pinned exact repeats.
+
+Reports compare complete configurations without mixing incompatible pipeline
+settings. They write the selected raw results, model-versus-reference
+configuration table, equal-configuration marginal tables by dataset and by
+setting, Chronos-2 strict paired-window win rates against the best aggregate
+baseline, and a report manifest. The selected table metric may be any error
+metric or total/per-user/per-window inference time. When window artifacts are
+enabled, reports also export per-user mean-versus-dispersion scatters, window
+error histograms, and horizon-error curves as PNG and PDF with a plot index.
+
+\section{Validation}
+The shared scientific runtime may run dataset, metric, model-adapter,
+repeat/report, manifest, and Slurm workflow checks. Local checks may use fake
+adapters or the repeat baseline, but must not load Chronos-2, Chronos-Bolt,
+TS-ICL, TiRex-2, or TabPFN-TS checkpoints or run full sweeps.
+\end{document}

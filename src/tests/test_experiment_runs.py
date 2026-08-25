@@ -1,0 +1,424 @@
+"""Contract tests for schema-v1 run allocation and table selection."""
+
+import json
+import os
+import tempfile
+import unittest
+from pathlib import Path
+
+from pipeline.runs import (
+    ManifestError,
+    allocate_run,
+    complete_launch,
+    complete_run,
+    load_manifest,
+    interrupt_launch,
+    mark_ready,
+    mark_status,
+    prepare_run_output,
+    pipeline_config_with_dependencies,
+    select_identity_runs,
+    select_single_identity_run,
+    validate_completed,
+    write_report_manifest,
+)
+
+
+class ExperimentRunsTest(unittest.TestCase):
+    def _allocate(self, identity: Path, steps: int, **kwargs):
+        return allocate_run(
+            identity,
+            project="contract_test",
+            workflow="family",
+            dataset="electricity",
+            lookback=504,
+            horizon=168,
+            backbone="patchtst",
+            model_config_order=["formula", "space"],
+            model_config={"formula": "ridge", "space": "instance"},
+            pipeline_config={"steps": steps},
+            seeds=[1],
+            display_name="ridge",
+            launch_id=f"launch_{steps}_{kwargs.get('policy', 'default')}",
+            **kwargs,
+        )
+
+    @staticmethod
+    def _complete(allocation) -> None:
+        relative = "seed_1/result.json"
+        artifact = allocation.run_dir / relative
+        artifact.parent.mkdir(parents=True, exist_ok=True)
+        artifact.write_text('{"mse": 1.0}\n', encoding="utf-8")
+        mark_status(
+            allocation.run_dir,
+            "completed",
+            seed=1,
+            required_artifacts=[relative],
+        )
+        assert load_manifest(allocation.run_dir)["status"] == "running"
+        mark_status(
+            allocation.run_dir,
+            "completed",
+            required_artifacts=[relative],
+        )
+
+    def test_collision_and_selection_contract(self):
+        with tempfile.TemporaryDirectory() as folder:
+            identity = Path(folder) / "electricity/504_168/patchtst/ridge/instance"
+
+            first = self._allocate(identity, 10)
+            self.assertEqual((first.run_dir.name, first.action), ("run_0", "new"))
+            self._complete(first)
+
+            identical = self._allocate(identity, 10)
+            self.assertEqual((identical.run_dir.name, identical.action), ("run_0", "skip"))
+
+            changed = self._allocate(identity, 20)
+            self.assertEqual((changed.run_dir.name, changed.action), ("run_1", "new"))
+            self._complete(changed)
+
+            choices = select_identity_runs(identity)
+            self.assertEqual(len(choices), 2)
+            self.assertTrue(all("__steps-" in choice.label for choice in choices))
+
+            filtered = select_identity_runs(
+                identity,
+                requested_pipeline={"steps": 20},
+            )
+            self.assertEqual([choice.run_dir.name for choice in filtered], ["run_1"])
+
+            repeat = self._allocate(identity, 20, policy="new")
+            self.assertEqual(repeat.run_dir.name, "run_2")
+            self._complete(repeat)
+            selected = select_identity_runs(
+                identity,
+                requested_pipeline={"steps": 20},
+                repeat_policy="selected",
+            )
+            self.assertEqual([choice.run_dir.name for choice in selected], ["run_2"])
+            distinct = select_identity_runs(
+                identity,
+                requested_pipeline={"steps": 20},
+                repeat_policy="distinct",
+            )
+            self.assertEqual(
+                [choice.run_dir.name for choice in distinct],
+                ["run_1", "run_2"],
+            )
+            latest = select_identity_runs(identity, config_policy="latest")
+            self.assertEqual([choice.run_dir.name for choice in latest], ["run_2"])
+            averaged_configs = select_identity_runs(identity, config_policy="average")
+            self.assertEqual(
+                [choice.run_dir.name for choice in averaged_configs],
+                ["run_0", "run_2"],
+            )
+            self.assertEqual({choice.label for choice in averaged_configs}, {"ridge"})
+            averaged_repeats = select_identity_runs(
+                identity,
+                requested_pipeline={"steps": 20},
+                repeat_policy="average",
+            )
+            self.assertEqual(
+                [choice.run_dir.name for choice in averaged_repeats],
+                ["run_1", "run_2"],
+            )
+
+    def test_single_dependency_resolution_rejects_ambiguous_pipeline_configs(self):
+        with tempfile.TemporaryDirectory() as folder:
+            identity = Path(folder) / "electricity/504_168/patchtst/ridge/instance"
+            first = self._allocate(identity, 10)
+            second = self._allocate(identity, 20)
+            self._complete(first)
+            self._complete(second)
+
+            with self.assertRaisesRegex(ManifestError, "expected exactly one"):
+                select_single_identity_run(identity)
+            selected = select_single_identity_run(
+                identity,
+                requested_pipeline={"steps": 20},
+                seeds=[1],
+            )
+            self.assertEqual(selected.run_dir, second.run_dir)
+
+    def test_upstream_scientific_config_changes_downstream_reuse(self):
+        with tempfile.TemporaryDirectory() as folder:
+            upstream_identity = Path(folder) / "upstream"
+            smoke = self._allocate(upstream_identity, 10)
+            full = self._allocate(upstream_identity, 20)
+            downstream_identity = Path(folder) / "downstream"
+
+            smoke_pipeline = pipeline_config_with_dependencies(
+                {"fit": "ridge"}, {"extraction": smoke.run_dir / "manifest.json"}
+            )
+            full_pipeline = pipeline_config_with_dependencies(
+                {"fit": "ridge"}, {"extraction": full.run_dir / "manifest.json"}
+            )
+            dependency = smoke_pipeline["dependency.extraction"]
+            self.assertNotIn("manifest_id", dependency)
+            self.assertNotIn("path", dependency)
+            self.assertNotEqual(smoke_pipeline, full_pipeline)
+
+            smoke_result = allocate_run(
+                downstream_identity,
+                project="contract_test",
+                workflow="downstream",
+                dataset="electricity",
+                lookback=504,
+                horizon=168,
+                backbone="patchtst",
+                model_config_order=["formula"],
+                model_config={"formula": "ridge"},
+                pipeline_config=smoke_pipeline,
+                seeds=[1],
+                launch_id="downstream_smoke",
+            )
+            self._complete(smoke_result)
+            full_result = allocate_run(
+                downstream_identity,
+                project="contract_test",
+                workflow="downstream",
+                dataset="electricity",
+                lookback=504,
+                horizon=168,
+                backbone="patchtst",
+                model_config_order=["formula"],
+                model_config={"formula": "ridge"},
+                pipeline_config=full_pipeline,
+                seeds=[1],
+                launch_id="downstream_full",
+            )
+            self.assertEqual((full_result.run_dir.name, full_result.action), ("run_1", "new"))
+            self._complete(full_result)
+
+            selected = select_identity_runs(downstream_identity)
+            self.assertEqual(len(selected), 2)
+            self.assertTrue(
+                all("dependency.extraction.pipeline.steps" in item.label for item in selected)
+            )
+            filtered = select_identity_runs(
+                downstream_identity,
+                requested_pipeline={
+                    "dependency.extraction": {"pipeline": {"steps": 20}}
+                },
+            )
+            self.assertEqual([item.run_dir for item in filtered], [full_result.run_dir])
+
+    def test_obsolete_schema_is_rejected(self):
+        with tempfile.TemporaryDirectory() as folder:
+            run = Path(folder) / "run_0"
+            run.mkdir()
+            (run / "manifest.json").write_text(
+                json.dumps({"schema_version": 0, "status": "completed"}),
+                encoding="utf-8",
+            )
+            with self.assertRaises(ManifestError):
+                load_manifest(run)
+
+    def test_ready_is_not_a_valid_overall_status(self):
+        with tempfile.TemporaryDirectory() as folder:
+            allocation = self._allocate(Path(folder) / "identity", 10)
+            with self.assertRaises(ValueError):
+                mark_status(allocation.run_dir, "ready")
+
+    def test_provenance_does_not_define_computation(self):
+        with tempfile.TemporaryDirectory() as folder:
+            identity = Path(folder) / "electricity/504_168/patchtst/ridge/instance"
+            first = self._allocate(identity, 10, inputs={"dataset": "old/location.csv"})
+            self._complete(first)
+
+            reused = self._allocate(identity, 10, inputs={"dataset": "new/location.csv"})
+            self.assertEqual((reused.run_dir.name, reused.action), ("run_0", "skip"))
+
+    def test_allocation_reclaims_manifestless_run_directory(self):
+        with tempfile.TemporaryDirectory() as folder:
+            identity = Path(folder) / "electricity/504_168/patchtst/ridge/instance"
+            orphan = identity / "run_0"
+            orphan.mkdir(parents=True)
+            stale = orphan / "result.json"
+            stale.write_text('{"stale": true}\n', encoding="utf-8")
+
+            allocation = self._allocate(identity, 10)
+
+            self.assertEqual((allocation.run_dir.name, allocation.action), ("run_0", "new"))
+            self.assertFalse(stale.exists())
+            self.assertEqual(load_manifest(allocation.run_dir)["status"], "not_run")
+
+    def test_prepare_preserves_manifest_history_and_completed_seed_outputs(self):
+        with tempfile.TemporaryDirectory() as folder:
+            identity = Path(folder) / "electricity/504_168/patchtst/ridge/instance"
+            allocation = allocate_run(
+                identity,
+                project="contract_test",
+                workflow="family",
+                dataset="electricity",
+                lookback=504,
+                horizon=168,
+                backbone="patchtst",
+                model_config_order=["formula", "space"],
+                model_config={"formula": "ridge", "space": "instance"},
+                pipeline_config={"steps": 10},
+                seeds=[1, 2],
+                launch_id="launch_prepare",
+            )
+            completed = allocation.run_dir / "seed_1/result.json"
+            completed.parent.mkdir()
+            completed.write_text('{"mse": 1.0}\n', encoding="utf-8")
+            stale = allocation.run_dir / "seed_2/partial.json"
+            stale.parent.mkdir()
+            stale.write_text('{"partial": true}\n', encoding="utf-8")
+            history = allocation.run_dir / "manifest_history/prior.json"
+            history.parent.mkdir()
+            history.write_text("{}\n", encoding="utf-8")
+            mark_status(
+                allocation.run_dir,
+                "completed",
+                seed=1,
+                required_artifacts=["seed_1/result.json"],
+            )
+
+            prepare_run_output(allocation.run_dir)
+
+            self.assertTrue((allocation.run_dir / "manifest.json").is_file())
+            self.assertTrue(history.is_file())
+            self.assertTrue(completed.is_file())
+            self.assertFalse(stale.exists())
+
+    def test_ready_run_completes_after_its_producer_succeeds(self):
+        with tempfile.TemporaryDirectory() as folder:
+            identity = Path(folder) / "electricity/504_168/patchtst/ridge/instance"
+            allocation = self._allocate(identity, 10)
+            mark_status(allocation.run_dir, "running")
+            artifact = allocation.run_dir / "result.json"
+            artifact.write_text('{"mse": 1.0}\n', encoding="utf-8")
+
+            mark_ready(allocation.run_dir, required_artifacts=["result.json"])
+            ready = load_manifest(allocation.run_dir)
+            self.assertEqual(ready["status"], "running")
+            self.assertEqual(ready["seed_status"]["1"]["status"], "ready")
+            complete_run(allocation.run_dir, launch_id="launch_10_default")
+            self.assertEqual(load_manifest(allocation.run_dir)["status"], "completed")
+
+            artifact.unlink()
+            self.assertEqual(validate_completed(allocation.run_dir)["status"], "completed")
+
+    def test_later_failure_preserves_ready_producers_and_interrupts_unfinished_work(self):
+        with tempfile.TemporaryDirectory() as folder:
+            first_identity = Path(folder) / "electricity/504_168/patchtst/ridge/instance"
+            first = self._allocate(first_identity, 10)
+            mark_status(first.run_dir, "running")
+            artifact = first.run_dir / "result.json"
+            artifact.write_text('{"mse": 1.0}\n', encoding="utf-8")
+            mark_ready(first.run_dir, required_artifacts=["result.json"])
+
+            second_identity = Path(folder) / "electricity/504_168/patchtst/ridge/raw"
+            second = self._allocate(second_identity, 10)
+            mark_status(second.run_dir, "running")
+
+            self.assertEqual(
+                interrupt_launch(folder, "launch_10_default"), [second.run_dir]
+            )
+            self.assertEqual(load_manifest(first.run_dir)["status"], "completed")
+            self.assertEqual(load_manifest(second.run_dir)["status"], "interrupted")
+
+    def test_run_readiness_preserves_each_seed_artifact_list(self):
+        with tempfile.TemporaryDirectory() as folder:
+            identity = Path(folder) / "electricity/504_168/patchtst/ridge/instance"
+            allocation = allocate_run(
+                identity,
+                project="contract_test",
+                workflow="family",
+                dataset="electricity",
+                lookback=504,
+                horizon=168,
+                backbone="patchtst",
+                model_config_order=["formula", "space"],
+                model_config={"formula": "ridge", "space": "instance"},
+                pipeline_config={"steps": 10},
+                seeds=[1, 2],
+                launch_id="seed_artifacts",
+            )
+            mark_status(allocation.run_dir, "running")
+            required = []
+            for seed in (1, 2):
+                relative = f"seed_{seed}/result.json"
+                artifact = allocation.run_dir / relative
+                artifact.parent.mkdir(parents=True, exist_ok=True)
+                artifact.write_text('{"mse": 1.0}\n', encoding="utf-8")
+                mark_status(
+                    allocation.run_dir,
+                    "ready",
+                    seed=seed,
+                    required_artifacts=[relative],
+                )
+                required.append(relative)
+
+            mark_ready(allocation.run_dir, required_artifacts=required)
+            seed_status = load_manifest(allocation.run_dir)["seed_status"]
+            self.assertEqual(seed_status["1"]["artifacts"], ["seed_1/result.json"])
+            self.assertEqual(seed_status["2"]["artifacts"], ["seed_2/result.json"])
+
+    def test_ready_run_is_selectable_only_inside_its_own_active_launch(self):
+        with tempfile.TemporaryDirectory() as folder:
+            identity = Path(folder) / "electricity/504_168/patchtst/ridge/instance"
+            allocation = self._allocate(identity, 10)
+            mark_status(allocation.run_dir, "running")
+            artifact = allocation.run_dir / "result.json"
+            artifact.write_text('{"mse": 1.0}\n', encoding="utf-8")
+            mark_ready(allocation.run_dir, required_artifacts=["result.json"])
+
+            with self.assertRaises(ManifestError):
+                select_identity_runs(identity)
+            with self.assertRaises(ManifestError):
+                select_identity_runs(identity, allow_ready_launch_id="another_launch")
+            selected = select_identity_runs(
+                identity, allow_ready_launch_id="launch_10_default"
+            )
+            self.assertEqual([choice.run_dir for choice in selected], [allocation.run_dir])
+            self.assertEqual(
+                validate_completed(
+                    allocation.run_dir,
+                    allow_ready_launch_id="launch_10_default",
+                )["status"],
+                "running",
+            )
+            with self.assertRaises(ManifestError):
+                validate_completed(
+                    allocation.run_dir, allow_ready_launch_id="another_launch"
+                )
+
+            interrupt_launch(folder, "launch_10_default")
+            self.assertEqual(load_manifest(allocation.run_dir)["status"], "completed")
+            selected = select_identity_runs(identity)
+            self.assertEqual([choice.run_dir for choice in selected], [allocation.run_dir])
+
+    def test_report_manifest_records_requested_and_obtained(self):
+        with tempfile.TemporaryDirectory() as folder:
+            identity = Path(folder) / "electricity/504_168/patchtst/ridge/instance"
+            allocation = self._allocate(identity, 10)
+            self._complete(allocation)
+            selected = select_identity_runs(identity, requested_pipeline={"steps": 10})
+            destination = Path(folder) / "report_manifest.json"
+            previous_launch = os.environ.get("EXPERIMENT_LAUNCH_ID")
+            os.environ["EXPERIMENT_LAUNCH_ID"] = "report_launch"
+            try:
+                write_report_manifest(
+                    destination,
+                    inputs=selected,
+                    config_policy="distinct",
+                    repeat_policy="selected",
+                    filters={"pipeline": {"steps": 10}},
+                )
+            finally:
+                if previous_launch is None:
+                    os.environ.pop("EXPERIMENT_LAUNCH_ID", None)
+                else:
+                    os.environ["EXPERIMENT_LAUNCH_ID"] = previous_launch
+            report = json.loads(destination.read_text(encoding="utf-8"))
+            self.assertEqual(report["launch_id"], "report_launch")
+            self.assertEqual(report["requested"]["filters"]["pipeline"], {"steps": 10})
+            self.assertEqual(report["obtained"]["count"], 1)
+            self.assertEqual(report["obtained"]["inputs"][0]["pipeline_config"], {"steps": 10})
+
+
+if __name__ == "__main__":
+    unittest.main()
