@@ -351,27 +351,6 @@ and required TSFM summary/metric/config files are specific to this project.
 Runtime and Slurm logs belong in `logs/`. Dataset and model payloads remain in
 the ignored `datasets/` and `weights/` directories.
 
-## Synchronizing DGX and Selena
-
-After pulling code updates on DGX, synchronize the execution copy on Selena:
-
-```bash
-bash sync_code_to_selena.sh
-```
-
-The transfer makes Selena's code match DGX while preserving Selena's `.venv`,
-`.secrets`, datasets, weights, outputs, and logs. Git metadata is not
-transferred; Selena is an execution copy and does not need Git operations.
-
-After Selena jobs finish, transfer their lightweight results back to DGX:
-
-```bash
-bash sync_results_to_dgx.sh
-```
-
-This copies new or changed files from `outputs/` and `logs/` without deleting
-anything already present on DGX.
-
 ## Publishing terminal Slurm artifacts
 
 Slurm jobs never submit a publisher or run Git commands. After any job reaches
