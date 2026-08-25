@@ -28,7 +28,7 @@ esac
 if [ -n "${DATASETS_OVERRIDE:-}" ]; then read -r -a DATASETS <<< "$DATASETS_OVERRIDE"; fi
 if [ -n "${SETTINGS_OVERRIDE:-}" ]; then read -r -a SETTINGS <<< "$SETTINGS_OVERRIDE"; fi
 if [ -n "${SEEDS_OVERRIDE:-}" ]; then read -r -a SEEDS <<< "$SEEDS_OVERRIDE"; fi
-MODELS=(chronos2 chronos_bolt ts_icl tirex2 tabpfn_ts)
+MODELS=(chronos2 chronos_bolt ts_icl tabpfn_ts) #tirex2 (uv sync problem for tirex)
 if [ -n "${MODELS_OVERRIDE:-}" ]; then read -r -a MODELS <<< "$MODELS_OVERRIDE"; fi
 log "profile mode=${EXPERIMENT_MODE:-test} datasets=${DATASETS[*]} settings=${SETTINGS[*]} models=${MODELS[*]} seeds=${SEEDS[*]}"
 
