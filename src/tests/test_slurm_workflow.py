@@ -11,9 +11,13 @@ def test_root_fronts_and_workflows() -> None:
     assert (PROJECT_ROOT / "publish_job.sh").is_file()
     assert [path.name for path in fronts] == [
         "01_univariate.slurm",
+        "01_univariate_selena.slurm",
         "02_controls.slurm",
+        "02_controls_selena.slurm",
         "03_covariates.slurm",
+        "03_covariates_selena.slurm",
         "04_foundation_models.slurm",
+        "04_foundation_models_selena.slurm",
     ]
     for front in fronts:
         text = front.read_text(encoding="utf-8")
@@ -22,6 +26,20 @@ def test_root_fronts_and_workflows() -> None:
         assert "logs/%x_%j.out" in text
         assert "BASH_SOURCE" not in text
         assert "--array" not in text
+    dgx_fronts = [path for path in fronts if "_selena" not in path.stem]
+    selena_fronts = [path for path in fronts if "_selena" in path.stem]
+    assert len(dgx_fronts) == len(selena_fronts) == 4
+    for front in dgx_fronts:
+        text = front.read_text(encoding="utf-8")
+        assert "#SBATCH --partition=h100" in text
+        assert "#SBATCH --wckey=" not in text
+    for front in selena_fronts:
+        text = front.read_text(encoding="utf-8")
+        assert "#SBATCH --partition=an" in text
+        assert "#SBATCH --exclusive" in text
+        assert "#SBATCH --no-requeue" in text
+        assert "#SBATCH --wckey=P12CU:DATASCIENCE" in text
+        assert 'EXPERIMENT_LAUNCH_ID="selena_${SLURM_JOB_ID' in text
     common = (PROJECT_ROOT / "src/slurm/benchmark_common.sh").read_text(encoding="utf-8")
     assert "STAGES:-evaluate,report" in common
     assert "srun --ntasks=1" in common

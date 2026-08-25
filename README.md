@@ -242,6 +242,14 @@ The numbered root launchers are the user-facing submission interface:
    is Electricity, Traffic, Solar, Weather, and Exchange Rate at `336:48` and
    `504:168`; its report uses Chronos-2 as the default fixed reference.
 
+The four DGX fronts above use partition `h100`. Selena exposes matching
+`01_univariate_selena.slurm`, `02_controls_selena.slurm`,
+`03_covariates_selena.slurm`, and `04_foundation_models_selena.slurm` fronts.
+They run the identical implementations and experiment paths on partition `an`
+with an exclusive allocation, no automatic requeue, WCKey
+`P12CU:DATASCIENCE`, Selena-specific job names, and `selena_`-prefixed launch
+IDs. Use them only through the documented DGX-to-Selena overflow workflow.
+
 Each front is one sequential, resumable allocation. `STAGES=evaluate,report`
 is the default; either stage may be selected for recovery. `EXPERIMENT_MODE`
 provides:
@@ -271,6 +279,18 @@ EXPERIMENT_MODE=full sbatch 02_controls.slurm
 EXPERIMENT_MODE=full sbatch 03_covariates.slurm
 EXPERIMENT_MODE=test sbatch 04_foundation_models.slurm
 EXPERIMENT_MODE=full sbatch 04_foundation_models.slurm
+```
+
+The equivalent Selena submissions replace the filename with its `_selena`
+variant, for example:
+
+```bash
+EXPERIMENT_MODE=test sbatch 01_univariate_selena.slurm
+EXPERIMENT_MODE=full sbatch 01_univariate_selena.slurm
+EXPERIMENT_MODE=full sbatch 02_controls_selena.slurm
+EXPERIMENT_MODE=full sbatch 03_covariates_selena.slurm
+EXPERIMENT_MODE=test sbatch 04_foundation_models_selena.slurm
+EXPERIMENT_MODE=full sbatch 04_foundation_models_selena.slurm
 ```
 
 ## Artifacts
@@ -353,18 +373,19 @@ the ignored `datasets/` and `weights/` directories.
 
 ## Synchronizing DGX and Selena
 
-On each machine, store the uppercase NNI beside the existing shared proxy
-credentials, outside the project repository:
+On each machine, keep the protected shared proxy credentials outside the
+project repository. Its first line is the uppercase NNI and its second line is
+the proxy password:
 
 ```bash
 mkdir -p "$HOME/codes/.secrets"
-printf '%s\n' 'YOUR_NNI' > "$HOME/codes/.secrets/nni"
-chmod 600 "$HOME/codes/.secrets/nni"
+chmod 600 "$HOME/codes/.secrets/proxy.credentials"
 ```
 
-Both synchronization scripts read this file and convert the NNI to lowercase
-for SSH usernames and home-directory paths. Because `codes/.secrets/` is
-outside `codes/tsfm/`, the NNI is never copied or committed with the project.
+Both synchronization scripts read only the first line and convert the NNI to
+lowercase for SSH usernames and home-directory paths. They do not read or
+export the password. Because `codes/.secrets/` is outside `codes/tsfm/`, the
+credentials are never copied or committed with the project.
 
 After pulling code updates on DGX, synchronize the execution copy on Selena:
 

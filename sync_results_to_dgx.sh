@@ -3,17 +3,17 @@
 set -euo pipefail
 
 PROJECT_ROOT="$(cd "$(dirname "$0")" && pwd)"
-SECRET_FILE="$HOME/codes/.secrets/nni"
+SECRET_FILE="$HOME/codes/.secrets/proxy.credentials"
 
 if [ ! -f "$SECRET_FILE" ]; then
     echo "ERROR: missing $SECRET_FILE" >&2
     exit 1
 fi
 
-NNI="$(tr -d '[:space:]' < "$SECRET_FILE")"
+NNI="$(sed -n '1p' "$SECRET_FILE" | tr -d '[:space:]')"
 nni="${NNI,,}"
 if [[ ! "$nni" =~ ^[a-z][a-z0-9_-]*$ ]]; then
-    echo "ERROR: $SECRET_FILE must contain only the NNI" >&2
+    echo "ERROR: the first line of $SECRET_FILE must contain the NNI" >&2
     exit 1
 fi
 

@@ -4,19 +4,35 @@ Last successful maintenance: 2026-08-11 10:45 +02:00.
 
 ## Pending
 
+- 2026-08-26: Added Selena overflow variants for all four TSFM Slurm fronts.
+  They reuse the exact DGX workflow implementations while selecting partition
+  `an`, exclusive non-requeued allocations, WCKey `P12CU:DATASCIENCE`, distinct
+  job names, and `selena_`-prefixed launch IDs. Affected contracts: eight root
+  fronts, workflow regression, README, project guidance, and cluster handoff.
+  Focused checks: Git Bash syntax passed for all eight fronts, the focused
+  static launcher regression passed, direct inspection confirmed every Selena
+  scheduling and launch-ID directive, and `git diff --check` passed. Deferred
+  integration: submit one Selena test profile and confirm
+  scheduling, environment, checkpoint, manifest, log, and result
+  synchronization behavior. No existing result is invalidated; Selena runs
+  share the current scientific and artifact contract.
+
 - 2026-08-25: Added explicit DGX-to-Selena code synchronization and
   Selena-to-DGX result synchronization scripts. Code synchronization mirrors
   the maintained project while preserving Selena-local environments, secrets,
   datasets, weights, outputs, and logs; result synchronization copies outputs
   and logs without remote deletion. The user-facing scripts live at the
   project root beside the publisher, read the ignored uppercase NNI from
-  the shared `$HOME/codes/.secrets/nni`, and lowercase it only for SSH
-  usernames and home paths.
+  the first line of shared `$HOME/codes/.secrets/proxy.credentials`, and
+  lowercase it only for SSH usernames and home paths without reading the
+  password.
   Affected files/contracts: two operational
   scripts and README commands. Focused checks: Git Bash syntax passed for both
   scripts, static inspection confirmed the requested endpoints, protected
-  directories, secret lookup and lowercase conversion, no hardcoded NNI
-  remains, and `git diff --check` passed. Deferred integration: execute each
+  directories, first-line NNI lookup from the shared proxy credentials and
+  lowercase conversion without password access, no hardcoded NNI remains, the
+  focused Slurm workflow check passed, and `git diff --check` passed. Deferred
+  integration: execute each
   direction once between the real hosts. README is updated; no LaTeX change or
   scientific rerun is required.
 
