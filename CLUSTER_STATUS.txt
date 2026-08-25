@@ -20,9 +20,9 @@ The foundation-model workflow loads the official Chronos-2, Chronos-Bolt,
 TS-ICL, TiRex-2, and TabPFN-TS inference packages from local checkpoints and
 uses raw TSFM inputs where the released model owns preprocessing.
 Its full profile is the five primary datasets at 336:48 and 504:168.
-Next jobs: submit `sbatch 00_prepare_time.slurm`, inspect its catalog summary,
-and retain the prepared dataset names for the TIME evaluation overrides. Then
-place the official checkpoints in the documented weight paths,
+Next jobs: inspect `datasets/time/catalog.json` from the direct TIME
+preparation and retain the prepared dataset names for the evaluation
+overrides. Then place the official checkpoints in the documented weight paths,
 submit `EXPERIMENT_MODE=test sbatch 04_foundation_models.slurm`, and inspect all
 five model summaries and the fixed-Chronos report. Then submit
 `EXPERIMENT_MODE=full sbatch 04_foundation_models.slurm`. The original next jobs
