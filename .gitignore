@@ -1,7 +1,7 @@
 AGENTS.md
 archive/
 .secrets/
-.venv/
+.venv
 __pycache__/
 *.py[cod]
 outputs/*
