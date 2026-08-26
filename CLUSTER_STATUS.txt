@@ -17,8 +17,9 @@ longer exist. Tensor inputs use the current
 TimeTensors individual/global context and dataset metadata filenames; no older
 TSFM run exists or requires migration.
 The foundation-model workflow loads the official Chronos-2, Chronos-Bolt,
-TS-ICL, TiRex-2, and TabPFN-TS inference packages from local checkpoints and
-uses raw TSFM inputs where the released model owns preprocessing.
+TS-ICL, and TabPFN-TS inference packages from local checkpoints and uses raw
+TSFM inputs where the released model owns preprocessing. TiRex-2 remains an
+implemented canonical adapter but is excluded from launch profiles.
 Its full profile is the five primary datasets at 336:48 and 504:168.
 Every DGX front now has an `_selena.slurm` overflow counterpart using the same
 scientific implementation and Selena-specific scheduling/accounting settings.
@@ -26,7 +27,7 @@ Next jobs: inspect `datasets/time/catalog.json` from the direct TIME
 preparation and retain the prepared dataset names for the evaluation
 overrides. Then place the official checkpoints in the documented weight paths,
 submit `EXPERIMENT_MODE=test sbatch 04_foundation_models.slurm`, and inspect all
-five model summaries and the fixed-Chronos report. Then submit
+four model summaries and the fixed-Chronos report. Then submit
 `EXPERIMENT_MODE=full sbatch 04_foundation_models.slurm`. The original next jobs
 remain bare `EXPERIMENT_MODE=test sbatch 01_univariate.slurm`, inspect its
 metric CSVs and plots, then submit

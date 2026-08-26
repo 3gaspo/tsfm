@@ -17,26 +17,26 @@ stage_enabled() {
     esac
 }
 
-nonempty_directory() {
-    [ -d "$1" ] && find "$1" -mindepth 1 -maxdepth 1 ! -name '.gitkeep' -print -quit | grep -q .
+resource_candidates() {
+    local kind="$1"
+    printf '%s\n' \
+        "$PROJECT_ROOT/$kind" \
+        "$PROJECT_ROOT/../$kind" \
+        "$PROJECT_ROOT/../../../$kind"
 }
 
 resolve_roots() {
-    local shared_root
-    shared_root="$(cd "$PROJECT_ROOT/../../.." && pwd)"
+    DATA_ROOT_EXPLICIT="${DATA_ROOT:-}"
+    WEIGHTS_ROOT_EXPLICIT="${WEIGHTS_ROOT:-}"
     if [ -n "${DATA_ROOT:-}" ]; then
         DATA_ROOT="$(cd "$DATA_ROOT" && pwd)"
-    elif nonempty_directory "$PROJECT_ROOT/datasets"; then
-        DATA_ROOT="$PROJECT_ROOT/datasets"
     else
-        DATA_ROOT="$shared_root/datasets"
+        DATA_ROOT=""
     fi
     if [ -n "${WEIGHTS_ROOT:-}" ]; then
         WEIGHTS_ROOT="$(cd "$WEIGHTS_ROOT" && pwd)"
-    elif nonempty_directory "$PROJECT_ROOT/weights"; then
-        WEIGHTS_ROOT="$PROJECT_ROOT/weights"
     else
-        WEIGHTS_ROOT="$shared_root/weights"
+        WEIGHTS_ROOT=""
     fi
     : "${EXPERIMENT_FAMILY:?set EXPERIMENT_FAMILY before sourcing benchmark_common.sh}"
     OUTPUT_ROOT="${OUTPUT_ROOT:-$PROJECT_ROOT/outputs/$EXPERIMENT_FAMILY}"
@@ -44,7 +44,58 @@ resolve_roots() {
     EXPERIMENT_LAUNCH_ID="${EXPERIMENT_LAUNCH_ID:-${SLURM_JOB_ID:-manual_$(date -u '+%Y%m%dT%H%M%SZ')_$$}}"
     export EXPERIMENT_LAUNCH_ID
     trap tsfm_on_exit EXIT
-    log "resources data_root=$DATA_ROOT weights_root=$WEIGHTS_ROOT output_root=$OUTPUT_ROOT"
+    log "resources data_root=${DATA_ROOT:-auto} weights_root=${WEIGHTS_ROOT:-auto} output_root=$OUTPUT_ROOT"
+}
+
+find_dataset_path() {
+    local dataset="$1"
+    local roots=()
+    local root candidate match
+    if [ -n "$DATA_ROOT_EXPLICIT" ]; then
+        roots=("$DATA_ROOT")
+    else
+        mapfile -t roots < <(resource_candidates datasets)
+    fi
+    for root in "${roots[@]}"; do
+        candidate="$root/$dataset"
+        if [ -f "$candidate" ]; then
+            printf '%s/%s\n' "$(cd "$(dirname "$candidate")" && pwd)" "$(basename "$candidate")"
+            return 0
+        fi
+        if [ -d "$candidate" ]; then
+            match="$(find "$candidate" -maxdepth 1 -type f \( -iname '*.csv' -o -iname '*values.pt' \) -print -quit)"
+            if [ -n "$match" ]; then
+                (cd "$candidate" && pwd)
+                return 0
+            fi
+        fi
+    done
+    log "missing dataset=$dataset searched=${roots[*]}" >&2
+    return 1
+}
+
+find_weight_path() {
+    local relative="$1"
+    local roots=()
+    local root candidate
+    if [ -n "$WEIGHTS_ROOT_EXPLICIT" ]; then
+        roots=("$WEIGHTS_ROOT")
+    else
+        mapfile -t roots < <(resource_candidates weights)
+    fi
+    for root in "${roots[@]}"; do
+        candidate="$root/$relative"
+        if [ -e "$candidate" ]; then
+            if [ -d "$candidate" ]; then
+                (cd "$candidate" && pwd)
+            else
+                printf '%s/%s\n' "$(cd "$(dirname "$candidate")" && pwd)" "$(basename "$candidate")"
+            fi
+            return 0
+        fi
+    done
+    log "missing weight=$relative searched=${roots[*]}" >&2
+    return 1
 }
 
 tsfm_on_exit() {
@@ -90,24 +141,30 @@ set_profile_axes() {
 
 model_weight_argument() {
     local model="$1"
+    local checkpoint
     if [ "$model" = "chronos2" ]; then
         if [ -n "${CHRONOS_WEIGHTS:-}" ]; then
             echo "model.weights_path=$CHRONOS_WEIGHTS"
-        elif [ -d "$WEIGHTS_ROOT/chronos2" ]; then
-            echo "model.weights_path=$WEIGHTS_ROOT/chronos2"
+        else
+            checkpoint="$(find_weight_path chronos2)" || return
+            echo "model.weights_path=$checkpoint"
         fi
     elif [ "$model" = "chronos_bolt" ]; then
-        local checkpoint="${CHRONOS_BOLT_WEIGHTS:-$WEIGHTS_ROOT/chronos-bolt-base}"
-        if [ -d "$checkpoint" ]; then echo "model.weights_path=$checkpoint"; fi
+        checkpoint="${CHRONOS_BOLT_WEIGHTS:-}"
+        if [ -z "$checkpoint" ]; then checkpoint="$(find_weight_path chronos-bolt-base)" || return; fi
+        echo "model.weights_path=$checkpoint"
     elif [ "$model" = "tabpfn_ts" ]; then
-        local checkpoint="${TABPFN_WEIGHTS:-$WEIGHTS_ROOT/tabpfnts/tabpfn-v2.5-regressor-v2.5_default.ckpt}"
-        if [ -f "$checkpoint" ]; then echo "model.weights_path=$checkpoint"; fi
+        checkpoint="${TABPFN_WEIGHTS:-}"
+        if [ -z "$checkpoint" ]; then checkpoint="$(find_weight_path tabpfnts/tabpfn-v2.5-regressor-v2.5_default.ckpt)" || return; fi
+        echo "model.weights_path=$checkpoint"
     elif [ "$model" = "ts_icl" ]; then
-        local checkpoint="${TSICL_WEIGHTS:-$WEIGHTS_ROOT/tsicl/tsicl-v1.ckpt}"
-        if [ -f "$checkpoint" ]; then echo "model.weights_path=$checkpoint"; fi
+        checkpoint="${TSICL_WEIGHTS:-}"
+        if [ -z "$checkpoint" ]; then checkpoint="$(find_weight_path tsicl/tsicl-v1.ckpt)" || return; fi
+        echo "model.weights_path=$checkpoint"
     elif [ "$model" = "tirex2" ]; then
-        local checkpoint="${TIREX2_WEIGHTS:-$WEIGHTS_ROOT/tirex2}"
-        if [ -d "$checkpoint" ]; then echo "model.weights_path=$checkpoint"; fi
+        checkpoint="${TIREX2_WEIGHTS:-}"
+        if [ -z "$checkpoint" ]; then checkpoint="$(find_weight_path tirex2)" || return; fi
+        echo "model.weights_path=$checkpoint"
     fi
 }
 
@@ -138,6 +195,7 @@ run_evaluation() {
     local horizon="${setting##*:}"
     local batch_size
     local purpose
+    local dataset_path
     case "$model" in
         persistence|expected|repeat|lookback) batch_size=512 ;;
         chronos2) batch_size=64 ;;
@@ -148,10 +206,11 @@ run_evaluation() {
         *) log "unknown model=$model"; return 2 ;;
     esac
     batch_size="${BATCH_SIZE_OVERRIDE:-$batch_size}"
+    dataset_path="$(find_dataset_path "$dataset")"
     if [ "${EXPERIMENT_MODE:-test}" = test ]; then purpose=smoke; else purpose=publication; fi
     local command=(
         uv run python -m scripts.evaluate
-        "data.path=$DATA_ROOT/$dataset"
+        "data.path=$dataset_path"
         "data.name=$dataset"
         "data.covariate_mode=$covariate_mode"
         "task.lags=$lags"

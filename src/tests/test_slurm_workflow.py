@@ -54,9 +54,18 @@ def test_root_fronts_and_workflows() -> None:
     assert '"model.lookback_period=$LOOKBACK_PERIOD_STEPS"' in common
     assert 'evaluation.mase_seasonality=${MASE_SEASONALITY:-1}' in common
     assert '--metric "${TABLE_METRIC:-nmse}"' in common
-    assert 'TSICL_WEIGHTS:-$WEIGHTS_ROOT/tsicl/tsicl-v1.ckpt' in common
-    assert 'TIREX2_WEIGHTS:-$WEIGHTS_ROOT/tirex2' in common
-    assert 'CHRONOS_BOLT_WEIGHTS:-$WEIGHTS_ROOT/chronos-bolt-base' in common
+    assert '"$PROJECT_ROOT/../$kind"' in common
+    assert '"$PROJECT_ROOT/../../../$kind"' in common
+    assert 'mapfile -t roots < <(resource_candidates datasets)' in common
+    assert 'mapfile -t roots < <(resource_candidates weights)' in common
+    assert 'find_weight_path tsicl/tsicl-v1.ckpt' in common
+    assert 'find_weight_path tirex2' in common
+    assert 'find_weight_path chronos-bolt-base' in common
+    for adapter in ("chronos2.py", "chronos_bolt.py", "ts_icl.py", "tirex2.py", "tabpfn.py"):
+        source = (PROJECT_ROOT / "src/external_models" / adapter).read_text(
+            encoding="utf-8"
+        )
+        assert 'project.parent / "weights"' in source
     assert "ts_icl) batch_size=32" in common
     assert "tirex2) batch_size=64" in common
     assert "chronos_bolt) batch_size=128" in common
@@ -71,9 +80,13 @@ def test_root_fronts_and_workflows() -> None:
     ).read_text(encoding="utf-8")
     assert "DATASETS=(electricity traffic solar weather exchange_rate)" in foundation
     assert "SETTINGS=(336:48 504:168)" in foundation
-    assert "MODELS=(chronos2 chronos_bolt ts_icl tirex2 tabpfn_ts)" in foundation
+    assert "MODELS=(chronos2 chronos_bolt ts_icl tabpfn_ts)" in foundation
+    assert "# tirex2 remains adapter-supported" in foundation
     assert 'run_evaluation "$dataset" "$setting" "$model" none false false true' in foundation
     assert 'TABLE_REFERENCE_MODEL="${TABLE_REFERENCE_MODEL:-chronos2}"' in foundation
+    sync = (PROJECT_ROOT / "sync_code_to_selena.sh").read_text(encoding="utf-8")
+    assert "--exclude='pyproject.toml'" in sync
+    assert "--exclude='uv.lock'" in sync
 
 
 if __name__ == "__main__":

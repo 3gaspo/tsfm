@@ -22,7 +22,8 @@ def _default_weights_path() -> Path | None:
     project = Path(__file__).resolve().parents[2]
     relative = Path("tabpfnts") / "tabpfn-v2.5-regressor-v2.5_default.ckpt"
     candidates = [
-        project / "weights" / relative,
+       project / "weights" / relative,
+        project.parent / "weights" / relative,
         project.parents[2] / "weights" / relative,
     ]
     return next((path.resolve() for path in candidates if path.is_file()), None)

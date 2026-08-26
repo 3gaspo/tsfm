@@ -30,6 +30,8 @@ rsync -rlptz --delete --partial --info=progress2 \
     --exclude='.git/' \
     --exclude='.venv/' \
     --exclude='.secrets/' \
+    --exclude='pyproject.toml' \
+    --exclude='uv.lock' \
     --exclude='datasets/' \
     --exclude='weights/' \
     --exclude='outputs/' \
@@ -38,4 +40,4 @@ rsync -rlptz --delete --partial --info=progress2 \
     "$DESTINATION"
 
 echo "SUCCESS: Selena's TSFM code matches DGX."
-echo "Preserved on Selena: .venv, .secrets, datasets, weights, outputs, and logs."
+echo "Preserved on Selena: .venv, .secrets, pyproject.toml, uv.lock, datasets, weights, outputs, and logs."

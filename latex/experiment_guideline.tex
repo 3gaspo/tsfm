@@ -50,7 +50,7 @@ independently of preprocessing.
 Axis & Cases \\
 \midrule
 Models & Persistence, expected value, repeat, weekly aligned lookback, frozen
-Chronos-2 and Chronos-Bolt, official TS-ICL 0.2.0 and TiRex-2 0.2.1 adapters, and in-context
+Chronos-2 and Chronos-Bolt, official TS-ICL and TiRex-2 adapters, and in-context
 TabPFN-TS. \\
 Covariates & \code{none}; \code{identity} (target history supplied as known
 covariate); \code{known} (prepared target-aligned covariate panels). \\
@@ -70,11 +70,8 @@ weekly alignment and prevents overlap with the forecast horizon. Inputs without
 a cadence that divides one week require an explicit period. The former
 absolute-index variants are not part of the current model set.
 
-All five frozen models use thin adapters over official packages. Chronos-2 and
-Chronos-Bolt use version 2.0.1 of the official Chronos Forecasting package;
-TS-ICL, TiRex-2, and
-TabPFN-TS use \code{tsicl==0.2.0}, \code{tirex-2==0.2.1}, and
-\code{tabpfn==6.3.1}. TS-ICL and TiRex-2 retain native preprocessing and
+All foundation-model adapters use their official packages. TS-ICL and TiRex-2
+retain native preprocessing and
 test-time behavior and select the median point forecast. The TSFM boundary
 supplies raw targets for these two models, so the foundation workflow disables
 the outer instance-normalization wrapper. Their sole shared aliases are
@@ -110,7 +107,8 @@ The root fronts are:
 \item \code{03_covariates.slurm}: univariate and identity-covariate inference,
       with prepared known covariates available by override;
 \item \code{04_foundation_models.slurm}: frozen Chronos-2, Chronos-Bolt,
-      TS-ICL, TiRex-2, and TabPFN-TS with model-native preprocessing.
+      TS-ICL, and TabPFN-TS with model-native preprocessing. TiRex-2 remains
+      implemented but is excluded from the launcher until explicitly restored.
 \end{enumerate}
 \code{test} is Electricity at $504{:}168$, seed 1. \code{full} crosses
 Electricity, Traffic, Solar, and Exchange Rate with $168{:}24$, $336{:}48$,

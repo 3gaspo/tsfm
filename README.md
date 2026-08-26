@@ -237,8 +237,9 @@ The numbered root launchers are the user-facing submission interface:
    set `COVARIATE_MODES_OVERRIDE=known` with prepared covariate paths for other
    covariate experiments.
 4. `04_foundation_models.slurm` compares the official Chronos-2,
-   Chronos-Bolt, TS-ICL, TiRex-2, and TabPFN-TS inference pipelines on the
-   univariate benchmark. Its `full` profile
+   Chronos-Bolt, TS-ICL, and TabPFN-TS inference pipelines on the univariate
+   benchmark. TiRex-2 remains adapter-supported but is commented out of the
+   launch profile for now. Its `full` profile
    is Electricity, Traffic, Solar, Weather, and Exchange Rate at `336:48` and
    `504:168`; its report uses Chronos-2 as the default fixed reference.
 
@@ -271,6 +272,12 @@ controls front also accepts `INSTANCE_NORMS_OVERRIDE` and
 `COVARIATE_MODES_OVERRIDE`, `TIME_FEATURES_OVERRIDE`,
 `COVARIATE_PATHS_OVERRIDE` (an OmegaConf list), and
 `COVARIATE_COLS_OVERRIDE`.
+
+For every selected dataset and checkpoint, launchers search the explicit
+`DATA_ROOT` or `WEIGHTS_ROOT` when provided, then the project-local directory,
+the immediate project parent, and the nested-workspace shared parent. The
+first candidate containing that requested resource is used, so an empty or
+partially populated project directory does not hide shared cluster resources.
 
 ```bash
 EXPERIMENT_MODE=test sbatch 01_univariate.slurm
@@ -393,9 +400,10 @@ After pulling code updates on DGX, synchronize the execution copy on Selena:
 bash sync_code_to_selena.sh
 ```
 
-The transfer makes Selena's code match DGX while preserving Selena's `.venv`,
-`.secrets`, datasets, weights, outputs, and logs. Git metadata is not
-transferred; Selena is an execution copy and does not need Git operations.
+The transfer makes Selena's implementation code match DGX while preserving
+Selena's `.venv`, `.secrets`, `pyproject.toml`, `uv.lock`, datasets, weights,
+outputs, and logs. Git metadata and dependency manifests are not transferred;
+Selena keeps its user-managed environment and dependency resolution.
 
 After Selena jobs finish, transfer their lightweight results back to DGX:
 

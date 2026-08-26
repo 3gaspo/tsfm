@@ -22,7 +22,8 @@ def _import_pipeline():
 def _default_weights_path() -> Path | None:
     project = Path(__file__).resolve().parents[2]
     candidates = [
-        project / "weights" / "chronos2",
+       project / "weights" / "chronos2",
+        project.parent / "weights" / "chronos2",
         project.parents[2] / "weights" / "chronos2",
     ]
     return next((path.resolve() for path in candidates if path.exists()), None)

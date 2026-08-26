@@ -4,6 +4,34 @@ Last successful maintenance: 2026-08-11 10:45 +02:00.
 
 ## Pending
 
+- 2026-08-26: Removed library-version declarations from the experiment
+  guideline and made DGX-to-Selena code synchronization preserve Selena's
+  local `pyproject.toml` and `uv.lock` alongside its environment and runtime
+  payloads. Affected contracts: guideline source/PDF, shared Selena convention,
+  code-sync helper, README, and focused workflow regression. Focused checks:
+  active-guideline version scan, Bash syntax, sync exclusion assertions, clean
+  LaTeX compilation, and rendered-page inspection. No experiment result or
+  scientific contract is invalidated; no inference rerun is required.
+
+- 2026-08-26: Made the user-selected four-model foundation profile explicit:
+  Chronos-2, Chronos-Bolt, TS-ICL, and TabPFN-TS launch by default, while the
+  TiRex-2 adapter and canonical alias remain implemented but commented out of
+  the launcher. Replaced root-wide storage selection with Adaptation-style
+  per-resource lookup through an explicit override, project-local storage, the
+  immediate project parent used by flat cluster checkouts, and the nested
+  workspace shared parent. Direct adapter checkpoint discovery now follows the
+  same order. Affected contracts: shared Slurm resource routing, the foundation
+  default, five aligned adapter copies, workflow regression, README, guidance,
+  and experiment-guideline source. Checks passed: the focused Slurm workflow
+  test, Git Bash syntax for both foundation fronts and their implementations, a
+  flat `codes/tsfm` fixture resolving datasets and checkpoints from
+  `codes/{datasets,weights}`, and SHA-256 parity for all five adapter copies
+  across TSFM, TimeTensors, and Online Adaptation. Deferred integration: run
+  the four-model test profile against real shared cluster resources; no
+  checkpoint was loaded locally. Maintenance rebuilt the guideline PDF and
+  visually inspected all four pages. No synchronized result exists, so no rerun is
+  invalidated; future foundation runs use the four-model profile.
+
 - 2026-08-26: Added Selena overflow variants for all four TSFM Slurm fronts.
   They reuse the exact DGX workflow implementations while selecting partition
   `an`, exclusive non-requeued allocations, WCKey `P12CU:DATASCIENCE`, distinct
@@ -344,3 +372,19 @@ inspection, lifecycle observations, and the publisher check remain pending.
   errors. Re-render the guideline during maintenance; the executive summary is
   unchanged. No completed inference result exists, so the already-required
   test/full runs simply use the new aliases.
+
+Maintenance 2026-08-26: direct committed-delta, environment metadata,
+adapter/profile, eight-front, synchronization-script, README, guideline,
+summary, placeholder, and handoff inspection found no synchronized result.
+After removing only scheduler-specific lines, all four DGX/Selena front pairs
+were identical; `pyproject.toml` and `uv.lock` metadata parsed consistently.
+The focused static/Bash checks were not repeated. The canonical-alias guideline
+was newer than its PDF, so two pdfLaTeX passes produced a clean four-page PDF
+and every page passed visual inspection. The new host synchronization and
+Selena scheduling entries remain open for their first real cross-host/test
+exercise. A later same-day update explicitly defined the four-model launch
+profile, kept TiRex-2 adapter-supported, and added shared-resource discovery.
+The direct Slurm workflow check passed and SHA-256 parity held for all five
+sibling adapters. The updated guideline was rebuilt and visually inspected.
+Environment mutation, TIME download, foundation inference, lifecycle
+execution, and publishing were deliberately not performed.
