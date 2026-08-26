@@ -3,6 +3,7 @@
 set -euo pipefail
 
 PROJECT_ROOT="$(cd "$(dirname "$0")" && pwd)"
+PROJECT_NAME="$(basename "$PROJECT_ROOT")"
 SECRET_FILE="$HOME/codes/.secrets/proxy.credentials"
 
 if [ ! -f "$SECRET_FILE" ]; then
@@ -18,21 +19,21 @@ if [[ ! "$nni" =~ ^[a-z][a-z0-9_-]*$ ]]; then
 fi
 
 SOURCE_ROOT="$PROJECT_ROOT"
-DESTINATION_ROOT="$nni@dgx-front.retd.edf.fr:/home/$nni/codes/tsfm"
+DESTINATION_ROOT="$nni@dgx-front.retd.edf.fr:/home/$nni/codes/$PROJECT_NAME"
 
-if [ ! -d "$SOURCE_ROOT/outputs" ] || [ ! -d "$SOURCE_ROOT/logs" ]; then
-    echo "ERROR: expected $SOURCE_ROOT/outputs and $SOURCE_ROOT/logs on Selena" >&2
+if [ ! -d "$SOURCE_ROOT/outputs_selena" ] || [ ! -d "$SOURCE_ROOT/logs_selena" ]; then
+    echo "ERROR: expected $SOURCE_ROOT/outputs_selena and $SOURCE_ROOT/logs_selena on Selena" >&2
     exit 1
 fi
 
-echo "Synchronizing TSFM outputs from Selena to DGX..."
+echo "Synchronizing $PROJECT_NAME Selena outputs to DGX..."
 rsync -rlptz --partial --info=progress2 \
-    "$SOURCE_ROOT/outputs/" \
-    "$DESTINATION_ROOT/outputs/"
+    "$SOURCE_ROOT/outputs_selena/" \
+    "$DESTINATION_ROOT/outputs_selena/"
 
-echo "Synchronizing TSFM logs from Selena to DGX..."
+echo "Synchronizing $PROJECT_NAME Selena logs to DGX..."
 rsync -rlptz --partial --info=progress2 \
-    "$SOURCE_ROOT/logs/" \
-    "$DESTINATION_ROOT/logs/"
+    "$SOURCE_ROOT/logs_selena/" \
+    "$DESTINATION_ROOT/logs_selena/"
 
-echo "SUCCESS: outputs and logs were transferred to DGX."
+echo "SUCCESS: outputs_selena and logs_selena were transferred to DGX."

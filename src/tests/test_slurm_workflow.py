@@ -23,7 +23,6 @@ def test_root_fronts_and_workflows() -> None:
         text = front.read_text(encoding="utf-8")
         assert 'PROJECT_ROOT="${SLURM_SUBMIT_DIR:-$(pwd)}"' in text
         assert "#SBATCH --ntasks=1" in text
-        assert "logs/%x_%j.out" in text
         assert "BASH_SOURCE" not in text
         assert "--array" not in text
     dgx_fronts = [path for path in fronts if "_selena" not in path.stem]
@@ -32,16 +31,26 @@ def test_root_fronts_and_workflows() -> None:
     for front in dgx_fronts:
         text = front.read_text(encoding="utf-8")
         assert "#SBATCH --partition=h100" in text
+        assert "#SBATCH --output=logs/%x_%j.out" in text
+        assert "#SBATCH --error=logs/%x_%j.err" in text
         assert "#SBATCH --wckey=" not in text
     for front in selena_fronts:
         text = front.read_text(encoding="utf-8")
         assert "#SBATCH --partition=an" in text
+        assert "#SBATCH --output=logs_selena/%x_%j.out" in text
+        assert "#SBATCH --error=logs_selena/%x_%j.err" in text
         assert "#SBATCH --exclusive" in text
         assert "#SBATCH --no-requeue" in text
         assert "#SBATCH --wckey=P12CU:DATASCIENCE" in text
+        assert 'OUTPUTS_ROOT="$PROJECT_ROOT/outputs_selena"' in text
+        assert 'LOGS_ROOT="$PROJECT_ROOT/logs_selena"' in text
         assert 'EXPERIMENT_LAUNCH_ID="selena_${SLURM_JOB_ID' in text
     common = (PROJECT_ROOT / "src/slurm/benchmark_common.sh").read_text(encoding="utf-8")
     assert "STAGES:-evaluate,report" in common
+    assert 'LOGS_ROOT="${LOGS_ROOT:-$PROJECT_ROOT/logs}"' in common
+    assert 'OUTPUTS_ROOT="${OUTPUTS_ROOT:-$PROJECT_ROOT/outputs}"' in common
+    assert 'OUTPUT_ROOT="${OUTPUT_ROOT:-$OUTPUTS_ROOT/$EXPERIMENT_FAMILY}"' in common
+    assert '--output "$OUTPUTS_ROOT/reports/$family/${EXPERIMENT_MODE:-test}"' in common
     assert "srun --ntasks=1" in common
     assert 'DEFER_MANIFEST_COMPLETION=1 srun --ntasks=1' in common
     assert "pipeline.runs complete-launch" in common
@@ -84,9 +93,37 @@ def test_root_fronts_and_workflows() -> None:
     assert "# tirex2 remains adapter-supported" in foundation
     assert 'run_evaluation "$dataset" "$setting" "$model" none false false true' in foundation
     assert 'TABLE_REFERENCE_MODEL="${TABLE_REFERENCE_MODEL:-chronos2}"' in foundation
-    sync = (PROJECT_ROOT / "sync_code_to_selena.sh").read_text(encoding="utf-8")
-    assert "--exclude='pyproject.toml'" in sync
-    assert "--exclude='uv.lock'" in sync
+    code_sync = (PROJECT_ROOT / "sync_code_to_selena.sh").read_text(
+        encoding="utf-8"
+    )
+    result_sync = (PROJECT_ROOT / "sync_results_to_dgx.sh").read_text(
+        encoding="utf-8"
+    )
+    for script in (code_sync, result_sync):
+        assert 'PROJECT_NAME="$(basename "$PROJECT_ROOT")"' in script
+        assert "sed -n '1p'" in script
+    for excluded in (
+        ".git/",
+        ".venv/",
+        ".secrets/",
+        "pyproject.toml",
+        "uv.lock",
+        "datasets/",
+        "weights/",
+        "outputs/",
+        "logs/",
+    ):
+        assert f"--exclude='{excluded}'" in code_sync
+    assert "selena.hpc.edf.fr" in code_sync
+    assert "--delete" in code_sync
+    assert "dgx-front.retd.edf.fr" in result_sync
+    assert "--include='outputs_selena/.gitkeep'" in code_sync
+    assert "--exclude='outputs_selena/***'" in code_sync
+    assert "--include='logs_selena/.gitkeep'" in code_sync
+    assert "--exclude='logs_selena/***'" in code_sync
+    assert '"$SOURCE_ROOT/outputs_selena/"' in result_sync
+    assert '"$SOURCE_ROOT/logs_selena/"' in result_sync
+    assert "--delete" not in result_sync
 
 
 if __name__ == "__main__":

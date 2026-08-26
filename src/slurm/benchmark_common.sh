@@ -39,7 +39,10 @@ resolve_roots() {
         WEIGHTS_ROOT=""
     fi
     : "${EXPERIMENT_FAMILY:?set EXPERIMENT_FAMILY before sourcing benchmark_common.sh}"
-    OUTPUT_ROOT="${OUTPUT_ROOT:-$PROJECT_ROOT/outputs/$EXPERIMENT_FAMILY}"
+    LOGS_ROOT="${LOGS_ROOT:-$PROJECT_ROOT/logs}"
+    OUTPUTS_ROOT="${OUTPUTS_ROOT:-$PROJECT_ROOT/outputs}"
+    mkdir -p "$LOGS_ROOT" "$OUTPUTS_ROOT"
+    OUTPUT_ROOT="${OUTPUT_ROOT:-$OUTPUTS_ROOT/$EXPERIMENT_FAMILY}"
     export PYTHONPATH="$PROJECT_ROOT/src${PYTHONPATH:+:$PYTHONPATH}"
     EXPERIMENT_LAUNCH_ID="${EXPERIMENT_LAUNCH_ID:-${SLURM_JOB_ID:-manual_$(date -u '+%Y%m%dT%H%M%SZ')_$$}}"
     export EXPERIMENT_LAUNCH_ID
@@ -262,7 +265,7 @@ build_report() {
     log "report family=$family"
     report_args=(
         "$OUTPUT_ROOT"
-        --output "$PROJECT_ROOT/outputs/reports/$family/${EXPERIMENT_MODE:-test}"
+        --output "$OUTPUTS_ROOT/reports/$family/${EXPERIMENT_MODE:-test}"
         --datasets "$(IFS=,; echo "${DATASETS[*]}")"
         --settings "$(IFS=,; echo "${SETTINGS[*]}")"
         --models "$(IFS=,; echo "${MODELS[*]}")"

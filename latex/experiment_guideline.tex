@@ -130,6 +130,10 @@ EXPERIMENT_MODE=full sbatch 03_covariates.slurm
 EXPERIMENT_MODE=test sbatch 04_foundation_models.slurm
 EXPERIMENT_MODE=full sbatch 04_foundation_models.slurm
 \end{verbatim}
+Each command has a matching \code{_selena.slurm} overflow front. It executes
+the same scientific implementation on Selena but writes Slurm streams under
+\path{logs_selena/} and all manifests, results, and reports under
+\path{outputs_selena/}. DGX fronts retain \path{logs/} and \path{outputs/}.
 The default workflow is \code{STAGES=evaluate,report}; stage selection is a
 recovery override. Dataset, setting, model, seed, normalization, constant
 handling, covariates, and time-feature controls can be narrowed with the
@@ -174,9 +178,10 @@ counts, skips, and eligible query/window totals for the requested settings and
 stride. The current revision inventory retains five hourly and seven daily
 source configurations under the default limits; no 15-minute source qualifies.
 
-The four independent family roots are \code{outputs/univariate},
-\code{outputs/controls}, \code{outputs/covariates}, and
-\code{outputs/foundation_models}. Their ordered identity is
+The four independent family roots live below \path{outputs/} on DGX and below
+\path{outputs_selena/} on Selena. Their relative names are
+\code{univariate}, \code{controls}, \code{covariates}, and
+\code{foundation_models}. Their ordered identity is
 \begin{verbatim}
 outputs/family/dataset/L_H/backbone/covariate_mode/normalization/
   constant_policy/time_features/run_n/
@@ -219,7 +224,8 @@ scientific identity embedded for an upstream dependency, are exposed through
 dotted filter keys and every differing nested field appears in a distinct
 label. If latest-run timestamps tie, the larger \code{run_n} index wins, making
 selection deterministic. Reports write requested filters and obtained inputs to
-\path{outputs/reports/family/mode}, while \code{SELECTED_RUNS.txt} stores only
+\path{outputs/reports/family/mode} on DGX or the same relative path below
+\path{outputs_selena/} on Selena, while \code{SELECTED_RUNS.txt} stores only
 automatic or pinned exact repeats.
 
 Reports compare complete configurations without mixing incompatible pipeline

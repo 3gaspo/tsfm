@@ -3,6 +3,7 @@
 set -euo pipefail
 
 PROJECT_ROOT="$(cd "$(dirname "$0")" && pwd)"
+PROJECT_NAME="$(basename "$PROJECT_ROOT")"
 SECRET_FILE="$HOME/codes/.secrets/proxy.credentials"
 
 if [ ! -f "$SECRET_FILE" ]; then
@@ -17,15 +18,15 @@ if [[ ! "$nni" =~ ^[a-z][a-z0-9_-]*$ ]]; then
     exit 1
 fi
 
-SOURCE_ROOT="/home/$nni/codes/tsfm/"
-DESTINATION="$nni@selena.hpc.edf.fr:~/codes/tsfm/"
+SOURCE_ROOT="$PROJECT_ROOT/"
+DESTINATION="$nni@selena.hpc.edf.fr:~/codes/$PROJECT_NAME/"
 
-if [ ! -d "$SOURCE_ROOT/src" ] || [ ! -f "$SOURCE_ROOT/pyproject.toml" ]; then
-    echo "ERROR: TSFM project not found at $SOURCE_ROOT" >&2
+if [ ! -f "$SOURCE_ROOT/README.md" ] || [ ! -f "$SOURCE_ROOT/sync_code_to_selena.sh" ]; then
+    echo "ERROR: project root not found at $SOURCE_ROOT" >&2
     exit 1
 fi
 
-echo "Synchronizing TSFM code from DGX to Selena..."
+echo "Synchronizing $PROJECT_NAME code from DGX to Selena..."
 rsync -rlptz --delete --partial --info=progress2 \
     --exclude='.git/' \
     --exclude='.venv/' \
@@ -36,8 +37,14 @@ rsync -rlptz --delete --partial --info=progress2 \
     --exclude='weights/' \
     --exclude='outputs/' \
     --exclude='logs/' \
+    --include='outputs_selena/' \
+    --include='outputs_selena/.gitkeep' \
+    --exclude='outputs_selena/***' \
+    --include='logs_selena/' \
+    --include='logs_selena/.gitkeep' \
+    --exclude='logs_selena/***' \
     "$SOURCE_ROOT" \
     "$DESTINATION"
 
-echo "SUCCESS: Selena's TSFM code matches DGX."
-echo "Preserved on Selena: .venv, .secrets, pyproject.toml, uv.lock, datasets, weights, outputs, and logs."
+echo "SUCCESS: Selena's $PROJECT_NAME code matches DGX."
+echo "Preserved on Selena: .venv, .secrets, pyproject.toml, uv.lock, datasets, weights, outputs, logs, outputs_selena, and logs_selena."

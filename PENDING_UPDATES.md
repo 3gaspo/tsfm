@@ -4,6 +4,23 @@ Last successful maintenance: 2026-08-11 10:45 +02:00.
 
 ## Pending
 
+- 2026-08-26: Isolated every Selena workflow from DGX artifact trees. The four
+  existing Selena fronts now write Slurm streams to `logs_selena/` and all
+  manifests, results, and reports to `outputs_selena/`; the shared workflow
+  exposes overridable `LOGS_ROOT` and `OUTPUTS_ROOT`, defaulting to `logs/` and
+  `outputs/` for DGX. The code mirror protects both Selena payload trees, and
+  result sync returns them
+  into the same named DGX directories without merging or deletion. Affected
+  contracts: four Selena fronts, shared workflow, sync pair, ignored
+  placeholders, focused regression, README/local/shared guidance, cluster
+  handoff, and experiment guideline source/PDF. Git Bash syntax passed across
+  all 52 affected TSFM/Online shell files, the TSFM workflow check passed, two clean
+  LaTeX passes produced four pages, and all pages were visually inspected with
+  no clipping or overlap. DGX behavior and scientific identity are unchanged;
+  no existing artifact, migration, or rerun is affected. Deferred integration:
+  submit one Selena test front and exercise both sync directions on the real
+  clusters.
+
 - 2026-08-26: Removed library-version declarations from the experiment
   guideline and made DGX-to-Selena code synchronization preserve Selena's
   local `pyproject.toml` and `uv.lock` alongside its environment and runtime

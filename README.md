@@ -249,7 +249,12 @@ The four DGX fronts above use partition `h100`. Selena exposes matching
 They run the identical implementations and experiment paths on partition `an`
 with an exclusive allocation, no automatic requeue, WCKey
 `P12CU:DATASCIENCE`, Selena-specific job names, and `selena_`-prefixed launch
-IDs. Use them only through the documented DGX-to-Selena overflow workflow.
+IDs. Their Slurm streams go to `logs_selena/`, and every manifest, result, and
+report goes to `outputs_selena/`. The relative artifact identity stays the same
+as DGX, but synchronized Selena work cannot collide with `logs/` or `outputs/`.
+The shared `LOGS_ROOT` and `OUTPUTS_ROOT` variables default to the DGX
+directories and remain explicitly overridable. Use the Selena fronts only
+through the documented overflow workflow.
 
 Each front is one sequential, resumable allocation. `STAGES=evaluate,report`
 is the default; either stage may be selected for recovery. `EXPERIMENT_MODE`
@@ -302,9 +307,10 @@ EXPERIMENT_MODE=full sbatch 04_foundation_models_selena.slurm
 
 ## Artifacts
 
-The independently launched workflow roots are `outputs/univariate`,
-`outputs/controls`, `outputs/covariates`, and `outputs/foundation_models`. Their
-common ordered identity is
+The independently launched DGX workflow roots are `outputs/univariate`,
+`outputs/controls`, `outputs/covariates`, and `outputs/foundation_models`.
+Selena uses the same relative roots under `outputs_selena/`. Their common
+ordered identity is
 
 ```text
 dataset/L_H/backbone/covariate_mode/normalization/constant_policy/time_features/run_n/
@@ -336,7 +342,8 @@ repeat with unchanged parameters. Change `schema_version` only for a deliberate
 global artifact-contract break.
 
 Reports read only completed current manifests and are written to
-`outputs/reports/<family>/<mode>/`. They support
+`outputs/reports/<family>/<mode>/` on DGX or
+`outputs_selena/reports/<family>/<mode>/` on Selena. They support
 `TABLE_CONFIG_POLICY=distinct|latest|average`,
 `TABLE_REPEAT_POLICY=selected|latest|distinct|average`, explicit
 `TABLE_PIPELINE_CONFIGS`, and purpose filters. An explicit pipeline filter must
@@ -375,8 +382,9 @@ selection policies, and report-manifest rules are the thesis-wide experiment
 contract. The four workflow roots, ordered identity fields, one-seed layout,
 and required TSFM summary/metric/config files are specific to this project.
 
-Runtime and Slurm logs belong in `logs/`. Dataset and model payloads remain in
-the ignored `datasets/` and `weights/` directories.
+DGX runtime and Slurm logs belong in `logs/`; Selena Slurm streams belong in
+`logs_selena/`. Dataset and model payloads remain in the ignored `datasets/`
+and `weights/` directories.
 
 ## Synchronizing DGX and Selena
 
@@ -389,10 +397,11 @@ mkdir -p "$HOME/codes/.secrets"
 chmod 600 "$HOME/codes/.secrets/proxy.credentials"
 ```
 
-Both synchronization scripts read only the first line and convert the NNI to
+Both synchronization scripts derive the project directory name from their own
+checkout, read only the first credentials line, and convert the NNI to
 lowercase for SSH usernames and home-directory paths. They do not read or
-export the password. Because `codes/.secrets/` is outside `codes/tsfm/`, the
-credentials are never copied or committed with the project.
+export the password. Because `codes/.secrets/` is outside the project, the
+credentials are never copied or committed with it.
 
 After pulling code updates on DGX, synchronize the execution copy on Selena:
 
@@ -402,8 +411,11 @@ bash sync_code_to_selena.sh
 
 The transfer makes Selena's implementation code match DGX while preserving
 Selena's `.venv`, `.secrets`, `pyproject.toml`, `uv.lock`, datasets, weights,
-outputs, and logs. Git metadata and dependency manifests are not transferred;
-Selena keeps its user-managed environment and dependency resolution.
+DGX outputs/logs, and Selena's `outputs_selena`/`logs_selena` payloads. The two
+Selena directories and their placeholders are created by the mirrored project
+tree, but their existing contents are protected from deletion. Git metadata
+and dependency manifests are not transferred; Selena keeps its user-managed
+environment and dependency resolution.
 
 After Selena jobs finish, transfer their lightweight results back to DGX:
 
@@ -411,8 +423,8 @@ After Selena jobs finish, transfer their lightweight results back to DGX:
 bash sync_results_to_dgx.sh
 ```
 
-This copies new or changed files from `outputs/` and `logs/` without deleting
-anything already present on DGX.
+This copies new or changed files from `outputs_selena/` and `logs_selena/` into
+the same named DGX directories without deleting anything already present.
 
 ## Publishing terminal Slurm artifacts
 
