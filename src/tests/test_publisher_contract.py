@@ -23,6 +23,13 @@ class PublisherContractTest(unittest.TestCase):
         self.assertNotIn("launch_id", publisher)
         self.assertNotIn('find "$project_root/outputs"', publisher)
         self.assertIn("paths=(logs outputs)", publisher)
+        self.assertIn("paths+=(logs_selena outputs_selena)", publisher)
+        self.assertIn("[ -d logs_selena ] ||", publisher)
+        self.assertIn("[ -d outputs_selena ] ||", publisher)
+        self.assertLess(
+            publisher.index("else\n  paths=(logs outputs)"),
+            publisher.index("paths+=(logs_selena outputs_selena)"),
+        )
         self.assertIn("git add -v -f --", publisher)
         self.assertIn("git commit --only", publisher)
         self.assertIn("git push origin main", publisher)

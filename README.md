@@ -448,11 +448,16 @@ never creates a pull request. Existing unrelated staged paths are excluded from
 the commit.
 
 Omit the job ID to force-add, commit, and push the complete `logs/` and
-lightweight `outputs/` trees:
+lightweight `outputs/` trees plus paired `logs_selena/` and lightweight
+`outputs_selena/` trees when present:
 
 ```bash
 bash publish_job.sh
 ```
+
+The same `*.pt`, `*.npy`, and `*.cbm` exclusions apply to every selected
+output tree. A partial Selena namespace fails closed instead of publishing one
+side. Job-ID mode remains scoped to the exact standard `logs/` pair.
 
 `PROXY_SCRIPT_PATH` overrides the default `$HOME/codes/proxy.sh`. The publisher
 sources that script once for both the pull and push and leaves the shell's

@@ -28,6 +28,9 @@ sync is run on DGX and pulls those same named trees from Selena without merging
 into `outputs/` or `logs/`. Selena requires no outbound SSH/SCP access. No
 Selena front or transfer has yet been exercised on the cluster.
 Both roots remain overridable; DGX defaults are `outputs/` and `logs/`.
+An unscoped publisher run includes the paired Selena artifact trees under the
+same lightweight exclusions as DGX outputs; job-ID mode remains standard-log
+only.
 Next jobs: inspect `datasets/time/catalog.json` from the direct TIME
 preparation and retain the prepared dataset names for the evaluation
 overrides. Then place the official checkpoints in the documented weight paths,

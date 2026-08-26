@@ -7,16 +7,22 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 
 def test_root_fronts_and_workflows() -> None:
-    fronts = sorted(PROJECT_ROOT.glob("[0-9][0-9]_*.slurm"))
+    slurm_root = PROJECT_ROOT / "slurm"
+    dgx_fronts = sorted((slurm_root / "dgx/main").glob("*.slurm"))
+    selena_fronts = sorted((slurm_root / "selena/main").glob("*.slurm"))
+    fronts = dgx_fronts + selena_fronts
     assert (PROJECT_ROOT / "publish_job.sh").is_file()
-    assert [path.name for path in fronts] == [
+    assert not list(PROJECT_ROOT.glob("*.slurm"))
+    assert [path.name for path in dgx_fronts] == [
         "01_univariate.slurm",
-        "01_univariate_selena.slurm",
         "02_controls.slurm",
-        "02_controls_selena.slurm",
         "03_covariates.slurm",
-        "03_covariates_selena.slurm",
         "04_foundation_models.slurm",
+    ]
+    assert [path.name for path in selena_fronts] == [
+        "01_univariate_selena.slurm",
+        "02_controls_selena.slurm",
+        "03_covariates_selena.slurm",
         "04_foundation_models_selena.slurm",
     ]
     for front in fronts:
@@ -25,8 +31,6 @@ def test_root_fronts_and_workflows() -> None:
         assert "#SBATCH --ntasks=1" in text
         assert "BASH_SOURCE" not in text
         assert "--array" not in text
-    dgx_fronts = [path for path in fronts if "_selena" not in path.stem]
-    selena_fronts = [path for path in fronts if "_selena" in path.stem]
     assert len(dgx_fronts) == len(selena_fronts) == 4
     for front in dgx_fronts:
         text = front.read_text(encoding="utf-8")

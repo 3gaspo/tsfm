@@ -4,6 +4,30 @@ Last successful maintenance: 2026-08-11 10:45 +02:00.
 
 ## Pending
 
+- 2026-08-26: Moved the four DGX and four Selena submission fronts from the
+  project root into `slurm/<cluster>/main/` without changing their resources,
+  experiment families, artifact roots, or project-root resolution contract.
+  Submissions must still run from the project root so `SLURM_SUBMIT_DIR`
+  resolves the repository correctly. The direct Slurm workflow contract
+  passed; the prepared runtime lacks pytest, but this test has an equivalent
+  direct entry point. README, LaTeX, and cluster handoff command updates are
+  deferred to the planned documentation pass. The recursive DGX-to-Selena code
+  sync will apply the same hierarchy remotely. No scientific rerun or artifact
+  migration is required.
+
+- 2026-08-26: Promoted TSFM's validated Selena transfer/publication behavior to
+  the shared standard. The local DGX-initiated pull remains unchanged; the
+  unscoped publisher now matches all eight sibling copies and includes paired
+  Selena trees under the existing heavy-payload exclusions. Affected contracts:
+  publisher regression, README, shared guidance, and cluster handoff. Bash
+  syntax passed for all 15 maintained scripts, all five publisher checks and
+  the TSFM workflow check passed, and the nine publisher copies plus five
+  suffix-result helpers are each byte-identical. No scientific rerun or
+  migration is required. The README changed; the guideline's
+  all-log/lightweight-output wording remains accurate, so LaTeX/PDF files are
+  unchanged. Deferred integration remains one real pull and unscoped
+  publication after a Selena test job.
+
 - 2026-08-26: Inverted TSFM result synchronization to accommodate Selena's
   blocked outbound SSH/SCP. `sync_results_to_dgx.sh` now runs on DGX and pulls
   Selena's `outputs_selena/` and `logs_selena/` into the same local names using
