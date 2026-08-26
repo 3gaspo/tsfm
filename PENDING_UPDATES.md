@@ -4,16 +4,41 @@ Last successful maintenance: 2026-08-11 10:45 +02:00.
 
 ## Pending
 
+- 2026-08-26: Replaced the fixed cross-dataset L--H product with one shared
+  cadence contract: hourly datasets use `168:24`, `336:48`, `504:168`; daily
+  datasets use `7:1`, `14:2`, `30:7`; and 15-minute datasets use `96:4`,
+  `192:8`, `672:96`. Full workflows now discover every prepared TIME dataset
+  from `datasets/time/catalog.json`, omit tasks shorter than `L+H`, and use the
+  same cadence to validate weekly lookback. Foundation full retains its
+  mid/long compute scope while adding TIME. Reports retain literal-setting
+  marginals and add comparable short/mid/long range marginals. Affected
+  contracts: cadence and profile ownership, TIME preparation, all four shared
+  workflow implementations, reports, focused tests, README, project guidance,
+  guideline, executive summary, and cluster handoff. Focused cadence-profile,
+  TIME-preparation, reporting, repeat/report smoke, and Slurm workflow tests
+  passed in the thesis runtime; Git Bash accepted the five changed workflow
+  shells. Both PDFs compiled cleanly and every rendered page passed visual
+  inspection. Deferred
+  integration: sync the code, confirm the real TIME catalog is found, run the
+  cadence-aware full profiles, and inspect regenerated reports. Completed
+  hourly Electricity, Traffic, and Solar univariate configurations remain
+  reusable. The former Exchange Rate hourly-scale configurations and the old
+  mixed-cadence full report are not current evidence; rerun Exchange Rate at
+  the daily ranges and evaluate every newly selected TIME dataset. Schema 1 is
+  amended in place and requires no migration.
+
 - 2026-08-26: Moved the four DGX and four Selena submission fronts from the
-  project root into `slurm/<cluster>/main/` without changing their resources,
-  experiment families, artifact roots, or project-root resolution contract.
+  project root into `slurm/<cluster>/main/` and added QoS `an_preemptable` to
+  every Selena front without changing experiment families, artifact roots, or
+  project-root resolution.
   Submissions must still run from the project root so `SLURM_SUBMIT_DIR`
   resolves the repository correctly. The direct Slurm workflow contract
-  passed; the prepared runtime lacks pytest, but this test has an equivalent
-  direct entry point. README, LaTeX, and cluster handoff command updates are
-  deferred to the planned documentation pass. The recursive DGX-to-Selena code
-  sync will apply the same hierarchy remotely. No scientific rerun or artifact
-  migration is required.
+  passed and now verifies the hierarchy and QoS. README, AGENTS guidance,
+  cluster handoff, and experiment guideline commands were reconciled. Two
+  clean LaTeX passes produced the four-page guideline, and all four pages were
+  visually inspected without clipping or overlap. The recursive DGX-to-Selena
+  code sync remains the only deferred integration step. No scientific rerun or
+  artifact migration is required.
 
 - 2026-08-26: Promoted TSFM's validated Selena transfer/publication behavior to
   the shared standard. The local DGX-initiated pull remains unchanged; the

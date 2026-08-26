@@ -8,6 +8,7 @@ import numpy as np
 import pandas as pd
 
 from data import load_panel
+from data.time import DEFAULT_SETTINGS_BY_FREQUENCY
 from scripts.prepare_time_csv import prepare_time_csv
 
 
@@ -127,6 +128,34 @@ def test_task_size_limits_apply_before_alignment_split() -> None:
         assert catalog["max_dates_per_series"] == 10
 
 
+def test_default_settings_follow_each_source_cadence() -> None:
+    with tempfile.TemporaryDirectory(dir=PROJECT_ROOT / "outputs") as directory:
+        root = Path(directory)
+        source = root / "source"
+        output = root / "prepared"
+        cases = (
+            ("Hourly", "H", "h", 800, "hourly"),
+            ("Daily", "D", "D", 50, "daily"),
+            ("QuarterHour", "15T", "15min", 800, "15min"),
+        )
+        for dataset, source_frequency, pandas_frequency, length, _ in cases:
+            _write_series(
+                source / dataset / source_frequency / "item0.csv",
+                pd.date_range("2025-01-01", periods=length, freq=pandas_frequency),
+                {"x": np.arange(length)},
+            )
+
+        catalog = prepare_time_csv(output_root=output, source_root=source)
+        entries = {entry["source_frequency"]: entry for entry in catalog["datasets"]}
+        for _, source_frequency, _, _, normalized in cases:
+            expected = {
+                f"{lookback}:{horizon}"
+                for lookback, horizon in DEFAULT_SETTINGS_BY_FREQUENCY[normalized]
+            }
+            assert set(entries[source_frequency]["evaluation_samples"]) == expected
+
+
 if __name__ == "__main__":
     test_hourly_alignment_length_filter_and_sample_catalog()
     test_task_size_limits_apply_before_alignment_split()
+    test_default_settings_follow_each_source_cadence()

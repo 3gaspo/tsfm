@@ -12,9 +12,20 @@ from typing import Iterable, Sequence
 import numpy as np
 import pandas as pd
 
+from data.cadence import RANGE_SETTINGS, normalize_frequency
 
 DEFAULT_REPO_ID = "Real-TSF/TIME-ProcessedCSV"
-DEFAULT_SETTINGS = ((336, 48), (504, 168))
+DEFAULT_SETTINGS_BY_FREQUENCY = {
+    frequency: tuple(settings.values())
+    for frequency, settings in RANGE_SETTINGS.items()
+}
+DEFAULT_SETTINGS = tuple(
+    dict.fromkeys(
+        setting
+        for settings in DEFAULT_SETTINGS_BY_FREQUENCY.values()
+        for setting in settings
+    )
+)
 DEFAULT_FREQUENCIES = ("15T", "H", "D")
 DEFAULT_STRIDE = 512
 DEFAULT_MAX_SERIES = 500
@@ -261,7 +272,7 @@ def _write_dataset(
 
 def prepare_time_csv(
     output_root: Path,
-    settings: Sequence[tuple[int, int]] = DEFAULT_SETTINGS,
+    settings: Sequence[tuple[int, int]] | None = None,
     stride: int = DEFAULT_STRIDE,
     datasets: Sequence[str] | None = None,
     frequencies: Sequence[str] | None = DEFAULT_FREQUENCIES,
@@ -275,7 +286,9 @@ def prepare_time_csv(
 ) -> dict[str, object]:
     if stride <= 0:
         raise ValueError("stride must be positive")
-    if not settings:
+    default_cadence_settings = settings is None
+    selected_settings = DEFAULT_SETTINGS if settings is None else tuple(settings)
+    if not selected_settings:
         raise ValueError("at least one L:H setting is required")
     if max_series is not None and max_series <= 0:
         raise ValueError("max_series must be positive or omitted")
@@ -314,8 +327,13 @@ def prepare_time_csv(
 
     entries: list[dict[str, object]] = []
     used_folder_names: set[str] = set()
-    minimum_length = max(lags + horizon for lags, horizon in settings)
     for (dataset, frequency), parsed_files in sorted(parsed_by_key.items()):
+        task_settings = (
+            DEFAULT_SETTINGS_BY_FREQUENCY[normalize_frequency(frequency)]
+            if default_cadence_settings
+            else selected_settings
+        )
+        minimum_length = max(lags + horizon for lags, horizon in task_settings)
         task_source_files = [parsed.source.relative_path for parsed in parsed_files]
         task_series = sum(parsed.targets.shape[1] for parsed in parsed_files)
         task_max_dates = max(len(parsed.index) for parsed in parsed_files)
@@ -363,7 +381,7 @@ def prepare_time_csv(
             if folder_name in used_folder_names:
                 raise ValueError(f"TIME dataset names map to the same output folder: {folder_name}")
             used_folder_names.add(folder_name)
-            counts = _window_counts(len(targets), targets.shape[1], settings, stride)
+            counts = _window_counts(len(targets), targets.shape[1], task_settings, stride)
             metadata: dict[str, object] = {
                 "repository": repo_id,
                 "revision": resolved_revision,
@@ -404,7 +422,7 @@ def prepare_time_csv(
         "selected_download_bytes": selected_bytes,
         "max_series": max_series,
         "max_dates_per_series": max_dates_per_series,
-        "settings": [f"{lags}:{horizon}" for lags, horizon in settings],
+        "settings": [f"{lags}:{horizon}" for lags, horizon in selected_settings],
         "stride": stride,
         "num_datasets": len(entries),
         "num_series": sum(int(entry["num_series"]) for entry in entries),
@@ -434,7 +452,7 @@ def _parser() -> argparse.ArgumentParser:
         "--max-dates-per-series", type=int, default=DEFAULT_MAX_DATES_PER_SERIES
     )
     parser.add_argument(
-        "--settings", nargs="+", type=parse_setting, default=list(DEFAULT_SETTINGS)
+        "--settings", nargs="+", type=parse_setting
     )
     parser.add_argument("--stride", type=int, default=DEFAULT_STRIDE)
     parser.add_argument("--overwrite", action="store_true")

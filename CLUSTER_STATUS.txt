@@ -1,44 +1,40 @@
 Last updated: 2026-08-26
 
-Latest completed job/profile: none; expanded evaluator and reporting workflow
-prepared locally.
-Artifacts synchronized/analyzed: no remote artifacts yet.
-Running or queued jobs: none.
-Current contract: schema 1 roots are outputs/univariate, outputs/controls,
-outputs/covariates, and outputs/foundation_models with mode selecting subsets
-of the same identity trees. Each
-run now writes MSE/MAE/nMSE/nMAE/MASE window, user, horizon, dispersion, W10,
-and timing artifacts. The univariate report compares Chronos-2 with every
-legacy TimeTensor baseline, writes best-baseline win rates, publication plots,
-and chosen-metric dataset/setting marginal tables. The sole lookback baseline
-uses the most recent whole-week-aligned horizon block, inferring 168 steps for
-hourly data and 7 for daily data; absolute lookback-0/lookback-168 variants no
-longer exist. Tensor inputs use the current
-TimeTensors individual/global context and dataset metadata filenames; no older
-TSFM run exists or requires migration.
-The foundation-model workflow loads the official Chronos-2, Chronos-Bolt,
-TS-ICL, and TabPFN-TS inference packages from local checkpoints and uses raw
-TSFM inputs where the released model owns preprocessing. TiRex-2 remains an
-implemented canonical adapter but is excluded from launch profiles.
-Its full profile is the five primary datasets at 336:48 and 504:168.
-Every DGX front now has an `_selena.slurm` overflow counterpart using the same
-scientific implementation and Selena-specific scheduling/accounting settings.
-Selena fronts write only to `outputs_selena/` and `logs_selena/`; their result
-sync is run on DGX and pulls those same named trees from Selena without merging
-into `outputs/` or `logs/`. Selena requires no outbound SSH/SCP access. No
-Selena front or transfer has yet been exercised on the cluster.
-Both roots remain overridable; DGX defaults are `outputs/` and `logs/`.
-An unscoped publisher run includes the paired Selena artifact trees under the
-same lightweight exclusions as DGX outputs; job-ID mode remains standard-log
-only.
-Next jobs: inspect `datasets/time/catalog.json` from the direct TIME
-preparation and retain the prepared dataset names for the evaluation
-overrides. Then place the official checkpoints in the documented weight paths,
-submit `EXPERIMENT_MODE=test sbatch 04_foundation_models.slurm`, and inspect all
-four model summaries and the fixed-Chronos report. Then submit
-`EXPERIMENT_MODE=full sbatch 04_foundation_models.slurm`. The original next jobs
-remain bare `EXPERIMENT_MODE=test sbatch 01_univariate.slurm`, inspect its
-metric CSVs and plots, then submit
-`EXPERIMENT_MODE=full sbatch 01_univariate.slurm` for the four-dataset,
-three-setting ICLR grid. Controls and covariates remain later workflows.
-Known job IDs/dependencies: none.
+Latest completed jobs/profile: Selena jobs 2897846 and 2898432 completed the
+former fixed-grid full univariate profile. The analyzed snapshot contains
+Electricity, Solar, Traffic, and Exchange Rate at 168:24, 336:48, and 504:168,
+seed 1 and stride 512. Chronos-2 beat the best baseline on all nine hourly
+Electricity/Solar/Traffic configurations; mean nMSE improvements by dataset
+were 31.335%, 43.099%, and 37.394%, respectively.
+
+Current scientific contract: settings are cadence-specific. Hourly datasets
+use 168:24, 336:48, 504:168; daily datasets use 7:1, 14:2, 30:7; and 15-minute
+datasets use 96:4, 192:8, 672:96. Full univariate, controls, and covariates
+include Electricity, Traffic, Solar, Exchange Rate, and every feasible dataset
+listed in datasets/time/catalog.json. Full foundation uses its five primary
+datasets plus feasible TIME datasets at the cadence-specific mid and long
+ranges. Reports aggregate comparable short/mid/long ranges while retaining
+literal-setting tables. Schema 1 is unchanged.
+
+Reuse/rerun decision: completed Electricity, Solar, and Traffic univariate
+configurations remain current and will be skipped by an exact resubmission.
+The completed Exchange Rate configurations used hourly-scale settings and are
+excluded from current evidence; rerun Exchange Rate at the three daily ranges.
+No TIME evaluation has completed, so every selected TIME task is new. The old
+full report mixes cadences and must be regenerated after those tasks finish.
+The Electricity 504:168 test identity remains current for all four families.
+
+Running or queued jobs: not re-queried by this local protocol update. Earlier
+test launches may continue safely because their Electricity 504:168 identity
+did not change.
+
+Next cluster actions: synchronize this code to Selena, verify that the prepared
+datasets root exposes time/catalog.json, then resubmit
+`EXPERIMENT_MODE=full sbatch slurm/selena/main/01_univariate_selena.slurm`.
+It should reuse the three hourly datasets, run daily Exchange Rate and TIME,
+and regenerate the full report. After the outstanding test jobs complete,
+full controls, covariates, and foundation workflows are eligible to launch;
+they will use the same automatic TIME discovery. Use DATASETS_OVERRIDE for a
+narrow recovery run; an override replaces automatic TIME selection.
+
+Known job IDs: 2897846, 2898432 (completed former full-univariate launches).

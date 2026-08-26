@@ -13,14 +13,16 @@
 \newcommand{\code}[1]{\texttt{\detokenize{#1}}}
 \title{\textbf{Time-series Foundation Model Evaluation}\\Executive Summary}
 \author{Thesis project}
-\date{Evidence checked through 7 August 2026}
+\date{Evidence checked through 26 August 2026}
 \begin{document}
 \maketitle
 
 \section*{Decision snapshot}
-\textcolor{amber}{\textbf{No remote TSFM evaluation has completed.}}
-There is no quantitative basis for choosing univariate, known-covariate, or
-identity-covariate inference.
+\textcolor{navy}{\textbf{Chronos-2 consistently improves on the non-trainable
+baselines for the three completed hourly datasets.}}
+This evidence supports Chronos-2 for the evaluated univariate hourly settings,
+but does not yet support a conclusion for daily Exchange Rate, TIME datasets,
+covariates, or the four-model foundation comparison.
 
 \section{Evidence inventory}
 \begin{center}
@@ -29,23 +31,32 @@ identity-covariate inference.
 \toprule
 \textbf{Result object} & \textbf{Count} \\
 \midrule
-Archived result files & 0 \\
-Completed schema-1 manifests & 0 \\
-Recorded remote evaluations & 0 \\
-Chronos-2/TabPFN-TS result tables & 0 \\
-Result plots & 0 \\
+Current hourly datasets & 3 \\
+Current dataset--setting configurations & 9 \\
+Current model configurations & 45 \\
+Seeds per configuration & 1 \\
+Completed TIME evaluations & 0 \\
 \bottomrule
 \end{tabularx}
 \end{center}
 
-\section{Claims retained}
-None about model accuracy, covariate value, preprocessing, or runtime. The local
-repeat smoke validates code paths only and is not included as foundation-model
-evidence. The zero-count inventory is the complete result record.
+\section{Obtained evidence}
+The completed full-univariate snapshot evaluated Electricity, Solar, and
+Traffic at $168{:}24$, $336{:}48$, and $504{:}168$ with seed 1 and stride 512.
+Chronos-2 beat the best persistence, expected, repeat, or weekly-lookback
+baseline in nMSE on all nine configurations. Its mean nMSE improvement over the
+best baseline was 31.335\% on Electricity, 43.099\% on Solar, and 37.394\% on
+Traffic.
+
+These are single-seed, sparsely sampled results. The warning about an unset
+deterministic CUDA workspace variable further limits a claim of exact GPU
+reproducibility. The former Exchange Rate results used hourly-scale
+$L$--$H$ values on daily data and are excluded from the current protocol.
 
 \section{Next evidence}
-Submit one unmodified test launcher and verify its completed
-\code{summary.json}, per-user metrics, and report ingestion. Then run the full
-univariate family before controls and covariates. Protocol details remain in
-the experiment guideline.
+Resubmit full univariate under the cadence-aware profile. Exact completed hourly
+identities remain reusable; the run must add daily Exchange Rate at $7{:}1$,
+$14{:}2$, and $30{:}7$, evaluate every feasible prepared TIME dataset, and
+regenerate the mixed-cadence report. Then complete full controls, covariates,
+and foundation-model families before making claims about those questions.
 \end{document}

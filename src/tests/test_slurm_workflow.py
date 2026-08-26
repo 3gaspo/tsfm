@@ -41,6 +41,7 @@ def test_root_fronts_and_workflows() -> None:
     for front in selena_fronts:
         text = front.read_text(encoding="utf-8")
         assert "#SBATCH --partition=an" in text
+        assert "#SBATCH --qos=an_preemptable" in text
         assert "#SBATCH --output=logs_selena/%x_%j.out" in text
         assert "#SBATCH --error=logs_selena/%x_%j.err" in text
         assert "#SBATCH --exclusive" in text
@@ -59,11 +60,17 @@ def test_root_fronts_and_workflows() -> None:
     assert 'DEFER_MANIFEST_COMPLETION=1 srun --ntasks=1' in common
     assert "pipeline.runs complete-launch" in common
     assert common.count("pipeline.runs complete-launch") == 2
-    assert "SETTINGS=(504:168)" in common
-    assert "DATASETS=(electricity traffic solar exchange_rate)" in common
-    assert "SETTINGS=(168:24 336:48 504:168)" in common
+    assert "python -m pipeline.profiles" in common
+    assert '--profile "$profile"' in common
+    assert '--datasets-override "$DATASETS_OVERRIDE"' in common
+    assert '--settings-override "$SETTINGS_OVERRIDE"' in common
+    assert 'catalog="$(find_time_catalog || true)"' in common
+    assert 'TASK_DATASETS+=("$dataset")' in common
+    assert 'TASK_SETTINGS+=("$setting")' in common
+    assert 'TASK_PERIODS+=("$period")' in common
+    assert 'report_args+=(--task "${TASK_DATASETS[$task_index]}=${TASK_SETTINGS[$task_index]}")' in common
     assert "model_valid_for_setting" in common
-    assert 'local period="${LOOKBACK_PERIOD_STEPS:-168}"' in common
+    assert 'local period="${LOOKBACK_PERIOD_STEPS:-$cadence_period}"' in common
     assert '"model.lookback_period=$LOOKBACK_PERIOD_STEPS"' in common
     assert 'evaluation.mase_seasonality=${MASE_SEASONALITY:-1}' in common
     assert '--metric "${TABLE_METRIC:-nmse}"' in common
@@ -86,13 +93,15 @@ def test_root_fronts_and_workflows() -> None:
         encoding="utf-8"
     )
     assert "MODELS=(persistence expected repeat lookback chronos2)" in univariate
+    assert 'for task_index in "${!TASK_DATASETS[@]}"' in univariate
+    assert 'model_valid_for_setting "$model" "$setting" "$period"' in univariate
     assert "lookback0" not in univariate
     assert "lookback168" not in univariate
     foundation = (
         PROJECT_ROOT / "src/slurm/benchmark_foundation_models.sh"
     ).read_text(encoding="utf-8")
-    assert "DATASETS=(electricity traffic solar weather exchange_rate)" in foundation
-    assert "SETTINGS=(336:48 504:168)" in foundation
+    assert "set_profile_axes foundation" in foundation
+    assert 'for task_index in "${!TASK_DATASETS[@]}"' in foundation
     assert "MODELS=(chronos2 chronos_bolt ts_icl tabpfn_ts)" in foundation
     assert "# tirex2 remains adapter-supported" in foundation
     assert 'run_evaluation "$dataset" "$setting" "$model" none false false true' in foundation

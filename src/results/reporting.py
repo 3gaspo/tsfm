@@ -12,6 +12,7 @@ from typing import Any, Mapping
 import numpy as np
 import pandas as pd
 
+from data.cadence import forecast_range_name
 from pipeline.runs import (
     SelectedRun,
     load_manifest,
@@ -65,6 +66,16 @@ def _pipeline_pairs(values: list[str] | None) -> dict[str, Any]:
                     selected[key] = float(value)
                 except ValueError:
                     selected[key] = value
+    return selected
+
+
+def _task_pairs(values: list[str] | None) -> set[tuple[str, str]]:
+    selected: set[tuple[str, str]] = set()
+    for item in values or []:
+        dataset, separator, setting = item.rpartition("=")
+        if not separator or not dataset or not re.fullmatch(r"[1-9]\d*:[1-9]\d*", setting):
+            raise ValueError(f"task must be DATASET=L:H, got {item!r}")
+        selected.add((dataset, setting))
     return selected
 
 
@@ -140,6 +151,9 @@ def _comparison_frame(
                 {
                     **identity,
                     "setting": f"{int(model_row['lags'])}:{int(model_row['horizon'])}",
+                    "range": forecast_range_name(
+                        int(model_row["lags"]), int(model_row["horizon"])
+                    ),
                     "model": str(model_row["model"]),
                     "metric": metric,
                     "value": value,
@@ -185,7 +199,7 @@ def _marginal_frame(comparison: pd.DataFrame, axis: str) -> pd.DataFrame:
 
 def _write_average_latex(
     by_dataset: pd.DataFrame,
-    by_setting: pd.DataFrame,
+    by_range: pd.DataFrame,
     metric: str,
     reference_model: str,
     path: Path,
@@ -194,7 +208,7 @@ def _write_average_latex(
         dict.fromkeys(
             [
                 *by_dataset.get("model", pd.Series(dtype=str)).astype(str),
-                *by_setting.get("model", pd.Series(dtype=str)).astype(str),
+                *by_range.get("model", pd.Series(dtype=str)).astype(str),
             ]
         )
     )
@@ -231,9 +245,9 @@ def _write_average_latex(
                 )
             lines.append(_latex_escape(label) + " & " + " & ".join(cells) + r" \\")
 
-    add_panel("Average over settings", by_dataset, "dataset")
+    add_panel("Average over cadence ranges", by_dataset, "dataset")
     lines.append(r"\midrule")
-    add_panel("Average over datasets", by_setting, "setting")
+    add_panel("Average over datasets", by_range, "range")
     lines.extend(
         [
             r"\bottomrule",
@@ -316,6 +330,7 @@ def build_report(
     *,
     datasets: set[str] | None = None,
     settings: set[str] | None = None,
+    tasks: set[tuple[str, str]] | None = None,
     models: set[str] | None = None,
     pipeline_config: Mapping[str, Any] | None = None,
     config_policy: str = "distinct",
@@ -348,6 +363,8 @@ def build_report(
         sample = json.loads(sample_path.read_text(encoding="utf-8"))
         identity = sample["identity"]
         setting = f"{identity['lookback']}:{identity['horizon']}"
+        if tasks and (identity["dataset"], setting) not in tasks:
+            continue
         if datasets and identity["dataset"] not in datasets:
             continue
         if settings and setting not in settings:
@@ -387,6 +404,7 @@ def build_report(
     comparison = _comparison_frame(raw_frame, metric, reference_model)
     by_dataset = _marginal_frame(comparison, "dataset")
     by_setting = _marginal_frame(comparison, "setting")
+    by_range = _marginal_frame(comparison, "range")
     win_rates = _chronos_win_rates(raw_frame)
     plot_index = build_plots(raw_frame, output) if make_plots else pd.DataFrame()
 
@@ -405,11 +423,12 @@ def build_report(
     comparison.to_csv(output / f"{metric}_configurations.csv", index=False)
     by_dataset.to_csv(output / f"{metric}_average_by_dataset.csv", index=False)
     by_setting.to_csv(output / f"{metric}_average_by_setting.csv", index=False)
+    by_range.to_csv(output / f"{metric}_average_by_range.csv", index=False)
     win_rates.to_csv(output / "chronos_win_rates.csv", index=False)
     plot_index.to_csv(output / "plot_index.csv", index=False)
     _write_average_latex(
         by_dataset,
-        by_setting,
+        by_range,
         metric,
         reference_model,
         output / f"{metric}_average_table.tex",
@@ -422,6 +441,7 @@ def build_report(
         filters={
             "datasets": sorted(datasets or []),
             "settings": sorted(settings or []),
+            "tasks": [f"{dataset}={setting}" for dataset, setting in sorted(tasks or [])],
             "models": sorted(models or []),
             "pipeline": dict(pipeline_config or {}),
             "purposes": sorted(purposes or []),
@@ -439,6 +459,7 @@ def main() -> None:
     parser.add_argument("--output", required=True, help="report directory")
     parser.add_argument("--datasets")
     parser.add_argument("--settings")
+    parser.add_argument("--task", action="append", default=[])
     parser.add_argument("--models")
     parser.add_argument("--pipeline-config", action="append", default=[])
     parser.add_argument("--config-policy", choices=["distinct", "latest", "average"], default="distinct")
@@ -454,6 +475,7 @@ def main() -> None:
             args.output,
             datasets=_names(args.datasets),
             settings=_names(args.settings),
+            tasks=_task_pairs(args.task),
             models=_names(args.models),
             pipeline_config=_pipeline_pairs(args.pipeline_config),
             config_policy=args.config_policy,

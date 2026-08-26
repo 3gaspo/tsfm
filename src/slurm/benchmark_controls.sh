@@ -12,14 +12,14 @@ if [ -n "${INSTANCE_NORMS_OVERRIDE:-}" ]; then read -r -a NORMS <<< "$INSTANCE_N
 if [ -n "${REMOVE_CONSTANT_OVERRIDE:-}" ]; then read -r -a CONSTANT_POLICIES <<< "$REMOVE_CONSTANT_OVERRIDE"; fi
 
 if stage_enabled evaluate; then
-    for dataset in "${DATASETS[@]}"; do
-        for setting in "${SETTINGS[@]}"; do
-            for model in "${MODELS[@]}"; do
-                for instance_norm in "${NORMS[@]}"; do
-                    for remove_constant in "${CONSTANT_POLICIES[@]}"; do
-                        for seed in "${SEEDS[@]}"; do
-                            run_evaluation "$dataset" "$setting" "$model" none "$instance_norm" "$remove_constant" true "$seed"
-                        done
+    for task_index in "${!TASK_DATASETS[@]}"; do
+        dataset="${TASK_DATASETS[$task_index]}"
+        setting="${TASK_SETTINGS[$task_index]}"
+        for model in "${MODELS[@]}"; do
+            for instance_norm in "${NORMS[@]}"; do
+                for remove_constant in "${CONSTANT_POLICIES[@]}"; do
+                    for seed in "${SEEDS[@]}"; do
+                        run_evaluation "$dataset" "$setting" "$model" none "$instance_norm" "$remove_constant" true "$seed"
                     done
                 done
             done

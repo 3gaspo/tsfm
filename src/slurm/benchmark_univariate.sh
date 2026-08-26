@@ -8,16 +8,17 @@ MODELS=(persistence expected repeat lookback chronos2)
 if [ -n "${MODELS_OVERRIDE:-}" ]; then read -r -a MODELS <<< "$MODELS_OVERRIDE"; fi
 
 if stage_enabled evaluate; then
-    for dataset in "${DATASETS[@]}"; do
-        for setting in "${SETTINGS[@]}"; do
-            for model in "${MODELS[@]}"; do
-                if ! model_valid_for_setting "$model" "$setting"; then
-                    log "skip invalid baseline model=$model setting=$setting"
-                    continue
-                fi
-                for seed in "${SEEDS[@]}"; do
-                    run_evaluation "$dataset" "$setting" "$model" none true false true "$seed"
-                done
+    for task_index in "${!TASK_DATASETS[@]}"; do
+        dataset="${TASK_DATASETS[$task_index]}"
+        setting="${TASK_SETTINGS[$task_index]}"
+        period="${TASK_PERIODS[$task_index]}"
+        for model in "${MODELS[@]}"; do
+            if ! model_valid_for_setting "$model" "$setting" "$period"; then
+                log "skip invalid baseline model=$model dataset=$dataset setting=$setting period=$period"
+                continue
+            fi
+            for seed in "${SEEDS[@]}"; do
+                run_evaluation "$dataset" "$setting" "$model" none true false true "$seed"
             done
         done
     done

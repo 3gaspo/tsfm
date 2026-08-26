@@ -5,13 +5,22 @@ from pathlib import Path
 
 import pandas as pd
 
-from results.reporting import _chronos_win_rates, _comparison_frame, _marginal_frame
+from results.reporting import (
+    _chronos_win_rates,
+    _comparison_frame,
+    _marginal_frame,
+    _task_pairs,
+)
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 
 def test_best_baseline_marginals_and_chronos_wins() -> None:
+    assert _task_pairs(["electricity=168:24", "time/a_h=336:48"]) == {
+        ("electricity", "168:24"),
+        ("time/a_h", "336:48"),
+    }
     with tempfile.TemporaryDirectory(dir=PROJECT_ROOT / "outputs") as directory:
         root = Path(directory)
         common = {
@@ -53,6 +62,7 @@ def test_best_baseline_marginals_and_chronos_wins() -> None:
         chronos = comparison[comparison["model"] == "chronos2"].iloc[0]
         assert chronos["reference_model"] == "repeat"
         assert chronos["improvement_pct"] == 25.0
+        assert chronos["range"] == "custom"
         by_dataset = _marginal_frame(comparison, "dataset")
         assert by_dataset[by_dataset["model"] == "chronos2"].iloc[0][
             "mean_improvement_pct"

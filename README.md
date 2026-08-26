@@ -18,17 +18,18 @@ src/
   external_models/  isolated frozen TSFM adapters
   model_loading/    non-trainable controls and adapter selection
   evaluation/       deterministic inference and metric computation
-  pipeline/         run identity and manifest orchestration
+  pipeline/         cadence-aware profiles, run identity, and manifest orchestration
   results/          artifact aggregation, comparisons, and tables
   visualization/    report plots and analysis notebook
   scripts/          evaluation, reporting, and data-preparation fronts
 ```
 
-The five adapter files and TIME preparation implementation are byte-identical
-to the shared evaluation surface in TimeTensors and online adaptation. The
-external adapters contain model-specific inference behavior; evaluation
-controls only which dates and covariates are accessible. Reporting and plotting
-remain downstream of the scientific evaluation path.
+The five adapter files remain byte-identical to the shared evaluation surface
+in TimeTensors and online adaptation. TIME preparation retains the shared
+conversion contract while TSFM inventories its cadence-specific forecast
+ranges. The external adapters contain model-specific inference behavior;
+evaluation controls only which dates and covariates are accessible. Reporting
+and plotting remain downstream of the scientific evaluation path.
 
 ## Evaluation contract
 
@@ -63,8 +64,12 @@ there is no artificial per-sample timing dispersion. `window_metrics.csv`, `per_
 `horizon_metrics.csv` preserve the lightweight rows needed for plots and
 pairwise comparisons without saving predictions.
 
-The primary ICLR grid is `168:24`, `336:48`, and `504:168` on Electricity,
-Traffic, Solar, and Exchange Rate. Evaluation uses the entire eligible
+The primary grid defines comparable short, mid, and long forecast ranges in
+dataset time steps. Hourly data use `168:24`, `336:48`, and `504:168`; daily
+data use `7:1`, `14:2`, and `30:7`; 15-minute data use `96:4`, `192:8`, and
+`672:96`. Electricity, Traffic, Solar, and Weather are hourly, while Exchange
+Rate is daily; TIME datasets take their cadence from `catalog.json`.
+Evaluation uses the entire eligible
 timeline—there is no train/validation/test split—and deterministically retains
 one query date every 512 steps by default. `EVAL_STRIDE` changes this speed and
 coverage trade-off. Fixed TabPFN periods remain 24 and 168.
@@ -75,7 +80,8 @@ per week, it selects `k=ceil(H/P)` and predicts from
 window that remains inside the lookback. For example, `L=336`, `H=24`, and
 hourly `P=168` yields `X[168:192]`. `P` is inferred from dated inputs (168 for
 hourly data and 7 for daily data); set `model.lookback_period` for a direct run
-or `LOOKBACK_PERIOD_STEPS` for a Slurm workflow to override it. Inputs without
+or `LOOKBACK_PERIOD_STEPS` for a Slurm workflow to override it. The weekly
+period is 672 observations for regular 15-minute data. Inputs without
 real dates require the explicit override.
 
 ## Data and covariates
@@ -131,8 +137,9 @@ PYTHONPATH=src uv run python -m scripts.prepare_time_csv \
 
 Use `--frequencies all` for every frequency, or process an existing checkout
 without network access using `--source-root /path/to/TIME-ProcessedCSV`. The
-default eligibility settings are `336:48` and `504:168`, with stride 512;
-`--settings` and `--stride` accept the evaluation grid to inventory. On TIME
+default eligibility settings are the three cadence-specific short/mid/long
+ranges above, with stride 512; `--settings` applies an explicit common grid and
+`--stride` changes the inventory stride. On TIME
 revision `83e3d0b3`, the default size filters retain five hourly and seven daily
 source configurations; no 15-minute source remains because every one contains
 at least one series longer than 10,000 dates.
@@ -226,7 +233,8 @@ PYTHONPATH=src uv run python -m scripts.evaluate \
 
 ## Cluster workflows
 
-The numbered root launchers are the user-facing submission interface:
+The numbered launchers under `slurm/dgx/main/` are the DGX submission
+interface; matching Selena fronts live under `slurm/selena/main/`:
 
 1. `01_univariate.slurm` compares persistence, expected, repeat, the weekly
    aligned lookback baseline, and Chronos-2. Lookback settings without enough
@@ -239,15 +247,16 @@ The numbered root launchers are the user-facing submission interface:
 4. `04_foundation_models.slurm` compares the official Chronos-2,
    Chronos-Bolt, TS-ICL, and TabPFN-TS inference pipelines on the univariate
    benchmark. TiRex-2 remains adapter-supported but is commented out of the
-   launch profile for now. Its `full` profile
-   is Electricity, Traffic, Solar, Weather, and Exchange Rate at `336:48` and
-   `504:168`; its report uses Chronos-2 as the default fixed reference.
+   launch profile for now. Its `full` profile uses the cadence-specific mid
+   and long ranges on Electricity, Traffic, Solar, Weather, Exchange Rate, and
+   every eligible prepared TIME dataset; its report uses Chronos-2 as the
+   default fixed reference.
 
 The four DGX fronts above use partition `h100`. Selena exposes matching
 `01_univariate_selena.slurm`, `02_controls_selena.slurm`,
 `03_covariates_selena.slurm`, and `04_foundation_models_selena.slurm` fronts.
 They run the identical implementations and experiment paths on partition `an`
-with an exclusive allocation, no automatic requeue, WCKey
+with QoS `an_preemptable`, an exclusive allocation, no automatic requeue, WCKey
 `P12CU:DATASCIENCE`, Selena-specific job names, and `selena_`-prefixed launch
 IDs. Their Slurm streams go to `logs_selena/`, and every manifest, result, and
 report goes to `outputs_selena/`. The relative artifact identity stays the same
@@ -261,16 +270,23 @@ is the default; either stage may be selected for recovery. `EXPERIMENT_MODE`
 provides:
 
 - `test`: Electricity at `504:168`, seed 1;
-- `full`: Electricity, Traffic, Solar, and Exchange Rate at `168:24`, `336:48`,
-  and `504:168`;
-- `ultra`: additional datasets and the shared `336:48`/`504:168` settings.
+- `full`: Electricity, Traffic, Solar, Exchange Rate, and every dataset in
+  `datasets/time/catalog.json`, each at its cadence-specific short, mid, and
+  long settings;
+- `ultra`: the full profile plus Weather and ETTh1.
 
 The list above describes the first three fronts. The foundation-model front
-uses Electricity `504:168` for `test`, the five-dataset/two-setting grid above
-for `full`, and adds ETTh1 plus `168:24` for `ultra`.
+uses Electricity `504:168` for `test`, the five primary datasets plus TIME at
+cadence-specific mid and long settings for `full`, and all three ranges plus
+ETTh1 for `ultra`. TIME tasks without at least `L+H` timestamps are omitted.
 
 Use whitespace-separated `DATASETS_OVERRIDE`, `SETTINGS_OVERRIDE`,
 `MODELS_OVERRIDE`, and `SEEDS_OVERRIDE` values to narrow a submission. The
+dataset and setting overrides replace automatic selection; an explicit dataset
+override therefore does not require a TIME catalog. Without an override,
+`full` and `ultra` require `datasets/time/catalog.json` and automatically
+include its eligible datasets. `DATA_ROOT`, when set, must be the datasets root
+that contains both ordinary dataset folders and `time/catalog.json`. The
 weekly lookback period can be overridden with `LOOKBACK_PERIOD_STEPS`. The
 controls front also accepts `INSTANCE_NORMS_OVERRIDE` and
 `REMOVE_CONSTANT_OVERRIDE`. The covariate front accepts
@@ -285,24 +301,24 @@ first candidate containing that requested resource is used, so an empty or
 partially populated project directory does not hide shared cluster resources.
 
 ```bash
-EXPERIMENT_MODE=test sbatch 01_univariate.slurm
-EXPERIMENT_MODE=full sbatch 01_univariate.slurm
-EXPERIMENT_MODE=full sbatch 02_controls.slurm
-EXPERIMENT_MODE=full sbatch 03_covariates.slurm
-EXPERIMENT_MODE=test sbatch 04_foundation_models.slurm
-EXPERIMENT_MODE=full sbatch 04_foundation_models.slurm
+EXPERIMENT_MODE=test sbatch slurm/dgx/main/01_univariate.slurm
+EXPERIMENT_MODE=full sbatch slurm/dgx/main/01_univariate.slurm
+EXPERIMENT_MODE=full sbatch slurm/dgx/main/02_controls.slurm
+EXPERIMENT_MODE=full sbatch slurm/dgx/main/03_covariates.slurm
+EXPERIMENT_MODE=test sbatch slurm/dgx/main/04_foundation_models.slurm
+EXPERIMENT_MODE=full sbatch slurm/dgx/main/04_foundation_models.slurm
 ```
 
 The equivalent Selena submissions replace the filename with its `_selena`
 variant, for example:
 
 ```bash
-EXPERIMENT_MODE=test sbatch 01_univariate_selena.slurm
-EXPERIMENT_MODE=full sbatch 01_univariate_selena.slurm
-EXPERIMENT_MODE=full sbatch 02_controls_selena.slurm
-EXPERIMENT_MODE=full sbatch 03_covariates_selena.slurm
-EXPERIMENT_MODE=test sbatch 04_foundation_models_selena.slurm
-EXPERIMENT_MODE=full sbatch 04_foundation_models_selena.slurm
+EXPERIMENT_MODE=test sbatch slurm/selena/main/01_univariate_selena.slurm
+EXPERIMENT_MODE=full sbatch slurm/selena/main/01_univariate_selena.slurm
+EXPERIMENT_MODE=full sbatch slurm/selena/main/02_controls_selena.slurm
+EXPERIMENT_MODE=full sbatch slurm/selena/main/03_covariates_selena.slurm
+EXPERIMENT_MODE=test sbatch slurm/selena/main/04_foundation_models_selena.slurm
+EXPERIMENT_MODE=full sbatch slurm/selena/main/04_foundation_models_selena.slurm
 ```
 
 ## Artifacts
@@ -363,11 +379,12 @@ horizon-error plots for every dataset and setting. `TABLE_METRIC` selects the
 metric for the marginal CSV/LaTeX tables, including total, amortized per-user,
 or amortized per-window inference time. `TABLE_REFERENCE_MODEL` defaults to
 `best_baseline` and may name a fixed model such as `repeat`. Marginal tables
-average complete configurations equally, once by dataset across settings and
-once by setting across datasets.
+average complete configurations equally: by dataset across cadence ranges, by
+cadence-independent short/mid/long range across datasets, and by literal `L:H`
+setting for auditability.
 
 The artifact-only notebook `src/visualization/tsfm_evaluation_analysis.ipynb` reads the
-reports and three lightweight metric CSVs. It can inspect every dataset,
+reports and lightweight metric CSVs. It can inspect every dataset,
 setting, model, metric, win rate, and plot locally or in Colab without loading
 a forecasting model.
 

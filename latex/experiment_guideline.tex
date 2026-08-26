@@ -14,7 +14,7 @@
 \newcommand{\code}[1]{\texttt{\detokenize{#1}}}
 \title{\textbf{Time-series Foundation Model Evaluation}\\Experiment Guideline}
 \author{Thesis project}
-\date{25 August 2026}
+\date{26 August 2026}
 \begin{document}
 \maketitle
 
@@ -100,7 +100,7 @@ excluded from inference timing. One run seed fixes every stochastic choice
 exposed by a model or sampler; deterministic evaluation ordering remains fixed.
 
 \section{Experiment families and grid}
-The root fronts are:
+The DGX fronts under \path{slurm/dgx/main/} are:
 \begin{enumerate}
 \item \code{01_univariate.slurm}: the four baselines and Chronos-2;
 \item \code{02_controls.slurm}: normalization and constant-window controls;
@@ -110,34 +110,54 @@ The root fronts are:
       TS-ICL, and TabPFN-TS with model-native preprocessing. TiRex-2 remains
       implemented but is excluded from the launcher until explicitly restored.
 \end{enumerate}
-\code{test} is Electricity at $504{:}168$, seed 1. \code{full} crosses
-Electricity, Traffic, Solar, and Exchange Rate with $168{:}24$, $336{:}48$,
-and $504{:}168$. \code{ultra} adds the documented extended datasets at the
-shared $336{:}48$ and $504{:}168$ settings. Supersets select from the same
-identity trees and reuse only signature-matched completed runs.
+\code{test} is Electricity at $504{:}168$, seed 1. Full profiles use three
+frequency-aware forecast ranges:
+\begin{center}
+\small
+\begin{tabular}{lccc}
+\toprule
+Cadence & Short & Mid & Long \\
+\midrule
+Hourly & $168{:}24$ & $336{:}48$ & $504{:}168$ \\
+Daily & $7{:}1$ & $14{:}2$ & $30{:}7$ \\
+15-minute & $96{:}4$ & $192{:}8$ & $672{:}96$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+The first three families apply all three ranges to Electricity, Traffic,
+Solar, Exchange Rate, and every feasible dataset discovered in
+\path{datasets/time/catalog.json}. TIME tasks shorter than $L+H$ are omitted.
+\code{ultra} additionally selects Weather and ETTh1. Supersets select from the
+same identity trees and reuse only signature-matched completed runs.
 
 The foundation-model family uses Electricity at $504{:}168$ for \code{test};
-its \code{full} profile crosses Electricity, Traffic, Solar, Weather, and
-Exchange Rate with $336{:}48$ and $504{:}168$. Its report fixes Chronos-2 as
-the default reference. \code{ultra} adds ETTh1 and $168{:}24$.
+its \code{full} profile applies the cadence-specific mid and long ranges to
+Electricity, Traffic, Solar, Weather, Exchange Rate, and feasible TIME
+datasets. Its report fixes Chronos-2 as the default reference. \code{ultra}
+uses all three ranges and adds ETTh1.
 
 \section{Execution}
 \begin{verbatim}
-EXPERIMENT_MODE=test sbatch 01_univariate.slurm
-EXPERIMENT_MODE=full sbatch 01_univariate.slurm
-EXPERIMENT_MODE=full sbatch 02_controls.slurm
-EXPERIMENT_MODE=full sbatch 03_covariates.slurm
-EXPERIMENT_MODE=test sbatch 04_foundation_models.slurm
-EXPERIMENT_MODE=full sbatch 04_foundation_models.slurm
+EXPERIMENT_MODE=test sbatch slurm/dgx/main/01_univariate.slurm
+EXPERIMENT_MODE=full sbatch slurm/dgx/main/01_univariate.slurm
+EXPERIMENT_MODE=full sbatch slurm/dgx/main/02_controls.slurm
+EXPERIMENT_MODE=full sbatch slurm/dgx/main/03_covariates.slurm
+EXPERIMENT_MODE=test sbatch slurm/dgx/main/04_foundation_models.slurm
+EXPERIMENT_MODE=full sbatch slurm/dgx/main/04_foundation_models.slurm
 \end{verbatim}
-Each command has a matching \code{_selena.slurm} overflow front. It executes
+Each command has a matching \code{_selena.slurm} overflow front under
+\path{slurm/selena/main/}. It executes
 the same scientific implementation on Selena but writes Slurm streams under
 \path{logs_selena/} and all manifests, results, and reports under
 \path{outputs_selena/}. DGX fronts retain \path{logs/} and \path{outputs/}.
+Selena uses partition \code{an} with QoS \code{an_preemptable}.
 The default workflow is \code{STAGES=evaluate,report}; stage selection is a
 recovery override. Dataset, setting, model, seed, normalization, constant
 handling, covariates, and time-feature controls can be narrowed with the
 documented environment overrides. Foundation-model inference is remote only.
+Explicit dataset and setting overrides replace automatic selection. Without a
+dataset override, full and ultra profiles require the TIME catalog; an explicit
+\code{DATA_ROOT} names the datasets root containing \path{time/catalog.json}.
 \code{LOOKBACK_PERIOD_STEPS} overrides weekly cadence inference for the
 lookback baseline, and \code{MASE_SEASONALITY} sets the MASE denominator lag.
 
@@ -174,8 +194,10 @@ become separate datasets, while irregular, short, or non-finite series are
 recorded as skips. Each accepted panel is written below
 \path{datasets/time/<dataset>/} with a directly loadable wide CSV and
 \path{config.json}. \path{datasets/time/catalog.json} records source revision,
-counts, skips, and eligible query/window totals for the requested settings and
-stride. The current revision inventory retains five hourly and seven daily
+counts, skips, and eligible query/window totals. By default, each source uses
+only the hourly, daily, or 15-minute short/mid/long ranges in the table above;
+an explicit settings option applies a common custom grid. The current revision
+inventory retains five hourly and seven daily
 source configurations under the default limits; no 15-minute source qualifies.
 
 The four independent family roots live below \path{outputs/} on DGX and below
@@ -230,13 +252,15 @@ automatic or pinned exact repeats.
 
 Reports compare complete configurations without mixing incompatible pipeline
 settings. They write the selected raw results, model-versus-reference
-configuration table, equal-configuration marginal tables by dataset and by
-setting, Chronos-2 strict paired-window win rates against the best aggregate
+configuration table, equal-configuration marginal tables by dataset, by
+cadence-independent short/mid/long range, and by literal setting, Chronos-2
+strict paired-window win rates against the best aggregate
 baseline, and a report manifest. The selected table metric may be any error
 metric or total/per-user/per-window inference time. When window artifacts are
 enabled, reports also export per-user mean-versus-dispersion scatters, window
 error histograms, and horizon-error curves as PNG and PDF with a plot index.
 
+\vspace{0.5\baselineskip}
 \section{Validation}
 The shared scientific runtime may run dataset, metric, model-adapter,
 repeat/report, manifest, and Slurm workflow checks. Local checks may use fake

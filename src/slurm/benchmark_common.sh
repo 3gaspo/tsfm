@@ -114,32 +114,81 @@ tsfm_on_exit() {
     exit "$status"
 }
 
+find_time_catalog() {
+    local roots=()
+    local root
+    if [ -n "$DATA_ROOT_EXPLICIT" ]; then
+        roots=("$DATA_ROOT")
+    else
+        mapfile -t roots < <(resource_candidates datasets)
+    fi
+    for root in "${roots[@]}"; do
+        if [ -f "$root/time/catalog.json" ]; then
+            printf '%s/%s\n' "$(cd "$root/time" && pwd)" "catalog.json"
+            return 0
+        fi
+    done
+    return 1
+}
+
+append_unique() {
+    local value="$1"
+    shift
+    local item
+    for item in "$@"; do
+        if [ "$item" = "$value" ]; then return; fi
+    done
+    PROFILE_UNIQUE+=("$value")
+}
+
 set_profile_axes() {
-    case "${EXPERIMENT_MODE:-test}" in
-        test)
-            DATASETS=(electricity)
-            SETTINGS=(504:168)
-            SEEDS=(1)
-            ;;
-        full)
-            DATASETS=(electricity traffic solar exchange_rate)
-            SETTINGS=(168:24 336:48 504:168)
-            SEEDS=(1)
-            ;;
-        ultra)
-            DATASETS=(electricity traffic solar exchange_rate weather ETTh1)
-            SETTINGS=(24:24 168:24 336:48 504:168 672:168 1344:336)
-            SEEDS=(1)
-            ;;
-        *)
-            log "unknown EXPERIMENT_MODE=${EXPERIMENT_MODE:-}"
-            return 2
-            ;;
-    esac
-    if [ -n "${DATASETS_OVERRIDE:-}" ]; then read -r -a DATASETS <<< "$DATASETS_OVERRIDE"; fi
-    if [ -n "${SETTINGS_OVERRIDE:-}" ]; then read -r -a SETTINGS <<< "$SETTINGS_OVERRIDE"; fi
+    local profile="${1:-standard}"
+    local catalog=""
+    local task_output
+    local dataset setting period
+    local -a command=(
+        uv run python -m pipeline.profiles
+        --profile "$profile"
+        --mode "${EXPERIMENT_MODE:-test}"
+    )
+    catalog="$(find_time_catalog || true)"
+    if [ -n "$catalog" ]; then command+=(--catalog "$catalog"); fi
+    if [ -n "${DATASETS_OVERRIDE:-}" ]; then
+        command+=(--datasets-override "$DATASETS_OVERRIDE")
+    fi
+    if [ -n "${SETTINGS_OVERRIDE:-}" ]; then
+        command+=(--settings-override "$SETTINGS_OVERRIDE")
+    fi
+    task_output="$("${command[@]}")"
+    TASK_DATASETS=()
+    TASK_SETTINGS=()
+    TASK_PERIODS=()
+    while IFS=$'\t' read -r dataset setting period; do
+        [ -n "$dataset" ] || continue
+        TASK_DATASETS+=("$dataset")
+        TASK_SETTINGS+=("$setting")
+        TASK_PERIODS+=("$period")
+    done <<< "$task_output"
+    [ "${#TASK_DATASETS[@]}" -gt 0 ] || {
+        log "profile produced no tasks"
+        return 2
+    }
+    DATASETS=()
+    SETTINGS=()
+    PROFILE_UNIQUE=()
+    for dataset in "${TASK_DATASETS[@]}"; do
+        append_unique "$dataset" "${PROFILE_UNIQUE[@]}"
+    done
+    DATASETS=("${PROFILE_UNIQUE[@]}")
+    PROFILE_UNIQUE=()
+    for setting in "${TASK_SETTINGS[@]}"; do
+        append_unique "$setting" "${PROFILE_UNIQUE[@]}"
+    done
+    SETTINGS=("${PROFILE_UNIQUE[@]}")
+    unset PROFILE_UNIQUE
+    SEEDS=(1)
     if [ -n "${SEEDS_OVERRIDE:-}" ]; then read -r -a SEEDS <<< "$SEEDS_OVERRIDE"; fi
-    log "profile mode=${EXPERIMENT_MODE:-test} datasets=${DATASETS[*]} settings=${SETTINGS[*]} seeds=${SEEDS[*]}"
+    log "profile mode=${EXPERIMENT_MODE:-test} datasets=${DATASETS[*]} settings=${SETTINGS[*]} tasks=${#TASK_DATASETS[@]} seeds=${SEEDS[*]}"
 }
 
 model_weight_argument() {
@@ -174,10 +223,11 @@ model_weight_argument() {
 model_valid_for_setting() {
     local model="$1"
     local setting="$2"
+    local cadence_period="$3"
     local lags="${setting%%:*}"
     local horizon="${setting##*:}"
     if [ "$model" = lookback ]; then
-        local period="${LOOKBACK_PERIOD_STEPS:-168}"
+        local period="${LOOKBACK_PERIOD_STEPS:-$cadence_period}"
         local periods_back=$(((horizon + period - 1) / period))
         [ $((periods_back * period)) -le "$lags" ]
         return
@@ -274,6 +324,10 @@ build_report() {
         --metric "${TABLE_METRIC:-nmse}"
         --reference-model "${TABLE_REFERENCE_MODEL:-best_baseline}"
     )
+    local task_index
+    for task_index in "${!TASK_DATASETS[@]}"; do
+        report_args+=(--task "${TASK_DATASETS[$task_index]}=${TASK_SETTINGS[$task_index]}")
+    done
     if [ "${TABLE_PLOTS:-true}" = false ]; then report_args+=(--no-plots); fi
     if [ -n "${TABLE_PIPELINE_CONFIGS:-}" ]; then
         local item

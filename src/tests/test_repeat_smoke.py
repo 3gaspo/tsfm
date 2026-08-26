@@ -101,9 +101,25 @@ def test_repeat_end_to_end() -> None:
         assert (root / "report" / "report_manifest.json").exists()
         assert (root / "report" / "nmse_average_by_dataset.csv").exists()
         assert (root / "report" / "nmse_average_by_setting.csv").exists()
+        assert (root / "report" / "nmse_average_by_range.csv").exists()
         assert (root / "report" / "nmse_average_table.tex").exists()
         assert (root / "report" / "plot_index.csv").exists()
         assert build_report(root / "runs", root / "report") == report
+        assert build_report(
+            root / "runs",
+            root / "task_report",
+            tasks={("toy", "4:2")},
+        ).exists()
+        try:
+            build_report(
+                root / "runs",
+                root / "stale_task_report",
+                tasks={("toy", "168:24")},
+            )
+        except FileNotFoundError:
+            pass
+        else:
+            raise AssertionError("exact task filtering admitted a stale setting")
         timing_report = build_report(
             root / "runs",
             root / "timing_report",
