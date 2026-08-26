@@ -13,3 +13,6 @@
 2026-08-26 13:04:30 | configuration dataset=electricity L=504 H=168 model=tabpfn_ts covariates=none instance_norm=false remove_constant=false time_features=true seed=1 batch_size=1
 [2026-08-26 13:04:32,903][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/electricity/config.json applied_keys=['date_col', 'drop_users']
 [2026-08-26 13:04:33,061][evaluation.evaluator][INFO] - evaluate dataset=electricity users=303 dates=26304 windows=15453 removed_constant=0 L=504 H=168 stride=512
+[2026-08-26 14:20:11,936][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/foundation_models/electricity/504_168/tabpfn_ts/none/raw/keep/enabled/run_0 mse=6.52729e+06 nmse=0.291579 inference_seconds=4524.046
+2026-08-26 14:20:13 | report family=foundation_models
+/fssmall/home/h61084/codes/tsfm/outputs_selena/reports/foundation_models/test/results.csv

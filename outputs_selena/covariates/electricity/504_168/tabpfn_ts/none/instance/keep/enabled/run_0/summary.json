@@ -1,0 +1,97 @@
+{
+  "covariate_mode": "none",
+  "data": {
+    "applied_config_keys": [
+      "date_col",
+      "drop_users"
+    ],
+    "config_path": "/fssmall/home/h61084/codes/datasets/electricity/config.json",
+    "covariate_mode": "none",
+    "effective_options": {
+      "aggr": null,
+      "date_col": "date",
+      "drop_users": [
+        6,
+        57,
+        106,
+        113,
+        127,
+        143,
+        182,
+        245,
+        298
+      ]
+    },
+    "external_covariates": [],
+    "source": "/fssmall/home/h61084/codes/datasets/electricity",
+    "source_files": {
+      "dataset_metadata.json": {
+        "mtime_ns": 1787699099000000000,
+        "size": 5447
+      },
+      "datetimes.pt": {
+        "mtime_ns": 1787699099000000000,
+        "size": 736936
+      },
+      "individual_ids.pt": {
+        "mtime_ns": 1787699099000000000,
+        "size": 3711
+      },
+      "values.pt": {
+        "mtime_ns": 1787699099000000000,
+        "size": 32828503
+      }
+    }
+  },
+  "dataset": "electricity",
+  "horizon": 168,
+  "inference": {
+    "batch_size": 1,
+    "device": "cuda",
+    "model_load_seconds": 1.839759930036962,
+    "seconds": 4537.644778835005,
+    "seconds_per_series_window": 0.2936416733860742,
+    "seconds_per_user": 14.975725342689787
+  },
+  "instance_normalize": true,
+  "lags": 504,
+  "lookback_period": null,
+  "mase_seasonality": 1,
+  "metrics": {
+    "mae": 236.47181255963207,
+    "mase": 1.0010186941965298,
+    "mse": 6524904.877109338,
+    "nmae": 0.3063711790149384,
+    "nmse": 0.29156254997207015,
+    "sample_std_mae": 1834.4013093711646,
+    "sample_std_mase": 0.9864940909395536,
+    "sample_std_mse": 206515809.62659436,
+    "sample_std_nmae": 0.26617443492258974,
+    "sample_std_nmse": 2.327571164527188,
+    "user_mean_mae": 236.47181255963213,
+    "user_mean_mase": 1.0010186941965298,
+    "user_mean_mse": 6524904.877109337,
+    "user_mean_nmae": 0.3063711790149384,
+    "user_mean_nmse": 0.2915625499720701,
+    "user_std_mae": 1443.0216641980667,
+    "user_std_mase": 0.48616881119382055,
+    "user_std_mse": 104087736.2716709,
+    "user_std_nmae": 0.13250968342937758,
+    "user_std_nmse": 0.5055177160087723,
+    "w10_mae": 1700.332532270433,
+    "w10_mase": 2.0822273159846145,
+    "w10_mse": 63578476.05079247,
+    "w10_nmae": 0.6022031932131428,
+    "w10_nmse": 1.263203598312855
+  },
+  "model": "tabpfn_ts",
+  "query_dates": 51,
+  "remove_constant": false,
+  "removed_constant_windows": 0,
+  "run_dir": "/fssmall/home/h61084/codes/tsfm/outputs_selena/covariates/electricity/504_168/tabpfn_ts/none/instance/keep/enabled/run_0",
+  "seed": 1,
+  "series_windows": 15453,
+  "stride": 512,
+  "use_time_features": true,
+  "users": 303
+}
