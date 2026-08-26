@@ -1,0 +1,216 @@
+{
+  "created_at_utc": "2026-08-26T10:26:25.640322+00:00",
+  "launch_id": "selena_2897225",
+  "obtained": {
+    "count": 5,
+    "inputs": [
+      {
+        "label": "chronos2",
+        "manifest_id": "f983a321-8982-4892-bb46-f64b032c4715",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/electricity/504_168/chronos2/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "smoke"
+        ]
+      },
+      {
+        "label": "expected",
+        "manifest_id": "e2b10af5-afac-41ae-8966-dbc3ec380619",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/electricity/504_168/expected/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "smoke"
+        ]
+      },
+      {
+        "label": "lookback",
+        "manifest_id": "cfd42a1f-3c85-46af-8a85-5ccc66adf14c",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/electricity/504_168/lookback/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": 168,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "10c17ff0496b9645563990228b60bc43703edb45765b4f577ddc8d16f7a948dc",
+        "purposes": [
+          "smoke"
+        ]
+      },
+      {
+        "label": "persistence",
+        "manifest_id": "32f78620-1a52-44dd-a94e-2373f71f6fc8",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/electricity/504_168/persistence/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "smoke"
+        ]
+      },
+      {
+        "label": "repeat",
+        "manifest_id": "4b785775-3af5-467c-9667-fced1993bc87",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/electricity/504_168/repeat/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "smoke"
+        ]
+      }
+    ]
+  },
+  "requested": {
+    "config_policy": "distinct",
+    "filters": {
+      "datasets": [
+        "electricity"
+      ],
+      "make_plots": true,
+      "metric": "nmse",
+      "models": [
+        "chronos2",
+        "expected",
+        "lookback",
+        "persistence",
+        "repeat"
+      ],
+      "pipeline": {},
+      "purposes": [
+        "smoke"
+      ],
+      "reference_model": "best_baseline",
+      "settings": [
+        "504:168"
+      ]
+    },
+    "repeat_policy": "selected"
+  },
+  "schema_version": 1
+}

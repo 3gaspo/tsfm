@@ -1,0 +1,16 @@
+Error executing job with overrides: ['data.path=/home/h61084/codes/tsfm/datasets/time/cphl_h_part01', 'data.name=cphl_h_part01', 'data.covariate_mode=none', 'task.lags=504', 'task.horizon=168', 'model.name=chronos2', 'model.device=cuda', 'model.use_time_features=true', 'preprocessing.instance_normalize=false', 'evaluation.stride=1000000', 'evaluation.batch_size=64', 'evaluation.remove_constant=false', 'evaluation.start_fraction=0.0', 'evaluation.end_fraction=1.0', 'evaluation.seed=1', 'evaluation.mase_seasonality=1', 'output.dir=/home/h61084/codes/tsfm/outputs/foundation_models', 'output.workflow=foundation_models', 'output.mode=test', 'output.purpose=smoke', 'output.conflict_policy=overwrite_exact', 'output.force=false', 'output.skip_completed=true', 'output.launch_id=45673']
+Traceback (most recent call last):
+  File "/home/h61084/codes/tsfm/src/scripts/evaluate.py", line 18, in main
+    evaluate(plain)
+  File "/home/h61084/codes/tsfm/src/evaluation/evaluator.py", line 334, in evaluate
+    model = build_forecaster(
+            ^^^^^^^^^^^^^^^^^
+  File "/home/h61084/codes/tsfm/src/model_loading/forecast.py", line 93, in build_forecaster
+    base = Chronos2(
+           ^^^^^^^^^
+  File "/home/h61084/codes/tsfm/src/external_models/chronos2.py", line 67, in __init__
+    raise FileNotFoundError(
+FileNotFoundError: Chronos-2 weights were not found; set model.weights_path or place them in weights/chronos2.
+
+Set the environment variable HYDRA_FULL_ERROR=1 for a complete stack trace.
+srun: error: dgx-h100: task 0: Exited with exit code 1
