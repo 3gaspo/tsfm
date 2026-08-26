@@ -1,0 +1,13 @@
+2026-08-26 13:19:50 | resources data_root=auto weights_root=auto output_root=/fssmall/home/h61084/codes/tsfm/outputs_selena/covariates
+2026-08-26 13:19:50 | profile mode=test datasets=electricity settings=504:168 seeds=1
+2026-08-26 13:19:50 | configuration dataset=electricity L=504 H=168 model=chronos2 covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=64
+[2026-08-26 13:19:58,394][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/electricity/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-26 13:19:58,676][evaluation.evaluator][INFO] - evaluate dataset=electricity users=303 dates=26304 windows=15453 removed_constant=0 L=504 H=168 stride=512
+[2026-08-26 13:20:18,024][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/covariates/electricity/504_168/chronos2/none/instance/keep/enabled/run_0 mse=6.37655e+06 nmse=0.249031 inference_seconds=7.143
+2026-08-26 13:20:19 | configuration dataset=electricity L=504 H=168 model=chronos2 covariates=identity instance_norm=true remove_constant=false time_features=true seed=1 batch_size=64
+[2026-08-26 13:20:21,715][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/electricity/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-26 13:20:21,878][evaluation.evaluator][INFO] - evaluate dataset=electricity users=303 dates=26304 windows=15453 removed_constant=0 L=504 H=168 stride=512
+[2026-08-26 13:20:40,306][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/covariates/electricity/504_168/chronos2/identity/instance/keep/enabled/run_0 mse=386498 nmse=0.0108794 inference_seconds=12.025
+2026-08-26 13:20:41 | configuration dataset=electricity L=504 H=168 model=tabpfn_ts covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=1
+[2026-08-26 13:20:43,750][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/electricity/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-26 13:20:43,909][evaluation.evaluator][INFO] - evaluate dataset=electricity users=303 dates=26304 windows=15453 removed_constant=0 L=504 H=168 stride=512

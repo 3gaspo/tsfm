@@ -154,6 +154,7 @@
   "manifest_id": "32f78620-1a52-44dd-a94e-2373f71f6fc8",
   "project": "tsfm_evaluation",
   "purposes": [
+    "publication",
     "smoke"
   ],
   "run_index": 0,

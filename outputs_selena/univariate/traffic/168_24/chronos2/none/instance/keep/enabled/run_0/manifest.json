@@ -1,0 +1,192 @@
+{
+  "artifacts": {
+    "files": [
+      {
+        "path": "summary.json",
+        "size": 2610
+      },
+      {
+        "path": "per_user_metrics.csv",
+        "size": 183506
+      },
+      {
+        "path": "horizon_metrics.csv",
+        "size": 4925
+      },
+      {
+        "path": "resolved_config.json",
+        "size": 1713
+      },
+      {
+        "path": "window_metrics.csv",
+        "size": 4158153
+      }
+    ],
+    "required": [
+      "summary.json",
+      "per_user_metrics.csv",
+      "horizon_metrics.csv",
+      "resolved_config.json",
+      "window_metrics.csv"
+    ]
+  },
+  "config": {
+    "experiment": {},
+    "model": {
+      "constant_policy": "keep",
+      "covariate_mode": "none",
+      "normalization": "instance",
+      "time_features": "enabled"
+    },
+    "pipeline": {
+      "data.aggr": null,
+      "data.aggr_period": null,
+      "data.covariate_cols": null,
+      "data.covariate_paths": null,
+      "data.date_col": null,
+      "data.drop_users": [],
+      "data.target_cols": null,
+      "evaluation.end_fraction": 1.0,
+      "evaluation.mase_seasonality": 1,
+      "evaluation.save_window_metrics": true,
+      "evaluation.start_fraction": 0.0,
+      "evaluation.stride": 512,
+      "model.cross_learning": false,
+      "model.kwargs": {
+        "random_state": 1
+      },
+      "model.local_files_only": true,
+      "model.lookback_period": null,
+      "model.quantile_index": null,
+      "model.quantile_level": 0.5,
+      "model.seasonal_periods": [
+        24,
+        168
+      ],
+      "preprocessing.eps": 1e-08
+    },
+    "runtime": {
+      "evaluation.batch_size": 64,
+      "model.device": "cuda"
+    }
+  },
+  "identity": {
+    "backbone": "chronos2",
+    "dataset": "traffic",
+    "horizon": 24,
+    "lookback": 168,
+    "model_config": {
+      "constant_policy": "keep",
+      "covariate_mode": "none",
+      "normalization": "instance",
+      "time_features": "enabled"
+    },
+    "model_config_order": [
+      "covariate_mode",
+      "normalization",
+      "constant_policy",
+      "time_features"
+    ]
+  },
+  "inputs": {
+    "dataset": {
+      "applied_config_keys": [
+        "date_col",
+        "drop_users"
+      ],
+      "config_path": "/fssmall/home/h61084/codes/datasets/traffic/config.json",
+      "covariate_mode": "none",
+      "effective_options": {
+        "aggr": null,
+        "date_col": "date",
+        "drop_users": [
+          181,
+          743
+        ]
+      },
+      "external_covariates": [],
+      "source": "/fssmall/home/h61084/codes/datasets/traffic",
+      "source_files": {
+        "dataset_metadata.json": {
+          "mtime_ns": 1787699106000000000,
+          "size": 15305
+        },
+        "datetimes.pt": {
+          "mtime_ns": 1787699106000000000,
+          "size": 491624
+        },
+        "individual_ids.pt": {
+          "mtime_ns": 1787699106000000000,
+          "size": 8063
+        },
+        "values.pt": {
+          "mtime_ns": 1787699106000000000,
+          "size": 60352471
+        }
+      }
+    },
+    "weights": "/fssmall/home/h61084/codes/weights/chronos2"
+  },
+  "launch": {
+    "attempts": [
+      {
+        "launch_id": "selena_2897846",
+        "launched_at_utc": "2026-08-26T11:00:16.439931+00:00",
+        "mode": "full",
+        "purpose": "publication",
+        "slurm_array_task_id": null,
+        "slurm_job_id": "2897846"
+      }
+    ],
+    "finished_at_utc": "2026-08-26T11:00:32.706574+00:00",
+    "launch_id": "selena_2897846",
+    "launched_at_utc": "2026-08-26T11:00:16.439931+00:00",
+    "mode": "full",
+    "ready_at_utc": "2026-08-26T11:00:31.803311+00:00",
+    "started_at_utc": "2026-08-26T11:00:16.443460+00:00"
+  },
+  "manifest_id": "7bc391da-767a-4731-ac06-0c5c2fa76d79",
+  "project": "tsfm_evaluation",
+  "purposes": [
+    "publication"
+  ],
+  "run_index": 0,
+  "schema_version": 1,
+  "seed_status": {
+    "1": {
+      "artifacts": [
+        "summary.json",
+        "per_user_metrics.csv",
+        "horizon_metrics.csv",
+        "resolved_config.json",
+        "window_metrics.csv"
+      ],
+      "status": "completed"
+    }
+  },
+  "seeds": [
+    1
+  ],
+  "signatures": {
+    "computation": "ce40fb446bc84bdf6f330ff2bc7ebb64fcf2b217086207956c6743d6fc218f73",
+    "path": "a3965458e1b5523a5d82dc3f071c77633d256152755bd6f20608b1f7fd60d963",
+    "pipeline": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0"
+  },
+  "status": "completed",
+  "table": {
+    "column_config": [
+      "normalization",
+      "constant_policy",
+      "time_features"
+    ],
+    "display_name": "chronos2",
+    "row_config": [
+      "covariate_mode"
+    ]
+  },
+  "workflow": {
+    "path": [
+      "univariate"
+    ]
+  }
+}

@@ -1,0 +1,2206 @@
+{
+  "created_at_utc": "2026-08-26T11:24:14.777465+00:00",
+  "launch_id": "selena_2898432",
+  "obtained": {
+    "count": 60,
+    "inputs": [
+      {
+        "label": "chronos2",
+        "manifest_id": "a4d64e77-407e-450e-b377-173314ad26be",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/electricity/168_24/chronos2/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "expected",
+        "manifest_id": "c8a849f1-173e-42de-bd2f-bf54d191f534",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/electricity/168_24/expected/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "lookback",
+        "manifest_id": "20881431-db94-4020-87ea-7a19e7fa8597",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/electricity/168_24/lookback/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": 168,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "10c17ff0496b9645563990228b60bc43703edb45765b4f577ddc8d16f7a948dc",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "persistence",
+        "manifest_id": "10613397-9664-4147-8fc0-0a948ce736c2",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/electricity/168_24/persistence/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "repeat",
+        "manifest_id": "23178d48-81c7-4a24-b052-301cb83acd81",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/electricity/168_24/repeat/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "chronos2",
+        "manifest_id": "173cc15b-68a7-4afa-8cf7-feb809ad6ff6",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/electricity/336_48/chronos2/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "expected",
+        "manifest_id": "d953d495-7b87-4196-8dcb-0278399c8e0b",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/electricity/336_48/expected/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "lookback",
+        "manifest_id": "aed2460e-2f00-4282-b7b4-c55bb0fcbc70",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/electricity/336_48/lookback/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": 168,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "10c17ff0496b9645563990228b60bc43703edb45765b4f577ddc8d16f7a948dc",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "persistence",
+        "manifest_id": "d4e06ccc-a9f1-489e-b37f-a79dc210a5f0",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/electricity/336_48/persistence/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "repeat",
+        "manifest_id": "86ce29f0-6efc-43f3-8c9f-bd9e22a13d8b",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/electricity/336_48/repeat/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "chronos2",
+        "manifest_id": "f983a321-8982-4892-bb46-f64b032c4715",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/electricity/504_168/chronos2/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "publication",
+          "smoke"
+        ]
+      },
+      {
+        "label": "expected",
+        "manifest_id": "e2b10af5-afac-41ae-8966-dbc3ec380619",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/electricity/504_168/expected/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "publication",
+          "smoke"
+        ]
+      },
+      {
+        "label": "lookback",
+        "manifest_id": "cfd42a1f-3c85-46af-8a85-5ccc66adf14c",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/electricity/504_168/lookback/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": 168,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "10c17ff0496b9645563990228b60bc43703edb45765b4f577ddc8d16f7a948dc",
+        "purposes": [
+          "publication",
+          "smoke"
+        ]
+      },
+      {
+        "label": "persistence",
+        "manifest_id": "32f78620-1a52-44dd-a94e-2373f71f6fc8",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/electricity/504_168/persistence/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "publication",
+          "smoke"
+        ]
+      },
+      {
+        "label": "repeat",
+        "manifest_id": "4b785775-3af5-467c-9667-fced1993bc87",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/electricity/504_168/repeat/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "publication",
+          "smoke"
+        ]
+      },
+      {
+        "label": "chronos2",
+        "manifest_id": "9e6af3a4-d76e-4ab0-9760-b65ee344bc49",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/exchange_rate/168_24/chronos2/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "expected",
+        "manifest_id": "ec8b59b4-e5e0-41e1-96ae-c2b6bb025f57",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/exchange_rate/168_24/expected/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "lookback",
+        "manifest_id": "55df6c66-28c9-47af-8a92-27d97991f8ac",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/exchange_rate/168_24/lookback/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": 7,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "74efb91ec04f6d6d2710cdf8f602656f1191358aa06f2f817359003634df825b",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "persistence",
+        "manifest_id": "3b1c52ca-9c33-45ec-82d3-50ff547f5efb",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/exchange_rate/168_24/persistence/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "repeat",
+        "manifest_id": "e1005175-ee66-45be-adcf-76c478ff4b13",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/exchange_rate/168_24/repeat/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "chronos2",
+        "manifest_id": "4a13b792-ca5e-44b4-a1b6-c603e0223223",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/exchange_rate/336_48/chronos2/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "expected",
+        "manifest_id": "bb3fe1ac-685b-4b8c-b0ba-4a464e679ec6",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/exchange_rate/336_48/expected/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "lookback",
+        "manifest_id": "91764a82-e9da-4685-a890-969215748792",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/exchange_rate/336_48/lookback/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": 7,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "74efb91ec04f6d6d2710cdf8f602656f1191358aa06f2f817359003634df825b",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "persistence",
+        "manifest_id": "4e6ea04b-7599-4300-8e1a-030d471544e8",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/exchange_rate/336_48/persistence/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "repeat",
+        "manifest_id": "f944e35c-674d-4237-bab9-724ce801d6b2",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/exchange_rate/336_48/repeat/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "chronos2",
+        "manifest_id": "7864bd25-92e7-4a5d-8a17-a2d3594447f9",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/exchange_rate/504_168/chronos2/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "expected",
+        "manifest_id": "849a2deb-80fb-4f43-8738-35c61e38ce91",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/exchange_rate/504_168/expected/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "lookback",
+        "manifest_id": "ec599cba-fc76-4c1d-bb44-79b37abfe02d",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/exchange_rate/504_168/lookback/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": 7,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "74efb91ec04f6d6d2710cdf8f602656f1191358aa06f2f817359003634df825b",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "persistence",
+        "manifest_id": "4a5822c4-2614-4465-bd35-44dc47b5ffe2",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/exchange_rate/504_168/persistence/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "repeat",
+        "manifest_id": "dcbffc7c-1a9a-43b0-a752-83e5122e048c",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/exchange_rate/504_168/repeat/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "chronos2",
+        "manifest_id": "60ffe07a-02e9-4e78-85b4-3fd83945858f",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/solar/168_24/chronos2/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "expected",
+        "manifest_id": "0514ac94-69ec-4941-baef-d5f060ee88b5",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/solar/168_24/expected/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "lookback",
+        "manifest_id": "d18dbcc9-9f18-4fe6-90ed-998a60945f31",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/solar/168_24/lookback/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": 168,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "10c17ff0496b9645563990228b60bc43703edb45765b4f577ddc8d16f7a948dc",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "persistence",
+        "manifest_id": "edc2f546-3cb0-487f-b452-26a751a9a53f",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/solar/168_24/persistence/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "repeat",
+        "manifest_id": "6f8644fb-c7e6-4b12-a6f4-ed180396d97e",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/solar/168_24/repeat/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "chronos2",
+        "manifest_id": "56eef718-fbfa-4f50-8231-3e6f63803732",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/solar/336_48/chronos2/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "expected",
+        "manifest_id": "194d615d-9d3b-488b-9cb4-01fbdbe0a858",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/solar/336_48/expected/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "lookback",
+        "manifest_id": "e500f50a-4af7-47ff-802a-22ed91f06681",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/solar/336_48/lookback/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": 168,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "10c17ff0496b9645563990228b60bc43703edb45765b4f577ddc8d16f7a948dc",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "persistence",
+        "manifest_id": "51fb165b-25e6-4562-9791-fd827e4f9a1d",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/solar/336_48/persistence/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "repeat",
+        "manifest_id": "37d4b71b-6710-4f87-98bc-5fea7a11963f",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/solar/336_48/repeat/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "chronos2",
+        "manifest_id": "bc8bb70e-5d2f-446b-8d3d-b8b1c9d4f414",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/solar/504_168/chronos2/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "expected",
+        "manifest_id": "7c5589c0-ab5e-4405-9fd1-651dff42268c",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/solar/504_168/expected/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "lookback",
+        "manifest_id": "ada63536-e3bb-49e5-968d-544039f088bb",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/solar/504_168/lookback/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": 168,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "10c17ff0496b9645563990228b60bc43703edb45765b4f577ddc8d16f7a948dc",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "persistence",
+        "manifest_id": "3bcfd996-7d6d-4538-ad0b-1e425bbb7679",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/solar/504_168/persistence/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "repeat",
+        "manifest_id": "6c5ef588-28fd-48e5-bd70-854a372db3d0",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/solar/504_168/repeat/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "chronos2",
+        "manifest_id": "7bc391da-767a-4731-ac06-0c5c2fa76d79",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/traffic/168_24/chronos2/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "expected",
+        "manifest_id": "8d2458d1-d3fd-480e-b14e-123050dc86f6",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/traffic/168_24/expected/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "lookback",
+        "manifest_id": "1d524fad-b5da-4208-b91c-3f94fd720ae6",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/traffic/168_24/lookback/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": 168,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "10c17ff0496b9645563990228b60bc43703edb45765b4f577ddc8d16f7a948dc",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "persistence",
+        "manifest_id": "254b25cc-1cf3-4df0-922c-96ddf83dac89",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/traffic/168_24/persistence/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "repeat",
+        "manifest_id": "1a1fb2da-66d2-4c2c-9d5e-2706019562dd",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/traffic/168_24/repeat/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "chronos2",
+        "manifest_id": "b8ffba56-95fe-40dc-a659-7c70c5aa8d86",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/traffic/336_48/chronos2/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "expected",
+        "manifest_id": "9afe598e-3f41-4356-b7b6-dadb5882c01b",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/traffic/336_48/expected/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "lookback",
+        "manifest_id": "9d35245a-2326-4c57-859b-f681bc51e935",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/traffic/336_48/lookback/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": 168,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "10c17ff0496b9645563990228b60bc43703edb45765b4f577ddc8d16f7a948dc",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "persistence",
+        "manifest_id": "fdbb8cf6-3a66-424d-b8fb-17b555ab0ccc",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/traffic/336_48/persistence/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "repeat",
+        "manifest_id": "16358442-55a6-4aff-a8ad-d676d0f9898c",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/traffic/336_48/repeat/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "chronos2",
+        "manifest_id": "c0cb3ef7-7cd1-4a0d-a56a-d4b1f9069d6b",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/traffic/504_168/chronos2/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "expected",
+        "manifest_id": "d09658e5-41ad-4107-8ff7-5b6cb48f57f0",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/traffic/504_168/expected/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "lookback",
+        "manifest_id": "999b566c-57c9-4082-8b16-ae5bc9a90834",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/traffic/504_168/lookback/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": 168,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "10c17ff0496b9645563990228b60bc43703edb45765b4f577ddc8d16f7a948dc",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "persistence",
+        "manifest_id": "015faf1e-e986-49ff-baa6-ae40d4424155",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/traffic/504_168/persistence/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "publication"
+        ]
+      },
+      {
+        "label": "repeat",
+        "manifest_id": "4c96eedf-daec-49f8-abf0-c6dbe404e341",
+        "path": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/traffic/504_168/repeat/none/instance/keep/enabled/run_0/manifest.json",
+        "pipeline_config": {
+          "data.aggr": null,
+          "data.aggr_period": null,
+          "data.covariate_cols": null,
+          "data.covariate_paths": null,
+          "data.date_col": null,
+          "data.drop_users": [],
+          "data.target_cols": null,
+          "evaluation.end_fraction": 1.0,
+          "evaluation.mase_seasonality": 1,
+          "evaluation.save_window_metrics": true,
+          "evaluation.start_fraction": 0.0,
+          "evaluation.stride": 512,
+          "model.cross_learning": false,
+          "model.kwargs": {
+            "random_state": 1
+          },
+          "model.local_files_only": true,
+          "model.lookback_period": null,
+          "model.quantile_index": null,
+          "model.quantile_level": 0.5,
+          "model.seasonal_periods": [
+            24,
+            168
+          ],
+          "preprocessing.eps": 1e-08
+        },
+        "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
+        "purposes": [
+          "publication"
+        ]
+      }
+    ]
+  },
+  "requested": {
+    "config_policy": "distinct",
+    "filters": {
+      "datasets": [
+        "electricity",
+        "exchange_rate",
+        "solar",
+        "traffic"
+      ],
+      "make_plots": true,
+      "metric": "nmse",
+      "models": [
+        "chronos2",
+        "expected",
+        "lookback",
+        "persistence",
+        "repeat"
+      ],
+      "pipeline": {},
+      "purposes": [
+        "publication"
+      ],
+      "reference_model": "best_baseline",
+      "settings": [
+        "168:24",
+        "336:48",
+        "504:168"
+      ]
+    },
+    "repeat_policy": "selected"
+  },
+  "schema_version": 1
+}

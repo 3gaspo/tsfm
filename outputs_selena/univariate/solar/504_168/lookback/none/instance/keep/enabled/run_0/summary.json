@@ -1,0 +1,72 @@
+{
+  "covariate_mode": "none",
+  "data": {
+    "applied_config_keys": [
+      "aggr",
+      "date_col",
+      "drop_users"
+    ],
+    "config_path": "/fssmall/home/h61084/codes/datasets/solar/config.json",
+    "covariate_mode": "none",
+    "effective_options": {
+      "aggr": "sum",
+      "date_col": "date",
+      "drop_users": []
+    },
+    "external_covariates": [],
+    "source": "/fssmall/home/h61084/codes/datasets/solar/solar.csv",
+    "source_mtime_ns": 1787699101000000000,
+    "source_size": 36258503
+  },
+  "dataset": "solar",
+  "horizon": 168,
+  "inference": {
+    "batch_size": 512,
+    "device": "cuda",
+    "model_load_seconds": 9.804125875234604e-05,
+    "seconds": 0.020270093344151974,
+    "seconds_per_series_window": 9.247305357733565e-06,
+    "seconds_per_user": 0.00014795688572373703
+  },
+  "instance_normalize": true,
+  "lags": 504,
+  "lookback_period": 168,
+  "mase_seasonality": 1,
+  "metrics": {
+    "mae": 14.378088339401858,
+    "mase": 1.1773539578175023,
+    "mse": 1090.1645236776692,
+    "nmae": 0.26626328630100965,
+    "nmse": 0.3393222924838536,
+    "sample_std_mae": 7.539563866389705,
+    "sample_std_mase": 0.40900249953940826,
+    "sample_std_mse": 1345.3568767778493,
+    "sample_std_nmae": 0.09056371316850499,
+    "sample_std_nmse": 0.21322137120141368,
+    "user_mean_mae": 14.378088339401858,
+    "user_mean_mase": 1.1773539578175023,
+    "user_mean_mse": 1090.1645236776692,
+    "user_mean_nmae": 0.26626328630100965,
+    "user_mean_nmse": 0.3393222924838536,
+    "user_std_mae": 5.859369774786625,
+    "user_std_mase": 0.10039352431528058,
+    "user_std_mse": 1084.7359596804768,
+    "user_std_nmae": 0.022334199499271574,
+    "user_std_nmse": 0.046830302116621425,
+    "w10_mae": 29.06798295038087,
+    "w10_mase": 1.3525661756949765,
+    "w10_mse": 3808.9545042855398,
+    "w10_nmae": 0.3065323258217956,
+    "w10_nmse": 0.4276061648103808
+  },
+  "model": "lookback",
+  "query_dates": 16,
+  "remove_constant": false,
+  "removed_constant_windows": 0,
+  "run_dir": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/solar/504_168/lookback/none/instance/keep/enabled/run_0",
+  "seed": 1,
+  "series_windows": 2192,
+  "stride": 512,
+  "use_time_features": true,
+  "users": 137
+}

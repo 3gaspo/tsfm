@@ -1,0 +1,23 @@
+\begin{table}[htbp]
+\centering
+\caption{Equal-configuration mean nmse. Parentheses report mean percentage improvement relative to best\_baseline.}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lccccc}
+\toprule
+Scope & chronos2 & expected & lookback & persistence & repeat \\
+\midrule
+\multicolumn{6}{l}{\textit{Average over settings}} \\
+electricity & 0.3555 (+31.34\%) & 1.2451 (-181.52\%) & 0.4931 (+0.00\%) & 1.8722 (-333.72\%) & 0.5363 (-11.87\%) \\
+exchange\_rate & 67.5361 (-2.36\%) & 70.2347 (-151.97\%) & 68.6660 (-42.49\%) & 67.4672 (+0.00\%) & 68.5713 (-38.67\%) \\
+solar & 0.1709 (+43.10\%) & 1.0064 (-255.97\%) & 0.4109 (-49.30\%) & 1.3947 (-392.39\%) & 0.3463 (-6.69\%) \\
+traffic & 0.2543 (+37.39\%) & 1.0502 (-159.49\%) & 0.4056 (+0.00\%) & 2.3724 (-486.20\%) & 0.5932 (-44.63\%) \\
+\midrule
+\multicolumn{6}{l}{\textit{Average over datasets}} \\
+168:24 & 1.2466 (+22.49\%) & 2.5865 (-187.43\%) & 1.6506 (-43.45\%) & 2.4187 (-313.25\%) & 1.5531 (-13.30\%) \\
+336:48 & 0.3194 (+31.02\%) & 1.4559 (-218.39\%) & 0.5818 (-25.13\%) & 1.4936 (-268.60\%) & 0.7328 (-62.84\%) \\
+504:168 & 49.6716 (+28.58\%) & 51.1100 (-155.89\%) & 50.2493 (-0.25\%) & 50.9176 (-327.39\%) & 50.2493 (-0.25\%) \\
+\bottomrule
+\end{tabular}%
+}
+\label{tab:tsfm-nmse-marginals}
+\end{table}

@@ -1,0 +1,251 @@
+2026-08-26 12:58:23 | resources data_root=auto weights_root=auto output_root=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate
+2026-08-26 12:58:23 | profile mode=full datasets=electricity traffic solar exchange_rate settings=168:24 336:48 504:168 seeds=1
+2026-08-26 12:58:23 | configuration dataset=electricity L=168 H=24 model=persistence covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-26 12:58:32,309][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/electricity/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-26 12:58:32,551][evaluation.evaluator][INFO] - evaluate dataset=electricity users=303 dates=26304 windows=15756 removed_constant=0 L=168 H=24 stride=512
+[2026-08-26 12:58:33,539][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/electricity/168_24/persistence/none/instance/keep/enabled/run_0 mse=1.1383e+08 nmse=2.12714 inference_seconds=0.080
+2026-08-26 12:58:34 | configuration dataset=electricity L=168 H=24 model=expected covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-26 12:58:36,929][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/electricity/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-26 12:58:37,039][evaluation.evaluator][INFO] - evaluate dataset=electricity users=303 dates=26304 windows=15756 removed_constant=0 L=168 H=24 stride=512
+[2026-08-26 12:58:37,814][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/electricity/168_24/expected/none/instance/keep/enabled/run_0 mse=6.02261e+07 nmse=1.53472 inference_seconds=0.024
+2026-08-26 12:58:38 | configuration dataset=electricity L=168 H=24 model=repeat covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-26 12:58:40,915][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/electricity/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-26 12:58:41,025][evaluation.evaluator][INFO] - evaluate dataset=electricity users=303 dates=26304 windows=15756 removed_constant=0 L=168 H=24 stride=512
+[2026-08-26 12:58:41,794][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/electricity/168_24/repeat/none/instance/keep/enabled/run_0 mse=2.84731e+06 nmse=0.823559 inference_seconds=0.019
+2026-08-26 12:58:42 | configuration dataset=electricity L=168 H=24 model=lookback covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-26 12:58:44,973][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/electricity/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-26 12:58:45,045][evaluation.evaluator][INFO] - lookback weekly period=168 observations
+[2026-08-26 12:58:45,088][evaluation.evaluator][INFO] - evaluate dataset=electricity users=303 dates=26304 windows=15756 removed_constant=0 L=168 H=24 stride=512
+[2026-08-26 12:58:45,880][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/electricity/168_24/lookback/none/instance/keep/enabled/run_0 mse=1.22417e+07 nmse=0.806567 inference_seconds=0.019
+2026-08-26 12:58:46 | configuration dataset=electricity L=168 H=24 model=chronos2 covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=64
+[2026-08-26 12:58:49,029][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/electricity/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-26 12:58:49,138][evaluation.evaluator][INFO] - evaluate dataset=electricity users=303 dates=26304 windows=15756 removed_constant=0 L=168 H=24 stride=512
+[2026-08-26 12:59:06,573][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/electricity/168_24/chronos2/none/instance/keep/enabled/run_0 mse=2.28071e+06 nmse=0.640811 inference_seconds=5.141
+2026-08-26 12:59:07 | configuration dataset=electricity L=336 H=48 model=persistence covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-26 12:59:10,117][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/electricity/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-26 12:59:10,252][evaluation.evaluator][INFO] - evaluate dataset=electricity users=303 dates=26304 windows=15453 removed_constant=0 L=336 H=48 stride=512
+[2026-08-26 12:59:11,014][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/electricity/336_48/persistence/none/instance/keep/enabled/run_0 mse=9.61039e+07 nmse=1.65178 inference_seconds=0.024
+2026-08-26 12:59:11 | configuration dataset=electricity L=336 H=48 model=expected covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-26 12:59:14,198][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/electricity/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-26 12:59:14,332][evaluation.evaluator][INFO] - evaluate dataset=electricity users=303 dates=26304 windows=15453 removed_constant=0 L=336 H=48 stride=512
+[2026-08-26 12:59:15,112][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/electricity/336_48/expected/none/instance/keep/enabled/run_0 mse=5.21456e+07 nmse=1.06683 inference_seconds=0.024
+2026-08-26 12:59:15 | configuration dataset=electricity L=336 H=48 model=repeat covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-26 12:59:18,256][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/electricity/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-26 12:59:18,389][evaluation.evaluator][INFO] - evaluate dataset=electricity users=303 dates=26304 windows=15453 removed_constant=0 L=336 H=48 stride=512
+[2026-08-26 12:59:19,160][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/electricity/336_48/repeat/none/instance/keep/enabled/run_0 mse=3.40087e+06 nmse=0.448977 inference_seconds=0.019
+2026-08-26 12:59:19 | configuration dataset=electricity L=336 H=48 model=lookback covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-26 12:59:22,328][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/electricity/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-26 12:59:22,398][evaluation.evaluator][INFO] - lookback weekly period=168 observations
+[2026-08-26 12:59:22,463][evaluation.evaluator][INFO] - evaluate dataset=electricity users=303 dates=26304 windows=15453 removed_constant=0 L=336 H=48 stride=512
+[2026-08-26 12:59:23,226][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/electricity/336_48/lookback/none/instance/keep/enabled/run_0 mse=8.08768e+06 nmse=0.336324 inference_seconds=0.019
+2026-08-26 12:59:23 | configuration dataset=electricity L=336 H=48 model=chronos2 covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=64
+[2026-08-26 12:59:26,408][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/electricity/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-26 12:59:26,542][evaluation.evaluator][INFO] - evaluate dataset=electricity users=303 dates=26304 windows=15453 removed_constant=0 L=336 H=48 stride=512
+[2026-08-26 12:59:38,204][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/electricity/336_48/chronos2/none/instance/keep/enabled/run_0 mse=1.88921e+06 nmse=0.176605 inference_seconds=5.487
+2026-08-26 12:59:39 | configuration dataset=electricity L=504 H=168 model=persistence covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-26 12:59:41,731][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/electricity/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-26 12:59:41,887][evaluation.evaluator][INFO] - skip complete run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/electricity/504_168/persistence/none/instance/keep/enabled/run_0
+2026-08-26 12:59:42 | configuration dataset=electricity L=504 H=168 model=expected covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-26 12:59:44,956][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/electricity/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-26 12:59:45,110][evaluation.evaluator][INFO] - skip complete run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/electricity/504_168/expected/none/instance/keep/enabled/run_0
+2026-08-26 12:59:45 | configuration dataset=electricity L=504 H=168 model=repeat covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-26 12:59:48,180][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/electricity/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-26 12:59:48,335][evaluation.evaluator][INFO] - skip complete run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/electricity/504_168/repeat/none/instance/keep/enabled/run_0
+2026-08-26 12:59:48 | configuration dataset=electricity L=504 H=168 model=lookback covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-26 12:59:51,435][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/electricity/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-26 12:59:51,503][evaluation.evaluator][INFO] - lookback weekly period=168 observations
+[2026-08-26 12:59:51,590][evaluation.evaluator][INFO] - skip complete run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/electricity/504_168/lookback/none/instance/keep/enabled/run_0
+2026-08-26 12:59:52 | configuration dataset=electricity L=504 H=168 model=chronos2 covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=64
+[2026-08-26 12:59:54,696][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/electricity/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-26 12:59:54,850][evaluation.evaluator][INFO] - skip complete run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/electricity/504_168/chronos2/none/instance/keep/enabled/run_0
+2026-08-26 12:59:55 | configuration dataset=traffic L=168 H=24 model=persistence covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-26 12:59:57,921][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/traffic/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-26 12:59:58,111][evaluation.evaluator][INFO] - evaluate dataset=traffic users=858 dates=17544 windows=29172 removed_constant=0 L=168 H=24 stride=512
+[2026-08-26 12:59:59,377][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/traffic/168_24/persistence/none/instance/keep/enabled/run_0 mse=0.00531766 nmse=2.25389 inference_seconds=0.032
+2026-08-26 12:59:59 | configuration dataset=traffic L=168 H=24 model=expected covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-26 13:00:02,555][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/traffic/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-26 13:00:02,699][evaluation.evaluator][INFO] - evaluate dataset=traffic users=858 dates=17544 windows=29172 removed_constant=0 L=168 H=24 stride=512
+[2026-08-26 13:00:03,968][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/traffic/168_24/expected/none/instance/keep/enabled/run_0 mse=0.00231456 nmse=1.02647 inference_seconds=0.033
+2026-08-26 13:00:04 | configuration dataset=traffic L=168 H=24 model=repeat covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-26 13:00:07,124][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/traffic/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-26 13:00:07,267][evaluation.evaluator][INFO] - evaluate dataset=traffic users=858 dates=17544 windows=29172 removed_constant=0 L=168 H=24 stride=512
+[2026-08-26 13:00:08,523][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/traffic/168_24/repeat/none/instance/keep/enabled/run_0 mse=0.0013838 nmse=0.534478 inference_seconds=0.026
+2026-08-26 13:00:09 | configuration dataset=traffic L=168 H=24 model=lookback covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-26 13:00:11,721][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/traffic/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-26 13:00:11,800][evaluation.evaluator][INFO] - lookback weekly period=168 observations
+[2026-08-26 13:00:11,867][evaluation.evaluator][INFO] - evaluate dataset=traffic users=858 dates=17544 windows=29172 removed_constant=0 L=168 H=24 stride=512
+[2026-08-26 13:00:13,132][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/traffic/168_24/lookback/none/instance/keep/enabled/run_0 mse=0.00100576 nmse=0.405764 inference_seconds=0.027
+2026-08-26 13:00:13 | configuration dataset=traffic L=168 H=24 model=chronos2 covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=64
+[2026-08-26 13:00:16,301][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/traffic/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-26 13:00:16,445][evaluation.evaluator][INFO] - evaluate dataset=traffic users=858 dates=17544 windows=29172 removed_constant=0 L=168 H=24 stride=512
+[2026-08-26 13:00:31,804][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/traffic/168_24/chronos2/none/instance/keep/enabled/run_0 mse=0.00053236 nmse=0.228177 inference_seconds=8.543
+2026-08-26 13:00:32 | configuration dataset=traffic L=336 H=48 model=persistence covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-26 13:00:35,315][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/traffic/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-26 13:00:35,505][evaluation.evaluator][INFO] - evaluate dataset=traffic users=858 dates=17544 windows=29172 removed_constant=0 L=336 H=48 stride=512
+[2026-08-26 13:00:36,786][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/traffic/336_48/persistence/none/instance/keep/enabled/run_0 mse=0.00573792 nmse=2.38582 inference_seconds=0.033
+2026-08-26 13:00:37 | configuration dataset=traffic L=336 H=48 model=expected covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-26 13:00:40,023][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/traffic/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-26 13:00:40,213][evaluation.evaluator][INFO] - evaluate dataset=traffic users=858 dates=17544 windows=29172 removed_constant=0 L=336 H=48 stride=512
+[2026-08-26 13:00:41,518][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/traffic/336_48/expected/none/instance/keep/enabled/run_0 mse=0.00237225 nmse=1.04108 inference_seconds=0.033
+2026-08-26 13:00:42 | configuration dataset=traffic L=336 H=48 model=repeat covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-26 13:00:44,711][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/traffic/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-26 13:00:44,900][evaluation.evaluator][INFO] - evaluate dataset=traffic users=858 dates=17544 windows=29172 removed_constant=0 L=336 H=48 stride=512
+[2026-08-26 13:00:46,199][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/traffic/336_48/repeat/none/instance/keep/enabled/run_0 mse=0.00224874 nmse=0.858746 inference_seconds=0.028
+2026-08-26 13:00:46 | configuration dataset=traffic L=336 H=48 model=lookback covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-26 13:00:49,435][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/traffic/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-26 13:00:49,515][evaluation.evaluator][INFO] - lookback weekly period=168 observations
+[2026-08-26 13:00:49,626][evaluation.evaluator][INFO] - evaluate dataset=traffic users=858 dates=17544 windows=29172 removed_constant=0 L=336 H=48 stride=512
+[2026-08-26 13:00:50,910][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/traffic/336_48/lookback/none/instance/keep/enabled/run_0 mse=0.0010401 nmse=0.424757 inference_seconds=0.027
+2026-08-26 13:00:51 | configuration dataset=traffic L=336 H=48 model=chronos2 covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=64
+[2026-08-26 13:00:54,108][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/traffic/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-26 13:00:54,297][evaluation.evaluator][INFO] - evaluate dataset=traffic users=858 dates=17544 windows=29172 removed_constant=0 L=336 H=48 stride=512
+[2026-08-26 13:01:11,216][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/traffic/336_48/chronos2/none/instance/keep/enabled/run_0 mse=0.000678412 nmse=0.291987 inference_seconds=10.095
+2026-08-26 13:01:12 | configuration dataset=traffic L=504 H=168 model=persistence covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-26 13:01:14,740][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/traffic/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-26 13:01:14,973][evaluation.evaluator][INFO] - evaluate dataset=traffic users=858 dates=17544 windows=28314 removed_constant=0 L=504 H=168 stride=512
+[2026-08-26 13:01:16,272][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/traffic/504_168/persistence/none/instance/keep/enabled/run_0 mse=0.00611174 nmse=2.47761 inference_seconds=0.033
+2026-08-26 13:01:16 | configuration dataset=traffic L=504 H=168 model=expected covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-26 13:01:19,481][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/traffic/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-26 13:01:19,713][evaluation.evaluator][INFO] - evaluate dataset=traffic users=858 dates=17544 windows=28314 removed_constant=0 L=504 H=168 stride=512
+[2026-08-26 13:01:21,009][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/traffic/504_168/expected/none/instance/keep/enabled/run_0 mse=0.00253378 nmse=1.08307 inference_seconds=0.033
+2026-08-26 13:01:21 | configuration dataset=traffic L=504 H=168 model=repeat covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-26 13:01:24,248][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/traffic/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-26 13:01:24,481][evaluation.evaluator][INFO] - evaluate dataset=traffic users=858 dates=17544 windows=28314 removed_constant=0 L=504 H=168 stride=512
+[2026-08-26 13:01:25,788][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/traffic/504_168/repeat/none/instance/keep/enabled/run_0 mse=0.000920711 nmse=0.386254 inference_seconds=0.027
+2026-08-26 13:01:26 | configuration dataset=traffic L=504 H=168 model=lookback covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-26 13:01:28,990][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/traffic/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-26 13:01:29,069][evaluation.evaluator][INFO] - lookback weekly period=168 observations
+[2026-08-26 13:01:29,224][evaluation.evaluator][INFO] - evaluate dataset=traffic users=858 dates=17544 windows=28314 removed_constant=0 L=504 H=168 stride=512
+[2026-08-26 13:01:30,514][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/traffic/504_168/lookback/none/instance/keep/enabled/run_0 mse=0.000920711 nmse=0.386254 inference_seconds=0.028
+2026-08-26 13:01:31 | configuration dataset=traffic L=504 H=168 model=chronos2 covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=64
+[2026-08-26 13:01:33,711][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/traffic/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-26 13:01:33,944][evaluation.evaluator][INFO] - evaluate dataset=traffic users=858 dates=17544 windows=28314 removed_constant=0 L=504 H=168 stride=512
+[2026-08-26 13:01:53,040][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/traffic/504_168/chronos2/none/instance/keep/enabled/run_0 mse=0.000559808 nmse=0.242734 inference_seconds=12.170
+2026-08-26 13:01:53 | configuration dataset=solar L=168 H=24 model=persistence covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-26 13:01:56,639][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/solar/config.json applied_keys=['aggr', 'date_col', 'drop_users']
+[2026-08-26 13:01:57,017][evaluation.evaluator][INFO] - evaluate dataset=solar users=137 dates=8760 windows=2329 removed_constant=0 L=168 H=24 stride=512
+[2026-08-26 13:01:57,317][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/solar/168_24/persistence/none/instance/keep/enabled/run_0 mse=4813.24 nmse=1.38495 inference_seconds=0.023
+2026-08-26 13:01:57 | configuration dataset=solar L=168 H=24 model=expected covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-26 13:02:00,499][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/solar/config.json applied_keys=['aggr', 'date_col', 'drop_users']
+[2026-08-26 13:02:00,845][evaluation.evaluator][INFO] - evaluate dataset=solar users=137 dates=8760 windows=2329 removed_constant=0 L=168 H=24 stride=512
+[2026-08-26 13:02:01,146][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/solar/168_24/expected/none/instance/keep/enabled/run_0 mse=3350.15 nmse=1.00608 inference_seconds=0.024
+2026-08-26 13:02:01 | configuration dataset=solar L=168 H=24 model=repeat covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-26 13:02:04,352][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/solar/config.json applied_keys=['aggr', 'date_col', 'drop_users']
+[2026-08-26 13:02:04,702][evaluation.evaluator][INFO] - evaluate dataset=solar users=137 dates=8760 windows=2329 removed_constant=0 L=168 H=24 stride=512
+[2026-08-26 13:02:05,007][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/solar/168_24/repeat/none/instance/keep/enabled/run_0 mse=656.779 nmse=0.18874 inference_seconds=0.020
+2026-08-26 13:02:05 | configuration dataset=solar L=168 H=24 model=lookback covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-26 13:02:08,243][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/solar/config.json applied_keys=['aggr', 'date_col', 'drop_users']
+[2026-08-26 13:02:08,573][evaluation.evaluator][INFO] - lookback weekly period=168 observations
+[2026-08-26 13:02:08,590][evaluation.evaluator][INFO] - evaluate dataset=solar users=137 dates=8760 windows=2329 removed_constant=0 L=168 H=24 stride=512
+[2026-08-26 13:02:08,900][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/solar/168_24/lookback/none/instance/keep/enabled/run_0 mse=1425.29 nmse=0.467859 inference_seconds=0.019
+2026-08-26 13:02:09 | configuration dataset=solar L=168 H=24 model=chronos2 covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=64
+[2026-08-26 13:02:12,109][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/solar/config.json applied_keys=['aggr', 'date_col', 'drop_users']
+[2026-08-26 13:02:12,454][evaluation.evaluator][INFO] - evaluate dataset=solar users=137 dates=8760 windows=2329 removed_constant=0 L=168 H=24 stride=512
+[2026-08-26 13:02:18,909][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/solar/168_24/chronos2/none/instance/keep/enabled/run_0 mse=465.766 nmse=0.136841 inference_seconds=0.869
+2026-08-26 13:02:19 | configuration dataset=solar L=336 H=48 model=persistence covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-26 13:02:22,440][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/solar/config.json applied_keys=['aggr', 'date_col', 'drop_users']
+[2026-08-26 13:02:22,800][evaluation.evaluator][INFO] - evaluate dataset=solar users=137 dates=8760 windows=2329 removed_constant=0 L=336 H=48 stride=512
+[2026-08-26 13:02:23,106][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/solar/336_48/persistence/none/instance/keep/enabled/run_0 mse=4698.11 nmse=1.36802 inference_seconds=0.020
+2026-08-26 13:02:23 | configuration dataset=solar L=336 H=48 model=expected covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-26 13:02:26,344][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/solar/config.json applied_keys=['aggr', 'date_col', 'drop_users']
+[2026-08-26 13:02:26,694][evaluation.evaluator][INFO] - evaluate dataset=solar users=137 dates=8760 windows=2329 removed_constant=0 L=336 H=48 stride=512
+[2026-08-26 13:02:27,007][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/solar/336_48/expected/none/instance/keep/enabled/run_0 mse=3265.69 nmse=0.980237 inference_seconds=0.023
+2026-08-26 13:02:27 | configuration dataset=solar L=336 H=48 model=repeat covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-26 13:02:30,237][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/solar/config.json applied_keys=['aggr', 'date_col', 'drop_users']
+[2026-08-26 13:02:30,588][evaluation.evaluator][INFO] - evaluate dataset=solar users=137 dates=8760 windows=2329 removed_constant=0 L=336 H=48 stride=512
+[2026-08-26 13:02:30,897][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/solar/336_48/repeat/none/instance/keep/enabled/run_0 mse=1527.98 nmse=0.510769 inference_seconds=0.019
+2026-08-26 13:02:31 | configuration dataset=solar L=336 H=48 model=lookback covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-26 13:02:34,155][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/solar/config.json applied_keys=['aggr', 'date_col', 'drop_users']
+[2026-08-26 13:02:34,489][evaluation.evaluator][INFO] - lookback weekly period=168 observations
+[2026-08-26 13:02:34,510][evaluation.evaluator][INFO] - evaluate dataset=solar users=137 dates=8760 windows=2329 removed_constant=0 L=336 H=48 stride=512
+[2026-08-26 13:02:34,816][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/solar/336_48/lookback/none/instance/keep/enabled/run_0 mse=1337.11 nmse=0.425381 inference_seconds=0.019
+2026-08-26 13:02:35 | configuration dataset=solar L=336 H=48 model=chronos2 covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=64
+[2026-08-26 13:02:38,035][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/solar/config.json applied_keys=['aggr', 'date_col', 'drop_users']
+[2026-08-26 13:02:38,380][evaluation.evaluator][INFO] - evaluate dataset=solar users=137 dates=8760 windows=2329 removed_constant=0 L=336 H=48 stride=512
+[2026-08-26 13:02:45,037][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/solar/336_48/chronos2/none/instance/keep/enabled/run_0 mse=621.869 nmse=0.210395 inference_seconds=0.979
+2026-08-26 13:02:45 | configuration dataset=solar L=504 H=168 model=persistence covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-26 13:02:48,565][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/solar/config.json applied_keys=['aggr', 'date_col', 'drop_users']
+[2026-08-26 13:02:48,917][evaluation.evaluator][INFO] - evaluate dataset=solar users=137 dates=8760 windows=2192 removed_constant=0 L=504 H=168 stride=512
+[2026-08-26 13:02:49,224][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/solar/504_168/persistence/none/instance/keep/enabled/run_0 mse=4929.32 nmse=1.4312 inference_seconds=0.023
+2026-08-26 13:02:49 | configuration dataset=solar L=504 H=168 model=expected covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-26 13:02:52,468][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/solar/config.json applied_keys=['aggr', 'date_col', 'drop_users']
+[2026-08-26 13:02:52,822][evaluation.evaluator][INFO] - evaluate dataset=solar users=137 dates=8760 windows=2192 removed_constant=0 L=504 H=168 stride=512
+[2026-08-26 13:02:53,124][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/solar/504_168/expected/none/instance/keep/enabled/run_0 mse=3446.46 nmse=1.03301 inference_seconds=0.025
+2026-08-26 13:02:53 | configuration dataset=solar L=504 H=168 model=repeat covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-26 13:02:56,359][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/solar/config.json applied_keys=['aggr', 'date_col', 'drop_users']
+[2026-08-26 13:02:56,711][evaluation.evaluator][INFO] - evaluate dataset=solar users=137 dates=8760 windows=2192 removed_constant=0 L=504 H=168 stride=512
+[2026-08-26 13:02:57,013][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/solar/504_168/repeat/none/instance/keep/enabled/run_0 mse=1090.16 nmse=0.339322 inference_seconds=0.019
+2026-08-26 13:02:57 | configuration dataset=solar L=504 H=168 model=lookback covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-26 13:03:00,304][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/solar/config.json applied_keys=['aggr', 'date_col', 'drop_users']
+[2026-08-26 13:03:00,634][evaluation.evaluator][INFO] - lookback weekly period=168 observations
+[2026-08-26 13:03:00,659][evaluation.evaluator][INFO] - evaluate dataset=solar users=137 dates=8760 windows=2192 removed_constant=0 L=504 H=168 stride=512
+[2026-08-26 13:03:00,958][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/solar/504_168/lookback/none/instance/keep/enabled/run_0 mse=1090.16 nmse=0.339322 inference_seconds=0.020
+2026-08-26 13:03:01 | configuration dataset=solar L=504 H=168 model=chronos2 covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=64
+[2026-08-26 13:03:04,205][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/solar/config.json applied_keys=['aggr', 'date_col', 'drop_users']
+[2026-08-26 13:03:04,560][evaluation.evaluator][INFO] - evaluate dataset=solar users=137 dates=8760 windows=2192 removed_constant=0 L=504 H=168 stride=512
+[2026-08-26 13:03:11,300][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/solar/504_168/chronos2/none/instance/keep/enabled/run_0 mse=536.797 nmse=0.165388 inference_seconds=1.106
+2026-08-26 13:03:12 | configuration dataset=exchange_rate L=168 H=24 model=persistence covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-26 13:03:14,873][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/exchange_rate/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-26 13:03:14,899][evaluation.evaluator][INFO] - evaluate dataset=exchange_rate users=8 dates=7588 windows=120 removed_constant=0 L=168 H=24 stride=512
+[2026-08-26 13:03:15,141][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/exchange_rate/168_24/persistence/none/instance/keep/enabled/run_0 mse=0.000837071 nmse=3.90879 inference_seconds=0.025
+2026-08-26 13:03:15 | configuration dataset=exchange_rate L=168 H=24 model=expected covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-26 13:03:18,385][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/exchange_rate/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-26 13:03:18,408][evaluation.evaluator][INFO] - evaluate dataset=exchange_rate users=8 dates=7588 windows=120 removed_constant=0 L=168 H=24 stride=512
+[2026-08-26 13:03:18,642][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/exchange_rate/168_24/expected/none/instance/keep/enabled/run_0 mse=0.00328853 nmse=6.77875 inference_seconds=0.025
+2026-08-26 13:03:19 | configuration dataset=exchange_rate L=168 H=24 model=repeat covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-26 13:03:21,876][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/exchange_rate/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-26 13:03:21,899][evaluation.evaluator][INFO] - evaluate dataset=exchange_rate users=8 dates=7588 windows=120 removed_constant=0 L=168 H=24 stride=512
+[2026-08-26 13:03:22,137][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/exchange_rate/168_24/repeat/none/instance/keep/enabled/run_0 mse=0.00125672 nmse=4.66581 inference_seconds=0.021
+2026-08-26 13:03:22 | configuration dataset=exchange_rate L=168 H=24 model=lookback covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-26 13:03:25,425][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/exchange_rate/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-26 13:03:25,437][evaluation.evaluator][INFO] - lookback weekly period=7 observations
+[2026-08-26 13:03:25,450][evaluation.evaluator][INFO] - evaluate dataset=exchange_rate users=8 dates=7588 windows=120 removed_constant=0 L=168 H=24 stride=512
+[2026-08-26 13:03:25,678][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/exchange_rate/168_24/lookback/none/instance/keep/enabled/run_0 mse=0.00150176 nmse=4.92216 inference_seconds=0.020
+2026-08-26 13:03:26 | configuration dataset=exchange_rate L=168 H=24 model=chronos2 covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=64
+[2026-08-26 13:03:28,927][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/exchange_rate/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-26 13:03:28,950][evaluation.evaluator][INFO] - evaluate dataset=exchange_rate users=8 dates=7588 windows=120 removed_constant=0 L=168 H=24 stride=512
+[2026-08-26 13:03:34,652][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/exchange_rate/168_24/chronos2/none/instance/keep/enabled/run_0 mse=0.000924763 nmse=3.98071 inference_seconds=0.216
+2026-08-26 13:03:35 | configuration dataset=exchange_rate L=336 H=48 model=persistence covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-26 13:03:38,222][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/exchange_rate/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-26 13:03:38,246][evaluation.evaluator][INFO] - evaluate dataset=exchange_rate users=8 dates=7588 windows=120 removed_constant=0 L=336 H=48 stride=512
+[2026-08-26 13:03:38,478][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/exchange_rate/336_48/persistence/none/instance/keep/enabled/run_0 mse=0.000511557 nmse=0.568874 inference_seconds=0.025
+2026-08-26 13:03:39 | configuration dataset=exchange_rate L=336 H=48 model=expected covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-26 13:03:41,773][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/exchange_rate/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-26 13:03:41,798][evaluation.evaluator][INFO] - evaluate dataset=exchange_rate users=8 dates=7588 windows=120 removed_constant=0 L=336 H=48 stride=512
+[2026-08-26 13:03:42,044][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/exchange_rate/336_48/expected/none/instance/keep/enabled/run_0 mse=0.00291573 nmse=2.7353 inference_seconds=0.025
+2026-08-26 13:03:42 | configuration dataset=exchange_rate L=336 H=48 model=repeat covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-26 13:03:45,326][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/exchange_rate/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-26 13:03:45,351][evaluation.evaluator][INFO] - evaluate dataset=exchange_rate users=8 dates=7588 windows=120 removed_constant=0 L=336 H=48 stride=512
+[2026-08-26 13:03:45,579][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/exchange_rate/336_48/repeat/none/instance/keep/enabled/run_0 mse=0.00127857 nmse=1.11285 inference_seconds=0.020
+2026-08-26 13:03:46 | configuration dataset=exchange_rate L=336 H=48 model=lookback covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-26 13:03:48,857][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/exchange_rate/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-26 13:03:48,869][evaluation.evaluator][INFO] - lookback weekly period=7 observations
+[2026-08-26 13:03:48,882][evaluation.evaluator][INFO] - evaluate dataset=exchange_rate users=8 dates=7588 windows=120 removed_constant=0 L=336 H=48 stride=512
+[2026-08-26 13:03:49,110][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/exchange_rate/336_48/lookback/none/instance/keep/enabled/run_0 mse=0.00132671 nmse=1.14074 inference_seconds=0.020
+2026-08-26 13:03:49 | configuration dataset=exchange_rate L=336 H=48 model=chronos2 covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=64
+[2026-08-26 13:03:52,372][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/exchange_rate/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-26 13:03:52,395][evaluation.evaluator][INFO] - evaluate dataset=exchange_rate users=8 dates=7588 windows=120 removed_constant=0 L=336 H=48 stride=512
+[2026-08-26 13:03:58,146][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/exchange_rate/336_48/chronos2/none/instance/keep/enabled/run_0 mse=0.000459373 nmse=0.598428 inference_seconds=0.218
+2026-08-26 13:03:59 | configuration dataset=exchange_rate L=504 H=168 model=persistence covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-26 13:04:01,807][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/exchange_rate/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-26 13:04:01,831][evaluation.evaluator][INFO] - evaluate dataset=exchange_rate users=8 dates=7588 windows=112 removed_constant=0 L=504 H=168 stride=512
+[2026-08-26 13:04:02,066][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/exchange_rate/504_168/persistence/none/instance/keep/enabled/run_0 mse=0.00150288 nmse=197.924 inference_seconds=0.025
+2026-08-26 13:04:02 | configuration dataset=exchange_rate L=504 H=168 model=expected covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-26 13:04:05,343][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/exchange_rate/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-26 13:04:05,368][evaluation.evaluator][INFO] - evaluate dataset=exchange_rate users=8 dates=7588 windows=112 removed_constant=0 L=504 H=168 stride=512
+[2026-08-26 13:04:05,599][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/exchange_rate/504_168/expected/none/instance/keep/enabled/run_0 mse=0.00457715 nmse=201.19 inference_seconds=0.024
+2026-08-26 13:04:06 | configuration dataset=exchange_rate L=504 H=168 model=repeat covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-26 13:04:08,863][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/exchange_rate/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-26 13:04:08,887][evaluation.evaluator][INFO] - evaluate dataset=exchange_rate users=8 dates=7588 windows=112 removed_constant=0 L=504 H=168 stride=512
+[2026-08-26 13:04:09,110][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/exchange_rate/504_168/repeat/none/instance/keep/enabled/run_0 mse=0.00270284 nmse=199.935 inference_seconds=0.020
+2026-08-26 13:04:09 | configuration dataset=exchange_rate L=504 H=168 model=lookback covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-26 13:04:12,459][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/exchange_rate/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-26 13:04:12,471][evaluation.evaluator][INFO] - lookback weekly period=7 observations
+[2026-08-26 13:04:12,484][evaluation.evaluator][INFO] - evaluate dataset=exchange_rate users=8 dates=7588 windows=112 removed_constant=0 L=504 H=168 stride=512
+[2026-08-26 13:04:12,714][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/exchange_rate/504_168/lookback/none/instance/keep/enabled/run_0 mse=0.00270284 nmse=199.935 inference_seconds=0.020
+2026-08-26 13:04:13 | configuration dataset=exchange_rate L=504 H=168 model=chronos2 covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=64
+[2026-08-26 13:04:16,004][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/exchange_rate/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-26 13:04:16,027][evaluation.evaluator][INFO] - evaluate dataset=exchange_rate users=8 dates=7588 windows=112 removed_constant=0 L=504 H=168 stride=512
+[2026-08-26 13:04:21,756][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/exchange_rate/504_168/chronos2/none/instance/keep/enabled/run_0 mse=0.00187138 nmse=198.029 inference_seconds=0.226
+2026-08-26 13:04:22 | report family=univariate
+/fssmall/home/h61084/codes/tsfm/outputs_selena/reports/univariate/full/results.csv
