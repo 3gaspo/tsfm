@@ -1,0 +1,2 @@
+[2026-08-26 01:23:10,041][data.dataset][INFO] - dataset config path=/home/h61084/codes/tsfm/datasets/time/cphl_h_part01/config.json applied_keys=['date_col', 'drop_users', 'target_cols']
+[2026-08-26 01:23:10,925][evaluation.evaluator][INFO] - evaluate dataset=cphl_h_part01 users=1 dates=2708 windows=1 removed_constant=0 L=504 H=168 stride=1000000
