@@ -116,16 +116,24 @@
         "purpose": "smoke",
         "slurm_array_task_id": null,
         "slurm_job_id": "2898430"
+      },
+      {
+        "launch_id": "selena_2910738",
+        "launched_at_utc": "2026-08-26T22:25:48.864057+00:00",
+        "mode": "test",
+        "purpose": "smoke",
+        "slurm_array_task_id": null,
+        "slurm_job_id": "2910738"
       }
     ],
     "finished_at_utc": null,
-    "launch_id": "selena_2898430",
-    "launched_at_utc": "2026-08-26T12:37:50.078002+00:00",
+    "launch_id": "selena_2910738",
+    "launched_at_utc": "2026-08-26T22:25:48.864057+00:00",
     "mode": "test",
     "ready_at_utc": null,
-    "started_at_utc": "2026-08-26T12:37:50.081381+00:00"
+    "started_at_utc": "2026-08-26T22:25:48.867308+00:00"
   },
-  "manifest_id": "84d67f41-d46f-4de5-a22e-8712382ab8d0",
+  "manifest_id": "0a3cc3f2-5812-41c5-8817-726a6f12fbd1",
   "project": "tsfm_evaluation",
   "purposes": [
     "smoke"
@@ -135,7 +143,7 @@
   "seed_status": {
     "1": {
       "artifacts": [],
-      "status": "interrupted"
+      "status": "running"
     }
   },
   "seeds": [
@@ -146,7 +154,7 @@
     "path": "998d68c5b98e4bcf118f907545b82796b9e55a3aaed34dd96f7974fd90a77e98",
     "pipeline": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0"
   },
-  "status": "interrupted",
+  "status": "running",
   "table": {
     "column_config": [
       "normalization",

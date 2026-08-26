@@ -1,6 +1,6 @@
 {
-  "created_at_utc": "2026-08-26T10:26:25.640322+00:00",
-  "launch_id": "selena_2897225",
+  "created_at_utc": "2026-08-26T22:25:33.046958+00:00",
+  "launch_id": "selena_2910736",
   "obtained": {
     "count": 5,
     "inputs": [
@@ -37,6 +37,7 @@
         },
         "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
         "purposes": [
+          "publication",
           "smoke"
         ]
       },
@@ -73,6 +74,7 @@
         },
         "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
         "purposes": [
+          "publication",
           "smoke"
         ]
       },
@@ -109,6 +111,7 @@
         },
         "pipeline_signature": "10c17ff0496b9645563990228b60bc43703edb45765b4f577ddc8d16f7a948dc",
         "purposes": [
+          "publication",
           "smoke"
         ]
       },
@@ -145,6 +148,7 @@
         },
         "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
         "purposes": [
+          "publication",
           "smoke"
         ]
       },
@@ -181,6 +185,7 @@
         },
         "pipeline_signature": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0",
         "purposes": [
+          "publication",
           "smoke"
         ]
       }
@@ -208,6 +213,9 @@
       "reference_model": "best_baseline",
       "settings": [
         "504:168"
+      ],
+      "tasks": [
+        "electricity=504:168"
       ]
     },
     "repeat_policy": "selected"
