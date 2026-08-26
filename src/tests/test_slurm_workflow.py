@@ -116,13 +116,17 @@ def test_root_fronts_and_workflows() -> None:
         assert f"--exclude='{excluded}'" in code_sync
     assert "selena.hpc.edf.fr" in code_sync
     assert "--delete" in code_sync
-    assert "dgx-front.retd.edf.fr" in result_sync
+    assert "dgx-front.retd.edf.fr" not in result_sync
+    assert 'SOURCE_ROOT="$nni@selena.hpc.edf.fr:~/codes/$PROJECT_NAME"' in result_sync
+    assert 'DESTINATION_ROOT="$PROJECT_ROOT"' in result_sync
+    assert 'mkdir -p "$DESTINATION_ROOT/outputs_selena"' in result_sync
     assert "--include='outputs_selena/.gitkeep'" in code_sync
     assert "--exclude='outputs_selena/***'" in code_sync
     assert "--include='logs_selena/.gitkeep'" in code_sync
     assert "--exclude='logs_selena/***'" in code_sync
     assert '"$SOURCE_ROOT/outputs_selena/"' in result_sync
     assert '"$SOURCE_ROOT/logs_selena/"' in result_sync
+    assert "pulled from Selena to DGX" in result_sync
     assert "--delete" not in result_sync
 
 

@@ -4,6 +4,16 @@ Last successful maintenance: 2026-08-11 10:45 +02:00.
 
 ## Pending
 
+- 2026-08-26: Inverted TSFM result synchronization to accommodate Selena's
+  blocked outbound SSH/SCP. `sync_results_to_dgx.sh` now runs on DGX and pulls
+  Selena's `outputs_selena/` and `logs_selena/` into the same local names using
+  non-deleting rsync; Selena initiates no connection. Affected contracts:
+  result helper, focused workflow regression, README, shared cluster guidance,
+  and cluster handoff. Git Bash syntax and the direct workflow contract passed.
+  No scientific output, identity, or rerun requirement changed. Deferred
+  integration: exercise the first real DGX-initiated pull after a Selena test
+  job completes.
+
 - 2026-08-26: Isolated every Selena workflow from DGX artifact trees. The four
   existing Selena fronts now write Slurm streams to `logs_selena/` and all
   manifests, results, and reports to `outputs_selena/`; the shared workflow

@@ -24,8 +24,9 @@ Its full profile is the five primary datasets at 336:48 and 504:168.
 Every DGX front now has an `_selena.slurm` overflow counterpart using the same
 scientific implementation and Selena-specific scheduling/accounting settings.
 Selena fronts write only to `outputs_selena/` and `logs_selena/`; their result
-sync returns those same named trees to DGX without merging into `outputs/` or
-`logs/`. No Selena front or transfer has yet been exercised on the cluster.
+sync is run on DGX and pulls those same named trees from Selena without merging
+into `outputs/` or `logs/`. Selena requires no outbound SSH/SCP access. No
+Selena front or transfer has yet been exercised on the cluster.
 Both roots remain overridable; DGX defaults are `outputs/` and `logs/`.
 Next jobs: inspect `datasets/time/catalog.json` from the direct TIME
 preparation and retain the prepared dataset names for the evaluation

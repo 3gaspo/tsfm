@@ -417,14 +417,17 @@ tree, but their existing contents are protected from deletion. Git metadata
 and dependency manifests are not transferred; Selena keeps its user-managed
 environment and dependency resolution.
 
-After Selena jobs finish, transfer their lightweight results back to DGX:
+After Selena jobs finish, run the result helper from the TSFM checkout on DGX.
+DGX initiates the SSH connection and pulls the lightweight Selena results, so
+Selena never needs outbound SSH or SCP access:
 
 ```bash
 bash sync_results_to_dgx.sh
 ```
 
-This copies new or changed files from `outputs_selena/` and `logs_selena/` into
-the same named DGX directories without deleting anything already present.
+This pulls new or changed files from Selena's `outputs_selena/` and
+`logs_selena/` into the same named directories on DGX without deleting anything
+already present. Do not run this helper on Selena.
 
 ## Publishing terminal Slurm artifacts
 
