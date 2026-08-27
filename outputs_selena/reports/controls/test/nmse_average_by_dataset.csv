@@ -1,4 +1,0 @@
-dataset,model,metric,mean_value,mean_reference_value,mean_improvement_pct,configurations,reference_models
-electricity,chronos2,nmse,0.249031136456611,0.33637177338693064,25.965507168121132,4,repeat
-electricity,repeat,nmse,0.33637177338693064,0.33637177338693064,0.0,4,repeat
-electricity,tabpfn_ts,nmse,0.2915707203832971,0.33637177338693064,13.318909774304712,4,repeat

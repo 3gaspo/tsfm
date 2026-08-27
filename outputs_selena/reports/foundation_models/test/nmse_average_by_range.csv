@@ -1,5 +1,0 @@
-range,model,metric,mean_value,mean_reference_value,mean_improvement_pct,configurations,reference_models
-long,chronos2,nmse,0.24903113681571834,0.24903113681571834,0.0,1,chronos2
-long,chronos_bolt,nmse,0.23870975885404552,0.24903113681571834,4.144613438162385,1,chronos2
-long,tabpfn_ts,nmse,0.29157889079452404,0.24903113681571834,-17.08531492200142,1,chronos2
-long,ts_icl,nmse,0.2656322072279684,0.24903113681571834,-6.666262951903374,1,chronos2

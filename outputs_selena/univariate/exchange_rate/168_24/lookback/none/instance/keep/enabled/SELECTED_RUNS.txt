@@ -1,2 +1,0 @@
-# pipeline_signature mode run
-74efb91ec04f6d6d2710cdf8f602656f1191358aa06f2f817359003634df825b	auto	run_0

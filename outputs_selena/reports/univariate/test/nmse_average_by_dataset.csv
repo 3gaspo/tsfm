@@ -1,6 +1,0 @@
-dataset,model,metric,mean_value,mean_reference_value,mean_improvement_pct,configurations,reference_models
-electricity,chronos2,nmse,0.24903113609750366,0.3363717733681835,25.965507270754003,1,lookback
-electricity,expected,nmse,1.1338260052033193,0.3363717733681835,-237.0752527330121,1,lookback
-electricity,lookback,nmse,0.3363717733681835,0.3363717733681835,0.0,1,lookback
-electricity,persistence,nmse,1.8376421078786245,0.3363717733681835,-446.3128161670066,1,lookback
-electricity,repeat,nmse,0.3363717733681835,0.3363717733681835,0.0,1,lookback
