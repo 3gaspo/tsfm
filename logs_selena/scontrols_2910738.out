@@ -1,0 +1,43 @@
+2026-08-27 00:25:09 | resources data_root=auto weights_root=auto output_root=/fssmall/home/h61084/codes/tsfm/outputs_selena/controls
+2026-08-27 00:25:16 | profile mode=test datasets=electricity settings=504:168 tasks=1 seeds=1
+2026-08-27 00:25:16 | configuration dataset=electricity L=504 H=168 model=repeat covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-27 00:25:19,720][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/electricity/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-27 00:25:19,995][evaluation.evaluator][INFO] - skip complete run=/fssmall/home/h61084/codes/tsfm/outputs_selena/controls/electricity/504_168/repeat/none/instance/keep/enabled/run_0
+2026-08-27 00:25:20 | configuration dataset=electricity L=504 H=168 model=repeat covariates=none instance_norm=true remove_constant=true time_features=true seed=1 batch_size=512
+[2026-08-27 00:25:23,039][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/electricity/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-27 00:25:23,211][evaluation.evaluator][INFO] - skip complete run=/fssmall/home/h61084/codes/tsfm/outputs_selena/controls/electricity/504_168/repeat/none/instance/remove/enabled/run_0
+2026-08-27 00:25:23 | configuration dataset=electricity L=504 H=168 model=repeat covariates=none instance_norm=false remove_constant=false time_features=true seed=1 batch_size=512
+[2026-08-27 00:25:26,286][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/electricity/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-27 00:25:26,439][evaluation.evaluator][INFO] - skip complete run=/fssmall/home/h61084/codes/tsfm/outputs_selena/controls/electricity/504_168/repeat/none/raw/keep/enabled/run_0
+2026-08-27 00:25:26 | configuration dataset=electricity L=504 H=168 model=repeat covariates=none instance_norm=false remove_constant=true time_features=true seed=1 batch_size=512
+[2026-08-27 00:25:29,468][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/electricity/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-27 00:25:29,639][evaluation.evaluator][INFO] - skip complete run=/fssmall/home/h61084/codes/tsfm/outputs_selena/controls/electricity/504_168/repeat/none/raw/remove/enabled/run_0
+2026-08-27 00:25:30 | configuration dataset=electricity L=504 H=168 model=chronos2 covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=64
+[2026-08-27 00:25:32,675][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/electricity/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-27 00:25:32,827][evaluation.evaluator][INFO] - skip complete run=/fssmall/home/h61084/codes/tsfm/outputs_selena/controls/electricity/504_168/chronos2/none/instance/keep/enabled/run_0
+2026-08-27 00:25:33 | configuration dataset=electricity L=504 H=168 model=chronos2 covariates=none instance_norm=true remove_constant=true time_features=true seed=1 batch_size=64
+[2026-08-27 00:25:35,859][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/electricity/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-27 00:25:36,032][evaluation.evaluator][INFO] - skip complete run=/fssmall/home/h61084/codes/tsfm/outputs_selena/controls/electricity/504_168/chronos2/none/instance/remove/enabled/run_0
+2026-08-27 00:25:36 | configuration dataset=electricity L=504 H=168 model=chronos2 covariates=none instance_norm=false remove_constant=false time_features=true seed=1 batch_size=64
+[2026-08-27 00:25:39,086][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/electricity/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-27 00:25:39,239][evaluation.evaluator][INFO] - skip complete run=/fssmall/home/h61084/codes/tsfm/outputs_selena/controls/electricity/504_168/chronos2/none/raw/keep/enabled/run_0
+2026-08-27 00:25:39 | configuration dataset=electricity L=504 H=168 model=chronos2 covariates=none instance_norm=false remove_constant=true time_features=true seed=1 batch_size=64
+[2026-08-27 00:25:42,264][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/electricity/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-27 00:25:42,433][evaluation.evaluator][INFO] - skip complete run=/fssmall/home/h61084/codes/tsfm/outputs_selena/controls/electricity/504_168/chronos2/none/raw/remove/enabled/run_0
+2026-08-27 00:25:42 | configuration dataset=electricity L=504 H=168 model=tabpfn_ts covariates=none instance_norm=true remove_constant=false time_features=true seed=1 batch_size=1
+[2026-08-27 00:25:45,501][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/electricity/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-27 00:25:45,651][evaluation.evaluator][INFO] - skip complete run=/fssmall/home/h61084/codes/tsfm/outputs_selena/controls/electricity/504_168/tabpfn_ts/none/instance/keep/enabled/run_0
+2026-08-27 00:25:46 | configuration dataset=electricity L=504 H=168 model=tabpfn_ts covariates=none instance_norm=true remove_constant=true time_features=true seed=1 batch_size=1
+[2026-08-27 00:25:48,693][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/electricity/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-27 00:25:48,868][evaluation.evaluator][INFO] - evaluate dataset=electricity users=303 dates=26304 windows=15453 removed_constant=0 L=504 H=168 stride=512
+[2026-08-27 01:40:59,340][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/controls/electricity/504_168/tabpfn_ts/none/instance/remove/enabled/run_0 mse=6.5249e+06 nmse=0.291563 inference_seconds=4495.613
+2026-08-27 01:41:01 | configuration dataset=electricity L=504 H=168 model=tabpfn_ts covariates=none instance_norm=false remove_constant=false time_features=true seed=1 batch_size=1
+[2026-08-27 01:41:08,643][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/electricity/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-27 01:41:08,849][evaluation.evaluator][INFO] - evaluate dataset=electricity users=303 dates=26304 windows=15453 removed_constant=0 L=504 H=168 stride=512
+[2026-08-27 02:56:13,838][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/controls/electricity/504_168/tabpfn_ts/none/raw/keep/enabled/run_0 mse=6.52729e+06 nmse=0.291579 inference_seconds=4490.231
+2026-08-27 02:56:16 | configuration dataset=electricity L=504 H=168 model=tabpfn_ts covariates=none instance_norm=false remove_constant=true time_features=true seed=1 batch_size=1
+[2026-08-27 02:56:23,344][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/electricity/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-27 02:56:23,570][evaluation.evaluator][INFO] - evaluate dataset=electricity users=303 dates=26304 windows=15453 removed_constant=0 L=504 H=168 stride=512
+[2026-08-27 04:11:42,863][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/controls/electricity/504_168/tabpfn_ts/none/raw/remove/enabled/run_0 mse=6.52729e+06 nmse=0.291579 inference_seconds=4504.616
+2026-08-27 04:11:45 | report family=controls
+/fssmall/home/h61084/codes/tsfm/outputs_selena/reports/controls/test/results.csv
