@@ -31,16 +31,6 @@ PORTABLE_KEYS = {
     "aggr",
     "aggr_period",
 }
-TENSOR_INPUT_FILES = (
-    "values.pt",
-    "datetimes.pt",
-    "individual_ids.pt",
-    "individual_context.pt",
-    "global_context.pt",
-    "dataset_metadata.json",
-)
-
-
 def _as_list(value: Any) -> list[Any]:
     if value is None:
         return []
@@ -63,8 +53,6 @@ def _resolve_source(path: str | Path, name: str | None = None) -> Path:
         return source
     if not source.exists():
         raise FileNotFoundError(source)
-    if (source / "values.pt").exists():
-        return source
     if name and (source / f"{name}.csv").exists():
         return source / f"{name}.csv"
     if (source / f"{source.name}.csv").exists():
@@ -104,16 +92,15 @@ def _merge_dataset_options(
     if not isinstance(scoped, Mapping):
         raise ValueError(f"{PROJECT_SCOPE!r} dataset config must be a mapping")
 
-    effective = {**shared, **{key: value for key, value in scoped.items() if key in PORTABLE_KEYS}}
-    for key in PORTABLE_KEYS - {"drop_users"}:
+    effective = dict(shared)
+    for key, value in scoped.items():
+        if key in PORTABLE_KEYS and value is not None:
+            effective[key] = value
+    for key in PORTABLE_KEYS:
         value = run_options.get(key)
         if value is not None:
             effective[key] = value
-    effective["drop_users"] = _unique(
-        _as_list(shared.get("drop_users"))
-        + _as_list(scoped.get("drop_users"))
-        + _as_list(run_options.get("drop_users"))
-    )
+    effective["drop_users"] = _unique(_as_list(effective.get("drop_users")))
     applied = sorted(key for key, value in effective.items() if value is not None)
     LOGGER.info(
         "dataset config path=%s applied_keys=%s",
@@ -191,132 +178,7 @@ def _load_csv_panel(
     return targets, covariates
 
 
-def _load_optional_pt(source: Path, name: str) -> Any:
-    path = source / name
-    return torch.load(path, map_location="cpu", weights_only=False) if path.exists() else None
-
-
-def _as_individual_context(
-    context: Any,
-    users: int,
-    dates: int,
-) -> torch.Tensor | None:
-    if context is None:
-        return None
-    context = torch.as_tensor(context, dtype=torch.float32)
-    if context.ndim == 1:
-        if context.shape[0] != users:
-            raise ValueError("1D individual context must contain one value per user")
-        context = context.view(users, 1, 1)
-    elif context.ndim == 2:
-        if context.shape[0] != users:
-            raise ValueError("2D individual context must have users on axis 0")
-        context = context.unsqueeze(1)
-    elif context.ndim != 3:
-        raise ValueError("individual context must have 1, 2, or 3 dimensions")
-    if context.shape[0] != users:
-        raise ValueError(f"individual context has {context.shape[0]} users, expected {users}")
-    if context.shape[-1] not in {1, dates}:
-        raise ValueError(f"individual context dates must be 1 or {dates}")
-    return context
-
-
-def _as_global_context(context: Any, dates: int) -> torch.Tensor | None:
-    if context is None:
-        return None
-    context = torch.as_tensor(context, dtype=torch.float32)
-    if context.ndim == 1:
-        context = context.view(1, -1)
-    elif context.ndim == 3 and context.shape[0] == 1:
-        context = context.squeeze(0)
-    elif context.ndim != 2:
-        raise ValueError("global context must have shape (channels, dates_or_1)")
-    if context.shape[-1] not in {1, dates}:
-        raise ValueError(f"global context dates must be 1 or {dates}")
-    return context
-
-
-def _load_pt_panel(
-    source: Path,
-) -> tuple[pd.DataFrame, torch.Tensor | None, torch.Tensor | None]:
-    values = _load_optional_pt(source, "values.pt")
-    if values is None:
-        raise FileNotFoundError(source / "values.pt")
-    values = torch.as_tensor(values, dtype=torch.float32)
-    if values.ndim == 2:
-        values = values.unsqueeze(1)
-    if values.ndim != 3 or values.shape[1] != 1:
-        raise ValueError("values.pt must have shape (users, 1, dates) for univariate evaluation")
-    users, _, dates = values.shape
-    datetimes = _load_optional_pt(source, "datetimes.pt")
-    if datetimes is None:
-        datetimes = np.arange(dates)
-
-    individual_ids = _load_optional_pt(source, "individual_ids.pt")
-    if individual_ids is None:
-        ids = list(range(users))
-    else:
-        individual_ids = torch.as_tensor(individual_ids, dtype=torch.long).reshape(-1)
-        ids = [int(value) for value in individual_ids.tolist()]
-        if len(ids) != users or len(set(ids)) != users:
-            raise ValueError("individual_ids.pt must contain one unique id per user")
-
-    metadata_path = source / "dataset_metadata.json"
-    metadata = json.loads(metadata_path.read_text(encoding="utf-8")) if metadata_path.exists() else {}
-    if metadata and metadata.get("version") != 1:
-        raise ValueError(f"unsupported TimeTensors dataset metadata version: {metadata.get('version')!r}")
-    raw_names = metadata.get("individual_names")
-    if raw_names is None:
-        names = [f"serie_{individual_id}" for individual_id in ids]
-    elif isinstance(raw_names, Mapping):
-        name_by_id = {int(key): str(value) for key, value in raw_names.items()}
-        missing = [individual_id for individual_id in ids if individual_id not in name_by_id]
-        if missing:
-            raise ValueError(f"dataset_metadata.json is missing individual ids: {missing[:5]}")
-        names = [name_by_id[individual_id] for individual_id in ids]
-    else:
-        raise ValueError("dataset_metadata.json individual_names must be a mapping")
-
-    frame = pd.DataFrame(values[:, 0, :].T.numpy(), index=np.asarray(datetimes), columns=names)
-    individual_context = _as_individual_context(
-        _load_optional_pt(source, "individual_context.pt"), users, dates
-    )
-    global_context = _as_global_context(_load_optional_pt(source, "global_context.pt"), dates)
-    return frame, individual_context, global_context
-
-
-def _select_pt_targets(
-    frame: pd.DataFrame,
-    individual_context: torch.Tensor | None,
-    options: Mapping[str, Any],
-) -> tuple[pd.DataFrame, torch.Tensor | None]:
-    original_columns = list(frame.columns)
-    configured = options.get("target_cols")
-    selected = (
-        [str(value) for value in _as_list(configured)]
-        if configured is not None
-        else original_columns
-    )
-    missing = [column for column in selected if column not in frame]
-    if missing:
-        raise KeyError(f"missing tensor target names: {missing}")
-    selected = _drop_columns(selected, _as_list(options.get("drop_users")))
-    indices = [original_columns.index(column) for column in selected]
-    frame = frame[selected]
-    if individual_context is not None:
-        individual_context = individual_context[indices]
-    return frame, individual_context
-
-
 def _source_record(source: Path) -> dict[str, Any]:
-    if source.is_dir():
-        files = {}
-        for name in TENSOR_INPUT_FILES:
-            path = source / name
-            if path.exists():
-                stat = path.stat()
-                files[name] = {"size": stat.st_size, "mtime_ns": stat.st_mtime_ns}
-        return {"source": str(source), "source_files": files}
     stat = source.stat()
     return {
         "source": str(source),
@@ -331,11 +193,7 @@ def _external_covariate(
 ) -> tuple[torch.Tensor, dict[str, Any]]:
     source = _resolve_source(path)
     options, config_path, applied_keys = _merge_dataset_options(source, {})
-    if source.is_dir():
-        frame, individual_context, _ = _load_pt_panel(source)
-        frame, _ = _select_pt_targets(frame, individual_context, options)
-    else:
-        frame, _ = _load_csv_panel(source, options)
+    frame, _ = _load_csv_panel(source, options)
     if not frame.index.equals(target.index):
         raise ValueError(f"covariate timeline does not match targets: {source}")
     if set(target.columns).issubset(frame.columns):
@@ -389,29 +247,14 @@ def load_panel(config: Mapping[str, Any]) -> PanelData:
     """Load one panel and apply the shared/project/run dataset config contract."""
     source = _resolve_source(config["path"], config.get("name"))
     options, config_path, applied_keys = _merge_dataset_options(source, config)
-    if source.is_dir():
-        targets, individual_context, global_context = _load_pt_panel(source)
-        targets, individual_context = _select_pt_targets(targets, individual_context, options)
-        users, dates = targets.shape[1], targets.shape[0]
-        contexts = []
-        if individual_context is not None:
-            if individual_context.shape[-1] == 1:
-                individual_context = individual_context.expand(-1, -1, dates)
-            contexts.append(individual_context)
-        if global_context is not None:
-            if global_context.shape[-1] == 1:
-                global_context = global_context.expand(-1, dates)
-            contexts.append(global_context.unsqueeze(0).expand(users, -1, -1))
-        covariates = torch.cat(contexts, dim=1).clone() if contexts else None
-    else:
-        targets, global_covariates = _load_csv_panel(source, options)
-        covariates = None
-        if global_covariates is not None:
-            global_values = torch.as_tensor(
-                global_covariates.to_numpy(copy=True).T.copy(),
-                dtype=torch.float32,
-            )
-            covariates = global_values.unsqueeze(0).expand(targets.shape[1], -1, -1).clone()
+    targets, global_covariates = _load_csv_panel(source, options)
+    covariates = None
+    if global_covariates is not None:
+        global_values = torch.as_tensor(
+            global_covariates.to_numpy(copy=True).T.copy(),
+            dtype=torch.float32,
+        )
+        covariates = global_values.unsqueeze(0).expand(targets.shape[1], -1, -1).clone()
 
     external = [_external_covariate(path, targets) for path in _as_list(options.get("covariate_paths"))]
     if external:

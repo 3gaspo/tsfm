@@ -66,7 +66,7 @@ find_dataset_path() {
             return 0
         fi
         if [ -d "$candidate" ]; then
-            match="$(find "$candidate" -maxdepth 1 -type f \( -iname '*.csv' -o -iname '*values.pt' \) -print -quit)"
+            match="$(find "$candidate" -maxdepth 1 -type f -iname '*.csv' -print -quit)"
             if [ -n "$match" ]; then
                 (cd "$candidate" && pwd)
                 return 0
@@ -205,17 +205,13 @@ model_weight_argument() {
         checkpoint="${CHRONOS_BOLT_WEIGHTS:-}"
         if [ -z "$checkpoint" ]; then checkpoint="$(find_weight_path chronos-bolt-base)" || return; fi
         echo "model.weights_path=$checkpoint"
-    elif [ "$model" = "tabpfn_ts" ]; then
-        checkpoint="${TABPFN_WEIGHTS:-}"
-        if [ -z "$checkpoint" ]; then checkpoint="$(find_weight_path tabpfnts/tabpfn-v2.5-regressor-v2.5_default.ckpt)" || return; fi
+    elif [ "$model" = "chronos_t5" ]; then
+        checkpoint="${CHRONOS_T5_WEIGHTS:-}"
+        if [ -z "$checkpoint" ]; then checkpoint="$(find_weight_path chronos-t5-base)" || return; fi
         echo "model.weights_path=$checkpoint"
     elif [ "$model" = "ts_icl" ]; then
         checkpoint="${TSICL_WEIGHTS:-}"
         if [ -z "$checkpoint" ]; then checkpoint="$(find_weight_path tsicl/tsicl-v1.ckpt)" || return; fi
-        echo "model.weights_path=$checkpoint"
-    elif [ "$model" = "tirex2" ]; then
-        checkpoint="${TIREX2_WEIGHTS:-}"
-        if [ -z "$checkpoint" ]; then checkpoint="$(find_weight_path tirex2)" || return; fi
         echo "model.weights_path=$checkpoint"
     fi
 }
@@ -242,8 +238,7 @@ run_evaluation() {
     local covariate_mode="$4"
     local instance_normalize="$5"
     local remove_constant="$6"
-    local use_time_features="$7"
-    local seed="$8"
+    local seed="$7"
     local lags="${setting%%:*}"
     local horizon="${setting##*:}"
     local batch_size
@@ -253,9 +248,8 @@ run_evaluation() {
         persistence|expected|repeat|lookback) batch_size=512 ;;
         chronos2) batch_size=64 ;;
         chronos_bolt) batch_size=128 ;;
+        chronos_t5) batch_size=32 ;;
         ts_icl) batch_size=32 ;;
-        tirex2) batch_size=64 ;;
-        tabpfn_ts) batch_size=1 ;;
         *) log "unknown model=$model"; return 2 ;;
     esac
     batch_size="${BATCH_SIZE_OVERRIDE:-$batch_size}"
@@ -270,7 +264,6 @@ run_evaluation() {
         "task.horizon=$horizon"
         "model.name=$model"
         "model.device=${MODEL_DEVICE:-cuda}"
-        "model.use_time_features=$use_time_features"
         "preprocessing.instance_normalize=$instance_normalize"
         "evaluation.stride=${EVAL_STRIDE:-512}"
         "evaluation.batch_size=$batch_size"
@@ -300,11 +293,14 @@ run_evaluation() {
     if [ -n "${COVARIATE_COLS_OVERRIDE:-}" ]; then
         command+=("data.covariate_cols=$COVARIATE_COLS_OVERRIDE")
     fi
+    if [ "${DROP_USERS_OVERRIDE+x}" = x ]; then
+        command+=("data.drop_users=$DROP_USERS_OVERRIDE")
+    fi
     if [ "$covariate_mode" = "known" ] && [ -z "${COVARIATE_PATHS_OVERRIDE:-}" ] && [ -z "${COVARIATE_COLS_OVERRIDE:-}" ]; then
         log "known covariates require COVARIATE_PATHS_OVERRIDE or COVARIATE_COLS_OVERRIDE"
         return 2
     fi
-    log "configuration dataset=$dataset L=$lags H=$horizon model=$model covariates=$covariate_mode instance_norm=$instance_normalize remove_constant=$remove_constant time_features=$use_time_features seed=$seed batch_size=$batch_size"
+    log "configuration dataset=$dataset L=$lags H=$horizon model=$model covariates=$covariate_mode instance_norm=$instance_normalize remove_constant=$remove_constant seed=$seed batch_size=$batch_size"
     DEFER_MANIFEST_COMPLETION=1 srun --ntasks=1 "${command[@]}"
     uv run python -m pipeline.runs complete-launch --root "$OUTPUT_ROOT" --launch-id "$EXPERIMENT_LAUNCH_ID" >/dev/null
 }

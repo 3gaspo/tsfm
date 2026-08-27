@@ -45,7 +45,7 @@ def test_root_fronts_and_workflows() -> None:
         assert "#SBATCH --output=logs_selena/%x_%j.out" in text
         assert "#SBATCH --error=logs_selena/%x_%j.err" in text
         assert "#SBATCH --exclusive" in text
-        assert "#SBATCH --no-requeue" in text
+        assert "#SBATCH --no-requeue" not in text
         assert "#SBATCH --wckey=P12CU:DATASCIENCE" in text
         assert 'OUTPUTS_ROOT="$PROJECT_ROOT/outputs_selena"' in text
         assert 'LOGS_ROOT="$PROJECT_ROOT/logs_selena"' in text
@@ -79,16 +79,19 @@ def test_root_fronts_and_workflows() -> None:
     assert 'mapfile -t roots < <(resource_candidates datasets)' in common
     assert 'mapfile -t roots < <(resource_candidates weights)' in common
     assert 'find_weight_path tsicl/tsicl-v1.ckpt' in common
-    assert 'find_weight_path tirex2' in common
     assert 'find_weight_path chronos-bolt-base' in common
-    for adapter in ("chronos2.py", "chronos_bolt.py", "ts_icl.py", "tirex2.py", "tabpfn.py"):
+    assert 'find_weight_path chronos-t5-base' in common
+    for adapter in ("chronos2.py", "chronos_bolt.py", "chronos_t5.py", "ts_icl.py"):
         source = (PROJECT_ROOT / "src/external_models" / adapter).read_text(
             encoding="utf-8"
         )
         assert 'project.parent / "weights"' in source
     assert "ts_icl) batch_size=32" in common
-    assert "tirex2) batch_size=64" in common
+    assert "chronos_t5) batch_size=32" in common
     assert "chronos_bolt) batch_size=128" in common
+    assert (PROJECT_ROOT / "src/external_models/tabpfn.py").is_file()
+    assert not (PROJECT_ROOT / "src/external_models/tirex2.py").exists()
+    assert (PROJECT_ROOT / "archive/retired_external_models/tirex2.py").is_file()
     univariate = (PROJECT_ROOT / "src/slurm/benchmark_univariate.sh").read_text(
         encoding="utf-8"
     )
@@ -97,14 +100,18 @@ def test_root_fronts_and_workflows() -> None:
     assert 'model_valid_for_setting "$model" "$setting" "$period"' in univariate
     assert "lookback0" not in univariate
     assert "lookback168" not in univariate
+    covariates = (PROJECT_ROOT / "src/slurm/benchmark_covariates.sh").read_text(
+        encoding="utf-8"
+    )
+    assert "MODELS=(chronos2 ts_icl)" in covariates
+    assert "TIME_FEATURES" not in covariates
     foundation = (
         PROJECT_ROOT / "src/slurm/benchmark_foundation_models.sh"
     ).read_text(encoding="utf-8")
     assert "set_profile_axes foundation" in foundation
     assert 'for task_index in "${!TASK_DATASETS[@]}"' in foundation
-    assert "MODELS=(chronos2 chronos_bolt ts_icl tabpfn_ts)" in foundation
-    assert "# tirex2 remains adapter-supported" in foundation
-    assert 'run_evaluation "$dataset" "$setting" "$model" none false false true' in foundation
+    assert "MODELS=(chronos2 chronos_bolt chronos_t5 ts_icl)" in foundation
+    assert 'run_evaluation "$dataset" "$setting" "$model" none false false "$seed"' in foundation
     assert 'TABLE_REFERENCE_MODEL="${TABLE_REFERENCE_MODEL:-chronos2}"' in foundation
     code_sync = (PROJECT_ROOT / "sync_code_to_selena.sh").read_text(
         encoding="utf-8"

@@ -1,8 +1,60 @@
 # Pending updates
 
+- 2026-08-27: Replaced the shared foundation-model contract with `chronos2`,
+  `chronos_bolt`, `chronos_t5`, and `ts_icl`; removed TiREx-2 and TabPFN from
+  dependencies, locks, registries, launchers, and current documentation;
+  retained the unregistered TabPFN adapter source and moved TiREx-2 source to
+  `archive/retired_external_models/`. The covariate family now compares
+  Chronos-2 with TS-ICL, and the obsolete TabPFN time-feature identity axis was
+  removed. Affected contracts: dependencies, model registry/adapters, all TSFM
+  model grids, run identity, reports, tests, README, handoff, guideline, and
+  executive summary. Focused adapter, Slurm, reporting, and repeat checks
+  passed directly; Python compilation and Bash syntax passed. Both PDFs built
+  in two clean passes and all five pages passed visual inspection. Deferred:
+  synchronize the prepared cluster environment and rerun all TSFM families;
+  old identities are not reusable under the new model/path contract.
+
 Last successful maintenance: 2026-08-11 10:45 +02:00.
 
 ## Pending
+
+- 2026-08-27: Moved config/repeat averaging ahead of every downstream report
+  analysis. Selected summary rows and aligned window, user, and horizon metrics
+  are now averaged together before comparisons, marginal tables, Chronos-2 win
+  rates, and plots. The focused reporting regression and Python compilation
+  passed. The publisher also gained the stable first-UTC stale-on-Git header;
+  all five publisher checks, nine-copy Git Bash syntax, and byte parity passed.
+  README and guideline source changed; the PDF was not rebuilt because this was
+  a focused code change. No model evaluation rerun is needed, but every report
+  previously produced with an average policy must be regenerated. Deferred
+  integration: regenerate one real averaged report and inspect its tables and
+  plots, rerender the guideline PDF, and exercise one oversized publication.
+
+Maintenance 2026-08-27: direct CSV loader, configuration, workflow, README,
+guideline, repository-status, and synchronized-artifact inspection confirmed
+the current contract. The complementary repeat smoke exited successfully and
+the representative publisher regression passed (1 test); all nine publisher
+copies also passed Bash syntax and byte-parity checks. The four-page guideline
+and revised one-page executive summary compiled in two clean passes and all
+five rendered pages passed visual inspection. The artifact audit found 76
+completed pre-contract manifests (60 univariate, 9 controls, 3 covariates,
+4 foundation), 2 manifests still marked running, 1 interrupted foundation
+manifest, and zero current-contract completions. The old tensor-input/additive-
+exclusion results are historical only. Publish/synchronize current code, query
+jobs 2910738/2910739, reconcile terminal manifests through the lifecycle, and
+rerun all four test families before current claims or full profiles.
+
+- 2026-08-27: Hardened the thesis-standard publisher against GitHub's
+  100 MB file limit. Before staging, each selected non-excluded file above
+  100,000,000 bytes is excluded literally and represented by
+  `<original>.sample.txt`; text samples contain source metadata and the first
+  10% capped at 10,000,000 bytes, while binary samples retain metadata only.
+  Affected contracts: publisher, README, shared publication guidance, and the
+  five maintained publisher regressions where present. Git Bash syntax passed
+  for all nine active copies, all five focused publisher checks passed, and
+  both publisher and test copies are byte-identical. No scientific rerun,
+  artifact migration, or LaTeX change is required. Deferred integration:
+  exercise one real oversized log publication on DGX.
 
 - 2026-08-26: Replaced the fixed cross-dataset L--H product with one shared
   cadence contract: hourly datasets use `168:24`, `336:48`, `504:168`; daily
@@ -110,7 +162,7 @@ Last successful maintenance: 2026-08-11 10:45 +02:00.
 
 - 2026-08-26: Added Selena overflow variants for all four TSFM Slurm fronts.
   They reuse the exact DGX workflow implementations while selecting partition
-  `an`, exclusive non-requeued allocations, WCKey `P12CU:DATASCIENCE`, distinct
+  `an`, exclusive allocations without disabling cluster requeue, WCKey `P12CU:DATASCIENCE`, distinct
   job names, and `selena_`-prefixed launch IDs. Affected contracts: eight root
   fronts, workflow regression, README, project guidance, and cluster handoff.
   Focused checks: Git Bash syntax passed for all eight fronts, the focused
@@ -464,3 +516,22 @@ The direct Slurm workflow check passed and SHA-256 parity held for all five
 sibling adapters. The updated guideline was rebuilt and visually inspected.
 Environment mutation, TIME download, foundation inference, lifecycle
 execution, and publishing were deliberately not performed.
+
+## 2026-08-27 — CSV-only inputs and replacement exclusion precedence
+
+- Behavior and affected contracts: TSFM now rejects tensor-only dataset
+  directories, reads only wide CSV inputs, and resolves `drop_users` by
+  replacement (`null` inherits, `[]` keeps all users). The controls family
+  explicitly keeps every source user, effective exclusions enter computation
+  identity, and Selena fronts no longer disable scheduler requeue.
+- Focused checks completed: dataset and Slurm workflow checks passed directly;
+  changed Python files compiled, all active experiment Bash/Slurm files passed
+  `bash -n`, and `git diff --check` passed.
+- Deferred integration: the synchronized logs predate this local contract; run
+  one post-publication controls test to confirm zero dataset-level exclusions
+  and observe any cluster requeue lifecycle.
+- README/LaTeX and reruns: README and guideline source now specify CSV-only
+  inputs and replacement precedence; re-render the guideline during
+  maintenance. Existing runs whose recorded input contract predates this
+  behavior are not reusable; rerun affected controls and any configuration
+  whose effective exclusions changed. The executive summary is unchanged.

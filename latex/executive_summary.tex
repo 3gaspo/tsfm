@@ -13,16 +13,17 @@
 \newcommand{\code}[1]{\texttt{\detokenize{#1}}}
 \title{\textbf{Time-series Foundation Model Evaluation}\\Executive Summary}
 \author{Thesis project}
-\date{Evidence checked through 26 August 2026}
+\date{Evidence checked through 27 August 2026}
 \begin{document}
 \maketitle
 
 \section*{Decision snapshot}
-\textcolor{navy}{\textbf{Chronos-2 consistently improves on the non-trainable
-baselines for the three completed hourly datasets.}}
-This evidence supports Chronos-2 for the evaluated univariate hourly settings,
-but does not yet support a conclusion for daily Exchange Rate, TIME datasets,
-covariates, or the four-model foundation comparison.
+\textcolor{amber}{\textbf{No synchronized evaluation is eligible evidence for
+the current CSV-only, replacement-exclusion contract.}}
+The completed manifests consumed prepared tensor files and, for controls,
+retained the former additive exclusions. Their measurements are historical
+signals only; the affected identities must be rerun before supporting a
+current scientific decision.
 
 \section{Evidence inventory}
 \begin{center}
@@ -31,32 +32,38 @@ covariates, or the four-model foundation comparison.
 \toprule
 \textbf{Result object} & \textbf{Count} \\
 \midrule
-Current hourly datasets & 3 \\
-Current dataset--setting configurations & 9 \\
-Current model configurations & 45 \\
-Seeds per configuration & 1 \\
-Completed TIME evaluations & 0 \\
+Completed pre-contract manifests & 76 \\
+Univariate / controls / covariates / foundation & 60 / 9 / 3 / 4 \\
+Manifests still marked running & 2 \\
+Interrupted foundation manifests & 1 \\
+Current-contract completed manifests & 0 \\
 \bottomrule
 \end{tabularx}
 \end{center}
 
 \section{Obtained evidence}
-The completed full-univariate snapshot evaluated Electricity, Solar, and
-Traffic at $168{:}24$, $336{:}48$, and $504{:}168$ with seed 1 and stride 512.
-Chronos-2 beat the best persistence, expected, repeat, or weekly-lookback
-baseline in nMSE on all nine configurations. Its mean nMSE improvement over the
-best baseline was 31.335\% on Electricity, 43.099\% on Solar, and 37.394\% on
-Traffic.
+Historically, the single-seed full-univariate snapshot evaluated Electricity,
+Solar, and Traffic at $168{:}24$, $336{:}48$, and $504{:}168$ with stride 512.
+Chronos-2 beat the best non-trainable baseline in nMSE on all nine settings;
+the mean improvements were 31.335\%, 43.099\%, and 37.394\%, respectively.
+These identities consumed tensor inputs and therefore cannot be reused now.
+The former Exchange Rate settings also used hourly scales on daily data.
 
-These are single-seed, sparsely sampled results. The warning about an unset
-deterministic CUDA workspace variable further limits a claim of exact GPU
-reproducibility. The former Exchange Rate results used hourly-scale
-$L$--$H$ values on daily data and are excluded from the current protocol.
+At Electricity $504{:}168$, the historical four-model test did not establish a
+metric-independent winner: Chronos-Bolt had the lowest nMSE, while TS-ICL had
+the lowest raw MSE. The covariate family showed a large Chronos-2 identity
+signal, but only three configurations completed; controls stopped after nine.
+Both families are incomplete and pre-contract, so neither supports a current
+conclusion. Two obsolete manifests remain marked running under Selena jobs
+2910738 and 2910739, and DGX job 45673 was interrupted by missing Chronos-2
+weights.
 
 \section{Next evidence}
-Resubmit full univariate under the cadence-aware profile. Exact completed hourly
-identities remain reusable; the run must add daily Exchange Rate at $7{:}1$,
-$14{:}2$, and $30{:}7$, evaluate every feasible prepared TIME dataset, and
-regenerate the mixed-cadence report. Then complete full controls, covariates,
-and foundation-model families before making claims about those questions.
+Publish and synchronize the current CSV-only code and dataset configuration.
+Discard the obsolete running manifests and rerun each test family so its manifest records the
+current input contract and effective exclusions. After those boundaries pass,
+run cadence-aware full univariate, controls, covariates, and foundation
+profiles with Chronos-2, Chronos-Bolt, Chronos-T5, and TS-ICL, including daily
+Exchange Rate and feasible TIME datasets, before
+making new claims.
 \end{document}

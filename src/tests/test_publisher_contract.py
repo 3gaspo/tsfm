@@ -40,6 +40,21 @@ class PublisherContractTest(unittest.TestCase):
         self.assertIn("**/*.pt", publisher)
         self.assertIn("**/*.npy", publisher)
         self.assertIn("**/*.cbm", publisher)
+        self.assertIn('PUBLISH_MAX_FILE_BYTES:-100000000', publisher)
+        self.assertIn('PUBLISH_SAMPLE_MAX_BYTES:-10000000', publisher)
+        self.assertIn('sample_relative="${relative}.sample.txt"', publisher)
+        self.assertIn("sed -n 's/^git_stale_at_utc: //p'", publisher)
+        self.assertIn("date -u '+%Y-%m-%dT%H:%M:%SZ'", publisher)
+        self.assertIn(
+            "git_stale_reason: associated file became stale on Git due to file size",
+            publisher,
+        )
+        self.assertIn('head -c "$sample_bytes" -- "$file"', publisher)
+        self.assertIn('oversize_exclusions+=(":(exclude,literal)$relative")', publisher)
+        self.assertLess(
+            publisher.index('oversize_exclusions+=(":(exclude,literal)$relative")'),
+            publisher.index("git add -v -f --"),
+        )
         self.assertIn('. "$proxy_script"', publisher)
         self.assertIn("$HOME/codes/proxy.sh", publisher)
         self.assertNotIn("PROXY_CREDENTIALS_FILE", publisher)

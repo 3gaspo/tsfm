@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -32,6 +33,11 @@ TIMING_METRICS = (
 )
 TABLE_METRICS = (*ERROR_METRICS, *TIMING_METRICS)
 BASELINE_MODELS = {"persistence", "expected", "repeat", "lookback"}
+AVERAGED_ARTIFACTS = {
+    "window_metrics.csv": ("user_id", "user_name", "query_index", "query_datetime"),
+    "per_user_metrics.csv": ("user_id", "user_name"),
+    "horizon_metrics.csv": ("horizon",),
+}
 
 
 def _flatten(prefix: str, value: Mapping[str, Any]) -> dict[str, Any]:
@@ -104,7 +110,6 @@ def _group_columns(frame: pd.DataFrame) -> list[str]:
         "covariate_mode",
         "instance_normalize",
         "remove_constant",
-        "use_time_features",
         "stride",
         "seed",
     ]
@@ -114,6 +119,89 @@ def _group_columns(frame: pd.DataFrame) -> list[str]:
 def _read_csv(run_dir: Path, name: str) -> pd.DataFrame | None:
     path = run_dir / name
     return pd.read_csv(path) if path.is_file() else None
+
+
+def _average_artifact(
+    run_dirs: list[Path],
+    name: str,
+    keys: tuple[str, ...],
+    output: Path,
+) -> None:
+    frames = [_read_csv(run_dir, name) for run_dir in run_dirs]
+    present = [frame is not None for frame in frames]
+    if not any(present):
+        return
+    if not all(present):
+        missing = [str(path / name) for path, exists in zip(run_dirs, present) if not exists]
+        raise FileNotFoundError(
+            f"cannot average {name}; selected repeats are missing {missing}"
+        )
+    loaded = [frame for frame in frames if frame is not None]
+    first_columns = list(loaded[0].columns)
+    indexed: list[pd.DataFrame] = []
+    for frame in loaded:
+        missing_keys = [key for key in keys if key not in frame]
+        if missing_keys:
+            raise ValueError(f"{name} is missing alignment keys {missing_keys}")
+        if set(frame.columns) != set(first_columns):
+            raise ValueError(f"selected {name} artifacts have different columns")
+        if frame.duplicated(list(keys)).any():
+            raise ValueError(f"{name} contains duplicate alignment keys {keys}")
+        indexed.append(frame.set_index(list(keys)).sort_index())
+    reference = indexed[0]
+    if any(not frame.index.equals(reference.index) for frame in indexed[1:]):
+        raise ValueError(f"selected {name} artifacts do not contain the same aligned rows")
+
+    averaged = reference.copy()
+    for column in reference.columns:
+        values = [frame[column] for frame in indexed]
+        if all(pd.api.types.is_numeric_dtype(value.dtype) for value in values):
+            averaged[column] = np.mean(
+                np.stack([value.to_numpy(dtype=float) for value in values]),
+                axis=0,
+            )
+        elif any(not value.equals(values[0]) for value in values[1:]):
+            raise ValueError(
+                f"selected {name} artifacts disagree on non-numeric column {column!r}"
+            )
+    output.mkdir(parents=True, exist_ok=True)
+    averaged.reset_index()[first_columns].to_csv(output / name, index=False)
+
+
+def _average_analysis_frame(frame: pd.DataFrame, output: Path) -> pd.DataFrame:
+    """Average selected runs and their aligned analysis artifacts."""
+    group_columns = ["identity_signature", "run_label"]
+    rows: list[dict[str, Any]] = []
+    for _, group in frame.groupby(group_columns, dropna=False, sort=False):
+        run_dirs = [Path(value) for value in group["_run_dir"]]
+        source_key = "|".join(str(path.resolve()) for path in run_dirs)
+        source_hash = hashlib.sha256(source_key.encode("utf-8")).hexdigest()[:12]
+        first = group.iloc[0]
+        averaged_dir = (
+            output
+            / "averaged_inputs"
+            / _safe_name(first["identity_signature"])
+            / f"{_safe_name(first['run_label'])}_{source_hash}"
+        )
+        for name, keys in AVERAGED_ARTIFACTS.items():
+            _average_artifact(run_dirs, name, keys, averaged_dir)
+
+        row = first.to_dict()
+        numeric = group.select_dtypes(include="number").columns
+        for column in numeric:
+            if column != "seed":
+                row[column] = float(group[column].mean())
+        row.pop("seed", None)
+        row["averaged_seeds"] = ",".join(
+            str(value) for value in sorted(set(group.get("seed", pd.Series(dtype=int))))
+        )
+        row["averaged_runs"] = int(len(group))
+        row["summary_path"] = ";".join(group["summary_path"].astype(str))
+        row["run_path"] = ";".join(group["run_path"].astype(str))
+        row["manifest_id"] = ";".join(group["manifest_id"].astype(str))
+        row["_run_dir"] = str(averaged_dir)
+        rows.append(row)
+    return pd.DataFrame(rows)
 
 
 def _comparison_frame(
@@ -401,22 +489,18 @@ def build_report(
     raw_frame = pd.DataFrame(rows).sort_values(
         ["dataset", "lags", "horizon", "model", "covariate_mode", "instance_normalize", "remove_constant"]
     )
-    comparison = _comparison_frame(raw_frame, metric, reference_model)
+    average_policy = config_policy == "average" or repeat_policy == "average"
+    analysis_frame = (
+        _average_analysis_frame(raw_frame, output) if average_policy else raw_frame
+    )
+    comparison = _comparison_frame(analysis_frame, metric, reference_model)
     by_dataset = _marginal_frame(comparison, "dataset")
     by_setting = _marginal_frame(comparison, "setting")
     by_range = _marginal_frame(comparison, "range")
-    win_rates = _chronos_win_rates(raw_frame)
-    plot_index = build_plots(raw_frame, output) if make_plots else pd.DataFrame()
+    win_rates = _chronos_win_rates(analysis_frame)
+    plot_index = build_plots(analysis_frame, output) if make_plots else pd.DataFrame()
 
-    frame = raw_frame.drop(columns=["_run_dir"])
-    if config_policy == "average" or repeat_policy == "average":
-        group_columns = ["identity_signature", "run_label"]
-        grouped = frame.groupby(group_columns, dropna=False, sort=False)
-        averaged = grouped.first().reset_index()
-        numeric = [column for column in frame.select_dtypes(include="number").columns if column not in group_columns]
-        means = grouped[numeric].mean().reset_index()
-        frame = averaged.drop(columns=numeric, errors="ignore").merge(means, on=group_columns, how="left")
-        frame["averaged_runs"] = grouped.size().to_numpy()
+    frame = analysis_frame.drop(columns=["_run_dir"])
 
     result_path = output / "results.csv"
     frame.to_csv(result_path, index=False)

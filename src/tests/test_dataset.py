@@ -46,11 +46,21 @@ def test_config_merge_and_identity_covariate() -> None:
                 "covariate_mode": "identity",
             }
         )
-        assert panel.user_names == ["a"]
+        assert panel.user_names == ["a", "b", "c"]
         assert torch.equal(panel.values, panel.covariates)
         dataset = StridedWindowDataset(panel, 4, 2, stride=3)
         assert dataset.query_indices == [3, 6, 9]
-        assert [dataset[index]["query_index"] for index in range(len(dataset))] == [3, 6, 9]
+        assert [dataset[index]["query_index"] for index in range(len(dataset))] == [
+            3,
+            3,
+            3,
+            6,
+            6,
+            6,
+            9,
+            9,
+            9,
+        ]
 
 
 def test_constant_filter_is_pairwise_and_deterministic() -> None:
@@ -71,51 +81,19 @@ def test_constant_filter_is_pairwise_and_deterministic() -> None:
     assert [pair[0] for pair in filtered.pairs] == [0, 0]
 
 
-def test_timetensors_tensor_names_and_context_shapes() -> None:
+def test_tensor_only_directory_is_rejected() -> None:
     with tempfile.TemporaryDirectory(dir=PROJECT_ROOT / "outputs") as directory:
         root = Path(directory)
-        values = torch.arange(54, dtype=torch.float32).reshape(3, 1, 18)
-        global_context = torch.stack(
-            [torch.arange(18, dtype=torch.float32), torch.arange(18, dtype=torch.float32) * 2]
-        )
-        torch.save(values, root / "values.pt")
-        torch.save(np.arange(18), root / "datetimes.pt")
-        torch.save(torch.tensor([10, 20, 30]), root / "individual_ids.pt")
-        torch.save(torch.tensor([1.0, 2.0, 3.0]), root / "individual_context.pt")
-        torch.save(global_context, root / "global_context.pt")
-        (root / "dataset_metadata.json").write_text(
-            json.dumps(
-                {
-                    "version": 1,
-                    "individual_names": {"10": "alice", "20": "bob", "30": "carol"},
-                }
-            ),
-            encoding="utf-8",
-        )
-
-        panel = load_panel(
-            {
-                "path": str(root),
-                "drop_users": ["bob"],
-                "covariate_mode": "known",
-            }
-        )
-        assert panel.user_names == ["alice", "carol"]
-        assert panel.covariates is not None
-        assert panel.covariates.shape == (2, 3, 18)
-        assert torch.equal(panel.covariates[:, 0, 0], torch.tensor([1.0, 3.0]))
-        assert torch.equal(panel.covariates[0, 1:], global_context)
-        assert set(panel.metadata["source_files"]) == {
-            "values.pt",
-            "datetimes.pt",
-            "individual_ids.pt",
-            "individual_context.pt",
-            "global_context.pt",
-            "dataset_metadata.json",
-        }
+        (root / "values.pt").write_bytes(b"not a CSV")
+        try:
+            load_panel({"path": str(root), "covariate_mode": "none"})
+        except FileNotFoundError as error:
+            assert "could not identify one dataset file" in str(error)
+        else:
+            raise AssertionError("TSFM must not consume tensor-only datasets")
 
 
 if __name__ == "__main__":
     test_config_merge_and_identity_covariate()
     test_constant_filter_is_pairwise_and_deterministic()
-    test_timetensors_tensor_names_and_context_shapes()
+    test_tensor_only_directory_is_rejected()

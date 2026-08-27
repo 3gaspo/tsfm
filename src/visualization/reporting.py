@@ -23,7 +23,6 @@ def _group_columns(frame: pd.DataFrame) -> list[str]:
         "covariate_mode",
         "instance_normalize",
         "remove_constant",
-        "use_time_features",
         "stride",
         "seed",
     ]

@@ -11,7 +11,6 @@
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=40000
 #SBATCH --exclusive
-#SBATCH --no-requeue
 #SBATCH --wckey=P12CU:DATASCIENCE
 
 PROJECT_ROOT="${SLURM_SUBMIT_DIR:-$(pwd)}"

@@ -7,7 +7,7 @@ data:
   covariate_cols: null
   covariate_paths: null
   covariate_mode: none  # none | identity | known
-  drop_users: []
+  drop_users: null  # null inherits config.json; [] explicitly keeps every user
   aggr: null
   aggr_period: null
 
@@ -16,7 +16,7 @@ task:
   horizon: 24
 
 model:
-  name: repeat  # persistence | expected | repeat | lookback | chronos2 | chronos_bolt | ts_icl | tirex2 | tabpfn_ts
+  name: repeat  # persistence | expected | repeat | lookback | chronos2 | chronos_bolt | chronos_t5 | ts_icl
   device: cuda
   weights_path: null
   lookback_period: null  # inferred as one week from dated inputs
@@ -24,10 +24,7 @@ model:
   cross_learning: false
   quantile_index: null
   quantile_level: 0.5
-  seasonal_periods: [24, 168]
-  use_time_features: true
-  kwargs:
-    random_state: ${evaluation.seed}
+  num_samples: 20
 
 preprocessing:
   instance_normalize: true
@@ -46,9 +43,9 @@ evaluation:
 output:
   dir: outputs/univariate
   workflow: univariate
-  model_config_order: [covariate_mode, normalization, constant_policy, time_features]
+  model_config_order: [covariate_mode, normalization, constant_policy]
   row_config: [covariate_mode]
-  column_config: [normalization, constant_policy, time_features]
+  column_config: [normalization, constant_policy]
   purpose: development
   mode: null
   conflict_policy: overwrite_exact

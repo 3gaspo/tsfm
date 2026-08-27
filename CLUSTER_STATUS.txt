@@ -1,11 +1,11 @@
-Last updated: 2026-08-26
+Last updated: 2026-08-27
 
-Latest completed jobs/profile: Selena jobs 2897846 and 2898432 completed the
-former fixed-grid full univariate profile. The analyzed snapshot contains
-Electricity, Solar, Traffic, and Exchange Rate at 168:24, 336:48, and 504:168,
-seed 1 and stride 512. Chronos-2 beat the best baseline on all nine hourly
-Electricity/Solar/Traffic configurations; mean nMSE improvements by dataset
-were 31.335%, 43.099%, and 37.394%, respectively.
+Latest synchronized inventory: 76 completed manifests (60 univariate,
+9 controls, 3 covariates, and 4 foundation), 2 manifests still marked running,
+and 1 interrupted foundation manifest. Every completed manifest predates the
+current CSV-only input contract and records prepared tensor inputs. Controls
+also used the former additive exclusion behavior. Current-contract completed
+evidence therefore remains zero.
 
 Current scientific contract: settings are cadence-specific. Hourly datasets
 use 168:24, 336:48, 504:168; daily datasets use 7:1, 14:2, 30:7; and 15-minute
@@ -16,25 +16,23 @@ datasets plus feasible TIME datasets at the cadence-specific mid and long
 ranges. Reports aggregate comparable short/mid/long ranges while retaining
 literal-setting tables. Schema 1 is unchanged.
 
-Reuse/rerun decision: completed Electricity, Solar, and Traffic univariate
-configurations remain current and will be skipped by an exact resubmission.
-The completed Exchange Rate configurations used hourly-scale settings and are
-excluded from current evidence; rerun Exchange Rate at the three daily ranges.
-No TIME evaluation has completed, so every selected TIME task is new. The old
-full report mixes cadences and must be regenerated after those tasks finish.
-The Electricity 504:168 test identity remains current for all four families.
+Reuse/rerun decision: no synchronized manifest may be reused for a current
+computation identity. Rerun the test boundary for all four families after the
+current code and CSV dataset configuration are synchronized. Then rerun the
+cadence-aware full scope, including Exchange Rate at its three daily ranges and
+all feasible TIME datasets. Regenerate reports only from current identities.
 
-Running or queued jobs: not re-queried by this local protocol update. Earlier
-test launches may continue safely because their Electricity 504:168 identity
-did not change.
+Running or queued jobs: controls job 2910738 and covariates job 2910739 each
+left one now-obsolete removed-model manifest marked running. DGX foundation job 45673 is marked
+interrupted after Chronos-2 weights were unavailable. Query scheduler state
+before using the supported lifecycle recovery; do not edit manifests directly.
 
-Next cluster actions: synchronize this code to Selena, verify that the prepared
-datasets root exposes time/catalog.json, then resubmit
-`EXPERIMENT_MODE=full sbatch slurm/selena/main/01_univariate_selena.slurm`.
-It should reuse the three hourly datasets, run daily Exchange Rate and TIME,
-and regenerate the full report. After the outstanding test jobs complete,
-full controls, covariates, and foundation workflows are eligible to launch;
-they will use the same automatic TIME discovery. Use DATASETS_OVERRIDE for a
-narrow recovery run; an override replaces automatic TIME selection.
+Next cluster actions: publish and synchronize the current code, verify the CSV
+dataset root and time/catalog.json, query jobs 2910738 and 2910739, and resolve
+any terminal stale manifests through the workflow. Run the four test families
+before submitting cadence-aware full profiles. Use DATASETS_OVERRIDE only for
+a narrow recovery run; an override replaces automatic TIME selection.
 
-Known job IDs: 2897846, 2898432 (completed former full-univariate launches).
+Known job IDs: 2897225, 2897846 (historical univariate); 2898430 (historical
+controls); 2898431 (historical covariates); 2897232, 2897857 (historical
+foundation); 2910738, 2910739 (manifests marked running); 45673 (interrupted).

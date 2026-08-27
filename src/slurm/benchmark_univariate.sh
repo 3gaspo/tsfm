@@ -18,7 +18,7 @@ if stage_enabled evaluate; then
                 continue
             fi
             for seed in "${SEEDS[@]}"; do
-                run_evaluation "$dataset" "$setting" "$model" none true false true "$seed"
+                run_evaluation "$dataset" "$setting" "$model" none true false "$seed"
             done
         done
     done

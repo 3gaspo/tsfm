@@ -46,7 +46,7 @@ def test_repeat_end_to_end() -> None:
                 "aggr_period": None,
             },
             "task": {"lags": 4, "horizon": 2},
-            "model": {"name": "repeat", "device": "cpu", "use_time_features": True},
+            "model": {"name": "repeat", "device": "cpu"},
             "preprocessing": {"instance_normalize": True, "eps": 1e-8},
             "evaluation": {
                 "stride": 2,
@@ -61,9 +61,9 @@ def test_repeat_end_to_end() -> None:
             "output": {
                 "dir": str(root / "runs"),
                 "workflow": "univariate",
-                "model_config_order": ["covariate_mode", "normalization", "constant_policy", "time_features"],
+                "model_config_order": ["covariate_mode", "normalization", "constant_policy"],
                 "row_config": ["covariate_mode"],
-                "column_config": ["normalization", "constant_policy", "time_features"],
+                "column_config": ["normalization", "constant_policy"],
                 "purpose": "smoke",
                 "mode": "test",
                 "conflict_policy": "overwrite_exact",

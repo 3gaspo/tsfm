@@ -16,8 +16,7 @@ from .baselines import (
 from external_models import (
     Chronos2,
     ChronosBolt,
-    TabPFNTS,
-    TiRex2Forecaster,
+    ChronosT5,
     TSICLForecaster,
 )
 
@@ -25,9 +24,8 @@ from external_models import (
 FOUNDATION_MODEL_ALIASES = (
     "chronos2",
     "chronos_bolt",
+    "chronos_t5",
     "ts_icl",
-    "tirex2",
-    "tabpfn_ts",
 )
 
 
@@ -58,10 +56,6 @@ class ForecastModel(nn.Module):
             covariates = {"past": past_covariates, "future": future_covariates}
         prediction = self.base(model_input, covariates=covariates)
         return prediction if mean is None else prediction * (std + self.eps) + mean
-
-
-def _plain_dict(value: Any) -> dict[str, Any]:
-    return {} if value is None else dict(value)
 
 
 def build_forecaster(
@@ -109,6 +103,16 @@ def build_forecaster(
             local_files_only=bool(model_config.get("local_files_only", True)),
             quantile_level=float(model_config.get("quantile_level", 0.5)),
         )
+    elif name == "chronos_t5":
+        base = ChronosT5(
+            lags=lags,
+            dim=1,
+            horizon=horizon,
+            weights_path=weights_path,
+            device=device,
+            local_files_only=bool(model_config.get("local_files_only", True)),
+            num_samples=int(model_config.get("num_samples", 20)),
+        )
     elif name == "ts_icl":
         base = TSICLForecaster(
             lags=lags,
@@ -118,26 +122,6 @@ def build_forecaster(
             device=device,
             local_files_only=bool(model_config.get("local_files_only", True)),
             quantile_level=float(model_config.get("quantile_level", 0.5)),
-        )
-    elif name == "tirex2":
-        base = TiRex2Forecaster(
-            lags=lags,
-            dim=1,
-            horizon=horizon,
-            weights_path=weights_path,
-            device=device,
-            quantile_level=float(model_config.get("quantile_level", 0.5)),
-        )
-    elif name == "tabpfn_ts":
-        base = TabPFNTS(
-            lags=lags,
-            dim=1,
-            horizon=horizon,
-            weights_path=weights_path,
-            device=device,
-            seasonal_periods=model_config.get("seasonal_periods") or [24, 168],
-            use_time_features=bool(model_config.get("use_time_features", True)),
-            **_plain_dict(model_config.get("kwargs")),
         )
     else:
         raise ValueError(f"unknown inference model {name!r}")

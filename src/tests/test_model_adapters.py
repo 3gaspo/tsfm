@@ -8,8 +8,8 @@ import torch
 
 import external_models.chronos2 as chronos_module
 import external_models.chronos_bolt as chronos_bolt_module
+import external_models.chronos_t5 as chronos_t5_module
 import external_models.tabpfn as tabpfn_module
-import external_models.tirex2 as tirex2_module
 import external_models.ts_icl as tsicl_module
 from evaluation.evaluator import _weekly_period_steps
 from model_loading import build_forecaster
@@ -68,6 +68,18 @@ class FakeChronosBoltBase:
         return FakeChronosBoltPipeline()
 
 
+class FakeChronosT5Pipeline:
+    def predict(self, inputs, *, prediction_length, num_samples):
+        assert num_samples == 5
+        return torch.ones(inputs.shape[0], num_samples, prediction_length)
+
+
+class FakeChronosT5Base:
+    @classmethod
+    def from_pretrained(cls, *args, **kwargs):
+        return FakeChronosT5Pipeline()
+
+
 class FakeTSICL:
     instance = None
 
@@ -86,29 +98,6 @@ class FakeTSICL:
             device=inputs.device,
         )
         return point, point.clone()
-
-
-class FakeTimeseriesType:
-    def __init__(self, *, target, past_covariates, future_covariates):
-        self.target = target
-        self.past_covariates = past_covariates
-        self.future_covariates = future_covariates
-
-
-class FakeTiRexPipeline:
-    def __init__(self):
-        self.quantiles = torch.tensor([0.1, 0.5, 0.9])
-        self.series = None
-        self.forecast_kwargs = None
-
-    def forecast(self, series, **kwargs):
-        self.series = series
-        self.forecast_kwargs = kwargs
-        horizon = kwargs["prediction_length"]
-        return [
-            torch.tensor([1.0, 2.0, 3.0]).view(1, 3, 1).expand(1, 3, horizon)
-            for _ in series
-        ]
 
 
 def test_legacy_baselines() -> None:
@@ -245,23 +234,52 @@ def test_chronos_bolt_official_pipeline_protocol() -> None:
         chronos_bolt_module._import_pipeline = original
 
 
+def test_chronos_t5_official_pipeline_protocol() -> None:
+    original = chronos_t5_module._import_pipeline
+    chronos_t5_module._import_pipeline = lambda: FakeChronosT5Base
+    try:
+        with tempfile.TemporaryDirectory(dir=PROJECT_ROOT / "outputs") as directory:
+            model = chronos_t5_module.ChronosT5(
+                4,
+                horizon=2,
+                weights_path=directory,
+                device="cpu",
+                num_samples=5,
+            )
+            prediction = model(torch.zeros(2, 1, 4))
+            assert torch.equal(prediction, torch.ones(2, 1, 2))
+            try:
+                model(
+                    torch.zeros(2, 1, 4),
+                    past_covariates=torch.ones(2, 1, 4),
+                )
+            except ValueError as error:
+                assert "does not consume covariates" in str(error)
+            else:
+                raise AssertionError("Chronos-T5 must reject covariates")
+    finally:
+        chronos_t5_module._import_pipeline = original
+
+
 def test_foundation_aliases_are_unique() -> None:
     assert FOUNDATION_MODEL_ALIASES == (
         "chronos2",
         "chronos_bolt",
+        "chronos_t5",
         "ts_icl",
-        "tirex2",
-        "tabpfn_ts",
     )
     for removed in (
         "chronos",
         "chronos-2",
         "chronos-bolt",
+        "chronos-t5",
         "tsicl",
         "ts-icl",
+        "tirex2",
         "tirex_2",
         "tirex-2",
         "tyrex2",
+        "tabpfn_ts",
         "tabpfn",
         "tabpfn-ts",
     ):
@@ -312,51 +330,12 @@ def test_tsicl_official_forecast_protocol() -> None:
         tsicl_module._import_tsicl = original
 
 
-def test_tirex2_official_forecast_protocol() -> None:
-    original = tirex2_module._import_tirex2
-    pipeline = FakeTiRexPipeline()
-    tirex2_module._import_tirex2 = lambda: (
-        lambda path, device: pipeline,
-        FakeTimeseriesType,
-    )
-    try:
-        with tempfile.TemporaryDirectory(dir=PROJECT_ROOT / "outputs") as directory:
-            checkpoint = Path(directory)
-            (checkpoint / "model-config.yaml").touch()
-            (checkpoint / "model.ckpt").touch()
-            model = tirex2_module.TiRex2Forecaster(
-                lags=4,
-                dim=1,
-                horizon=2,
-                weights_path=checkpoint,
-                device="cpu",
-            )
-            context = {
-                "past": torch.ones(2, 2, 4),
-                "future": torch.ones(2, 2, 2),
-            }
-            prediction = model(torch.zeros(2, 1, 4), context)
-            assert prediction.shape == (2, 1, 2)
-            assert torch.equal(prediction, torch.full((2, 1, 2), 2.0))
-            assert len(pipeline.series) == 2
-            assert pipeline.series[0].target.shape == (1, 4)
-            assert pipeline.series[0].past_covariates is None
-            assert pipeline.series[0].future_covariates.shape == (2, 6)
-            assert pipeline.forecast_kwargs == {
-                "prediction_length": 2,
-                "output_type": "torch",
-                "batch_size": 2,
-            }
-    finally:
-        tirex2_module._import_tirex2 = original
-
-
 if __name__ == "__main__":
     test_legacy_baselines()
     test_weekly_period_resolution_and_removed_indexed_names()
     test_tabpfn_feature_protocol()
     test_chronos_structured_covariates()
     test_chronos_bolt_official_pipeline_protocol()
+    test_chronos_t5_official_pipeline_protocol()
     test_foundation_aliases_are_unique()
     test_tsicl_official_forecast_protocol()
-    test_tirex2_official_forecast_protocol()

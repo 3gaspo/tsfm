@@ -1,7 +1,7 @@
 # TSFM Evaluation
 
 This repository provides deterministic, inference-only evaluation of frozen
-Chronos-2, Chronos-Bolt, TS-ICL, TiRex-2, and in-context TabPFN-TS. The model
+Chronos-2, Chronos-Bolt, Chronos-T5, and TS-ICL. The model
 files are thin tensor adapters around official packages and checkpoints;
 their model architectures and inference pipelines are not reimplemented here.
 It contains no forecasting-model training, optimization, PatchTST, or data
@@ -72,7 +72,7 @@ Rate is daily; TIME datasets take their cadence from `catalog.json`.
 Evaluation uses the entire eligible
 timeline—there is no train/validation/test split—and deterministically retains
 one query date every 512 steps by default. `EVAL_STRIDE` changes this speed and
-coverage trade-off. Fixed TabPFN periods remain 24 and 168.
+coverage trade-off.
 
 The `lookback` baseline is weekly seasonal persistence. With `P` observations
 per week, it selects `k=ceil(H/P)` and predicts from
@@ -86,13 +86,9 @@ real dates require the explicit override.
 
 ## Data and covariates
 
-`data.path` may identify a wide CSV, a directory containing one CSV, or a
-tensor directory produced by TimeTensors. The current tensor contract uses
-`values.pt`, optional `datetimes.pt` and `individual_ids.pt`, optional
-`individual_context.pt` and `global_context.pt`, and
-`dataset_metadata.json` for source-ID-to-name mappings. Static context is
-broadcast across dates and global context across users before the two are
-concatenated. CSV targets default to every non-date, non-covariate column.
+`data.path` identifies a wide CSV or a directory containing one CSV. TSFM does
+not consume TimeTensors `.pt` caches. CSV targets default to every non-date,
+non-covariate column.
 Three covariate modes are available:
 
 - `none`: univariate inference;
@@ -104,10 +100,11 @@ Each external covariate panel must share the target timeline and either share
 its user column names, have the same number/order of users, or contain one
 global column. Paths are evaluation inputs; this project does not create them.
 
-The loader discovers `config.json` beside the selected CSV/tensor directory.
+The loader discovers `config.json` beside the selected CSV.
 Portable fields live at the JSON top level and project-only overrides under
 `tsfm_evaluation`. Scoped settings override portable settings, explicit Hydra
-values override both, and `drop_users` is merged additively across all levels.
+values override both. For `drop_users`, null or omission inherits, `[]` keeps
+every CSV user, and a nonempty override replaces the preceding default.
 The selected config path and applied keys are logged and recorded in every run
 summary.
 
@@ -170,64 +167,55 @@ PYTHONPATH=src uv run python -m scripts.evaluate \
   evaluation.remove_constant=false evaluation.stride=512
 ```
 
-Identity-covariate TabPFN-TS:
+Identity-covariate TS-ICL:
 
 ```bash
 PYTHONPATH=src uv run python -m scripts.evaluate \
   data.path=datasets/electricity data.name=electricity \
-  task.lags=168 task.horizon=24 model.name=tabpfn_ts \
-  model.weights_path=weights/tabpfnts/tabpfn-v2.5-regressor-v2.5_default.ckpt \
+  task.lags=168 task.horizon=24 model.name=ts_icl \
+  model.weights_path=weights/tsicl/tsicl-v1.ckpt \
   data.covariate_mode=identity
 ```
 
-Prepared known covariates, with TabPFN time embeddings removed:
+Prepared known covariates with TS-ICL:
 
 ```bash
 PYTHONPATH=src uv run python -m scripts.evaluate \
   data.path=datasets/conso data.name=conso \
   'data.covariate_paths=[datasets/electricity,datasets/solar,datasets/traffic]' \
-  data.covariate_mode=known model.name=tabpfn_ts \
-  model.use_time_features=false task.lags=168 task.horizon=24
+  data.covariate_mode=known model.name=ts_icl \
+  model.weights_path=weights/tsicl/tsicl-v1.ckpt task.lags=168 task.horizon=24
 ```
 
 Chronos-2 expects a local pretrained directory under `weights/chronos2` by
-default. Chronos-Bolt expects `weights/chronos-bolt-base`. TS-ICL expects the
+default. Chronos-Bolt expects `weights/chronos-bolt-base`, Chronos-T5 expects
+`weights/chronos-t5-base`, and TS-ICL expects the
 official `tsicl-v1.ckpt` file under
-`weights/tsicl/`. TiRex-2 expects the official `model-config.yaml` and
-`model.ckpt` together under `weights/tirex2/`. TabPFN-TS expects the v2.5
-checkpoint under `weights/tabpfnts/`. Explicit `model.weights_path` values take
-precedence. The project pins `chronos-forecasting==2.0.1`,
-`tsicl==0.2.0`, `tirex-2==0.2.1`, and `tabpfn==6.3.1`. Their shared
-dependency range requires Python 3.12
-and PyTorch 2.8 or newer but below 2.10.
-TS-ICL code and weights use the upstream non-commercial license; TiRex-2 is
-Apache-2.0. Confirm those upstream terms for any use beyond this research.
+`weights/tsicl/`. Explicit `model.weights_path` values take precedence. The
+project requires `chronos-forecasting>=2.3.1`, `tsicl>=0.2.1`, Python 3.12,
+and PyTorch 2.5.1. TS-ICL code and weights use the upstream non-commercial
+license; confirm those upstream terms for any use beyond this research.
 
 Every external-model file is a project-owned tensor/checkpoint adapter only:
-model architecture, preprocessing, and inference remain in the pinned official
-packages. No Chronos, TS-ICL, TiRex-2, or TabPFN architecture is copied into
-this repository.
+model architecture, preprocessing, and inference remain in the official
+packages. No Chronos or TS-ICL architecture is copied into this repository.
+The former TabPFN adapter source is retained but is unregistered and has no
+runtime dependency or launcher; the retired TiREx-2 adapter is archived.
 
-The sole foundation aliases are `chronos2`, `chronos_bolt`, `ts_icl`,
-`tirex2`, and `tabpfn_ts`, matching TimeTensors and online adaptation exactly.
+The sole foundation aliases are `chronos2`, `chronos_bolt`, `chronos_t5`, and
+`ts_icl`, matching TimeTensors and online adaptation exactly.
 Covariate mode is configured independently of model identity. Supplying
 covariates to an adapter without native support, including Chronos-Bolt, raises
 an error rather than ignoring the input.
 
-TS-ICL and TiRex-2 already own their released preprocessing and test-time
-inference behavior. Use raw targets at the TSFM boundary:
+TS-ICL already owns its released preprocessing and test-time inference
+behavior. Use raw targets at the TSFM boundary:
 
 ```bash
 PYTHONPATH=src uv run python -m scripts.evaluate \
   data.path=datasets/electricity data.name=electricity \
   task.lags=504 task.horizon=168 model.name=ts_icl \
   model.weights_path=weights/tsicl/tsicl-v1.ckpt \
-  preprocessing.instance_normalize=false data.covariate_mode=none
-
-PYTHONPATH=src uv run python -m scripts.evaluate \
-  data.path=datasets/electricity data.name=electricity \
-  task.lags=504 task.horizon=168 model.name=tirex2 \
-  model.weights_path=weights/tirex2 \
   preprocessing.instance_normalize=false data.covariate_mode=none
 ```
 
@@ -245,9 +233,8 @@ interface; matching Selena fronts live under `slurm/selena/main/`:
    set `COVARIATE_MODES_OVERRIDE=known` with prepared covariate paths for other
    covariate experiments.
 4. `04_foundation_models.slurm` compares the official Chronos-2,
-   Chronos-Bolt, TS-ICL, and TabPFN-TS inference pipelines on the univariate
-   benchmark. TiRex-2 remains adapter-supported but is commented out of the
-   launch profile for now. Its `full` profile uses the cadence-specific mid
+   Chronos-Bolt, Chronos-T5, and TS-ICL inference pipelines on the univariate
+   benchmark. Its `full` profile uses the cadence-specific mid
    and long ranges on Electricity, Traffic, Solar, Weather, Exchange Rate, and
    every eligible prepared TIME dataset; its report uses Chronos-2 as the
    default fixed reference.
@@ -256,7 +243,8 @@ The four DGX fronts above use partition `h100`. Selena exposes matching
 `01_univariate_selena.slurm`, `02_controls_selena.slurm`,
 `03_covariates_selena.slurm`, and `04_foundation_models_selena.slurm` fronts.
 They run the identical implementations and experiment paths on partition `an`
-with QoS `an_preemptable`, an exclusive allocation, no automatic requeue, WCKey
+with QoS `an_preemptable`, an exclusive allocation without disabling the
+cluster's requeue behavior, WCKey
 `P12CU:DATASCIENCE`, Selena-specific job names, and `selena_`-prefixed launch
 IDs. Their Slurm streams go to `logs_selena/`, and every manifest, result, and
 report goes to `outputs_selena/`. The relative artifact identity stays the same
@@ -290,7 +278,7 @@ that contains both ordinary dataset folders and `time/catalog.json`. The
 weekly lookback period can be overridden with `LOOKBACK_PERIOD_STEPS`. The
 controls front also accepts `INSTANCE_NORMS_OVERRIDE` and
 `REMOVE_CONSTANT_OVERRIDE`. The covariate front accepts
-`COVARIATE_MODES_OVERRIDE`, `TIME_FEATURES_OVERRIDE`,
+`COVARIATE_MODES_OVERRIDE`,
 `COVARIATE_PATHS_OVERRIDE` (an OmegaConf list), and
 `COVARIATE_COLS_OVERRIDE`.
 
@@ -329,7 +317,7 @@ Selena uses the same relative roots under `outputs_selena/`. Their common
 ordered identity is
 
 ```text
-dataset/L_H/backbone/covariate_mode/normalization/constant_policy/time_features/run_n/
+dataset/L_H/backbone/covariate_mode/normalization/constant_policy/run_n/
 ```
 
 Every model config owns one folder. Batch size, metric/window export controls,
@@ -371,6 +359,11 @@ repeats. `report_manifest.json` records requested filters and obtained input
 manifests.
 `EXPERIMENT_MODE` only selects identity paths and is never part of their path or
 computation signature.
+
+An `average` policy first aligns and averages the selected summaries and their
+per-window, per-user, and per-horizon metric artifacts. Comparisons, Chronos-2
+win rates, marginal tables, and plots are then computed from those averages,
+so no downstream result silently falls back to one selected repeat.
 
 The report also writes Chronos-2 strict paired-window win rates against the
 best aggregate baseline for every error metric, a plot index, and PDF/PNG
@@ -476,6 +469,16 @@ The same `*.pt`, `*.npy`, and `*.cbm` exclusions apply to every selected
 output tree. A partial Selena namespace fails closed instead of publishing one
 side. Job-ID mode remains scoped to the exact standard `logs/` pair.
 
+Before staging, each selected non-excluded file larger than 100,000,000 bytes
+is replaced for publication by `<original>.sample.txt`. Text samples contain
+source metadata and the first 10% of content, capped at 10,000,000 bytes;
+binary samples contain metadata only. The header retains the first UTC time
+when the associated file became stale on Git because of its size. The original
+is excluded literally from
+both staging and commit selection. `PUBLISH_MAX_FILE_BYTES` and
+`PUBLISH_SAMPLE_MAX_BYTES` override the positive byte limits, with the sample
+limit required to remain smaller.
+
 `PROXY_SCRIPT_PATH` overrides the default `$HOME/codes/proxy.sh`. The publisher
 sources that script once for both the pull and push and leaves the shell's
 existing GitHub credential and askpass context untouched.
@@ -495,8 +498,9 @@ PYTHONPATH=src python src/tests/test_slurm_workflow.py
 
 `latex/experiment_guideline.tex` defines the inference-only setting, model and
 covariate families, controls, metrics, seed policy, workflows, and artifacts.
-`latex/executive_summary.tex` records only completed current-contract results;
-it currently notes that no remote model evaluation has been synchronized.
+`latex/executive_summary.tex` separates analyzed historical artifacts from
+current-contract evidence. The synchronized tensor-input runs are documented
+as pre-contract and are not reusable under the CSV-only replacement contract.
 Their PDFs are kept beside the sources.
 
 ## Maintenance workflow
@@ -504,7 +508,9 @@ Their PDFs are kept beside the sources.
 Every project change is recorded in `PENDING_UPDATES.md` with its scope,
 affected contracts, focused checks already completed, deferred integration
 coverage, documentation impact, and rerun requirements. Routine edits use only
-the smallest relevant smoke check. Periodic maintenance verifies pending entries
-against the implementation, runs complementary generic lightweight smoke tests,
-reconciles this README and the project LaTeX documents, and renders affected
-PDFs before resolving the entries.
+the smallest relevant smoke check. Brief daily triage compares stored
+fingerprints and updates the queue only for new source, artifact, or external
+state; unchanged blockers are carried forward. Broad weekly maintenance verifies
+changed entries against the implementation, runs complementary lightweight
+integration checks, reconciles this README and the project LaTeX documents, and
+renders affected PDFs before resolving entries.

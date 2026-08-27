@@ -14,13 +14,13 @@
 \newcommand{\code}[1]{\texttt{\detokenize{#1}}}
 \title{\textbf{Time-series Foundation Model Evaluation}\\Experiment Guideline}
 \author{Thesis project}
-\date{26 August 2026}
+\date{27 August 2026}
 \begin{document}
 \maketitle
 
 \section{Scope}
-This is an inference-only evaluation of frozen Chronos-2 and Chronos-Bolt,
-official TS-ICL and TiRex-2 inference packages, in-context TabPFN-TS, and four legacy TimeTensor
+This is an inference-only evaluation of frozen Chronos-2, Chronos-Bolt, and
+Chronos-T5, official TS-ICL, and four legacy TimeTensor
 baselines: persistence, expected value, repeat, and weekly aligned lookback.
 It reproduces and extends the accepted ICLR TSALM covariate study. It contains
 no optimization, forecasting-model training, PatchTST training, or
@@ -50,12 +50,10 @@ independently of preprocessing.
 Axis & Cases \\
 \midrule
 Models & Persistence, expected value, repeat, weekly aligned lookback, frozen
-Chronos-2 and Chronos-Bolt, official TS-ICL and TiRex-2 adapters, and in-context
-TabPFN-TS. \\
+Chronos-2, Chronos-Bolt, Chronos-T5, and official TS-ICL. \\
 Covariates & \code{none}; \code{identity} (target history supplied as known
 covariate); \code{known} (prepared target-aligned covariate panels). \\
-Controls & Instance normalization on/off; constant-window removal on/off;
-TabPFN time features on/off where applicable. \\
+Controls & Instance normalization on/off; constant-window removal on/off. \\
 \bottomrule
 \end{tabularx}
 \end{center}
@@ -70,23 +68,19 @@ weekly alignment and prevents overlap with the forecast horizon. Inputs without
 a cadence that divides one week require an explicit period. The former
 absolute-index variants are not part of the current model set.
 
-All foundation-model adapters use their official packages. TS-ICL and TiRex-2
-retain native preprocessing and
-test-time behavior and select the median point forecast. The TSFM boundary
-supplies raw targets for these two models, so the foundation workflow disables
-the outer instance-normalization wrapper. Their sole shared aliases are
-\code{chronos2}, \code{chronos_bolt}, \code{ts_icl}, \code{tirex2}, and
-\code{tabpfn_ts}. Covariate configuration does not alter model identity, and
+All foundation-model adapters use their official packages. TS-ICL retains
+native preprocessing and test-time behavior and selects the median point
+forecast. The foundation workflow supplies raw targets and disables the outer
+instance-normalization wrapper. The sole shared aliases are
+\code{chronos2}, \code{chronos_bolt}, \code{chronos_t5}, and
+\code{ts_icl}. Covariate configuration does not alter model identity, and
 an adapter without covariate support raises on a non-empty covariate input.
 Expected checkpoints are
 \begin{itemize}
   \item Chronos-2: \path{weights/chronos2};
   \item Chronos-Bolt: \path{weights/chronos-bolt-base};
+  \item Chronos-T5: \path{weights/chronos-t5-base};
   \item TS-ICL: \path{weights/tsicl/tsicl-v1.ckpt};
-  \item TiRex-2: \path{weights/tirex2/model-config.yaml} and
-        \path{weights/tirex2/model.ckpt};
-  \item TabPFN-TS:
-        \path{weights/tabpfnts/tabpfn-v2.5-regressor-v2.5_default.ckpt}.
 \end{itemize}
 
 \section{Metrics and seed}
@@ -105,10 +99,10 @@ The DGX fronts under \path{slurm/dgx/main/} are:
 \item \code{01_univariate.slurm}: the four baselines and Chronos-2;
 \item \code{02_controls.slurm}: normalization and constant-window controls;
 \item \code{03_covariates.slurm}: univariate and identity-covariate inference,
-      with prepared known covariates available by override;
+      comparing Chronos-2 with TS-ICL, with prepared known covariates available
+      by override;
 \item \code{04_foundation_models.slurm}: frozen Chronos-2, Chronos-Bolt,
-      TS-ICL, and TabPFN-TS with model-native preprocessing. TiRex-2 remains
-      implemented but is excluded from the launcher until explicitly restored.
+      Chronos-T5, and TS-ICL with model-native preprocessing.
 \end{enumerate}
 \code{test} is Electricity at $504{:}168$, seed 1. Full profiles use three
 frequency-aware forecast ranges:
@@ -153,7 +147,7 @@ the same scientific implementation on Selena but writes Slurm streams under
 Selena uses partition \code{an} with QoS \code{an_preemptable}.
 The default workflow is \code{STAGES=evaluate,report}; stage selection is a
 recovery override. Dataset, setting, model, seed, normalization, constant
-handling, covariates, and time-feature controls can be narrowed with the
+handling, and covariates can be narrowed with the
 documented environment overrides. Foundation-model inference is remote only.
 Explicit dataset and setting overrides replace automatic selection. Without a
 dataset override, full and ultra profiles require the TIME catalog; an explicit
@@ -174,15 +168,13 @@ non-fast-forward pull stops without a merge commit, and unrelated staged paths
 remain outside the publisher commit.
 
 \section{Data provenance and artifacts}
-The loader discovers \code{config.json} beside the CSV/tensor directory.
+The loader discovers \code{config.json} beside the selected CSV.
 Portable settings are top-level, project overrides live under
 \code{tsfm_evaluation}, explicit run values override both, and
-\code{drop_users} is additive. The selected path and applied keys are logged.
-Tensor directories follow the current TimeTensors contract: \path{values.pt},
-optional \path{datetimes.pt} and \path{individual_ids.pt}, optional
-\path{individual_context.pt} and \path{global_context.pt}, and
-\path{dataset_metadata.json}. Static individual context is broadcast across
-dates and global context across users.
+\code{drop_users} uses replacement precedence: null inherits, an empty list
+keeps every CSV user, and a nonempty override replaces the prior list. The
+selected path and applied keys are logged. TSFM does not consume TimeTensors
+tensor caches.
 
 \subsection*{Selective TIME preparation}
 \code{python -m scripts.prepare_time_csv} resolves an immutable revision of
@@ -206,7 +198,7 @@ The four independent family roots live below \path{outputs/} on DGX and below
 \code{foundation_models}. Their ordered identity is
 \begin{verbatim}
 outputs/family/dataset/L_H/backbone/covariate_mode/normalization/
-  constant_policy/time_features/run_n/
+  constant_policy/run_n/
 \end{verbatim}
 Every model config owns one directory. Batch size, data split and stride,
 metric/window export, model inference options, and explicit covariate bindings
@@ -250,6 +242,11 @@ selection deterministic. Reports write requested filters and obtained inputs to
 \path{outputs_selena/} on Selena, while \code{SELECTED_RUNS.txt} stores only
 automatic or pinned exact repeats.
 
+An average policy aligns and averages the selected summary, per-window,
+per-user, and per-horizon metric artifacts before computing comparisons,
+Chronos-2 win rates, marginal tables, or plots. Thus every downstream analysis
+uses the same averaged population rather than an arbitrary selected repeat.
+
 Reports compare complete configurations without mixing incompatible pipeline
 settings. They write the selected raw results, model-versus-reference
 configuration table, equal-configuration marginal tables by dataset, by
@@ -265,5 +262,5 @@ error histograms, and horizon-error curves as PNG and PDF with a plot index.
 The shared scientific runtime may run dataset, metric, model-adapter,
 repeat/report, manifest, and Slurm workflow checks. Local checks may use fake
 adapters or the repeat baseline, but must not load Chronos-2, Chronos-Bolt,
-TS-ICL, TiRex-2, or TabPFN-TS checkpoints or run full sweeps.
+Chronos-T5, or TS-ICL checkpoints or run full sweeps.
 \end{document}

@@ -121,7 +121,6 @@ def _run_allocation(config: Mapping[str, Any], panel) -> tuple[Path, str]:
         "covariate_mode": str(data.get("covariate_mode", "none")),
         "normalization": "instance" if preprocessing.get("instance_normalize", True) else "raw",
         "constant_policy": "remove" if evaluation.get("remove_constant", False) else "keep",
-        "time_features": "enabled" if model.get("use_time_features", True) else "disabled",
     }
     order = list(output.get("model_config_order") or model_config)
     root = identity_path(
@@ -134,11 +133,14 @@ def _run_allocation(config: Mapping[str, Any], panel) -> tuple[Path, str]:
         model_config,
     )
     pipeline = {
+        "data.input_contract": "csv_only_drop_replacement",
         "data.date_col": data.get("date_col"),
         "data.target_cols": data.get("target_cols"),
         "data.covariate_cols": data.get("covariate_cols"),
         "data.covariate_paths": data.get("covariate_paths"),
-        "data.drop_users": data.get("drop_users", []),
+        "data.drop_users": (panel.metadata or {}).get("effective_options", {}).get(
+            "drop_users", []
+        ),
         "data.aggr": data.get("aggr"),
         "data.aggr_period": data.get("aggr_period"),
         "model.local_files_only": model.get("local_files_only", True),
@@ -402,7 +404,6 @@ def evaluate(config: Mapping[str, Any]) -> dict[str, Any]:
         "covariate_mode": str(config["data"].get("covariate_mode", "none")),
         "instance_normalize": bool(config["preprocessing"].get("instance_normalize", True)),
         "remove_constant": bool(evaluation_config.get("remove_constant", False)),
-        "use_time_features": bool(config["model"].get("use_time_features", True)),
         "lags": lags,
         "horizon": horizon,
         "stride": windows.stride,

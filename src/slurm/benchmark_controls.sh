@@ -3,8 +3,9 @@
 EXPERIMENT_FAMILY=controls
 source "$PROJECT_ROOT/src/slurm/benchmark_common.sh"
 resolve_roots
+DROP_USERS_OVERRIDE="${DROP_USERS_OVERRIDE-[]}"  # keep every CSV user by default
 set_profile_axes
-MODELS=(repeat chronos2 tabpfn_ts)
+MODELS=(repeat chronos2)
 NORMS=(true false)
 CONSTANT_POLICIES=(false true)
 if [ -n "${MODELS_OVERRIDE:-}" ]; then read -r -a MODELS <<< "$MODELS_OVERRIDE"; fi
@@ -19,7 +20,7 @@ if stage_enabled evaluate; then
             for instance_norm in "${NORMS[@]}"; do
                 for remove_constant in "${CONSTANT_POLICIES[@]}"; do
                     for seed in "${SEEDS[@]}"; do
-                        run_evaluation "$dataset" "$setting" "$model" none "$instance_norm" "$remove_constant" true "$seed"
+                        run_evaluation "$dataset" "$setting" "$model" none "$instance_norm" "$remove_constant" "$seed"
                     done
                 done
             done
