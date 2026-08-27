@@ -1,7 +1,34 @@
 {
   "artifacts": {
-    "files": [],
-    "required": []
+    "files": [
+      {
+        "path": "summary.json",
+        "size": 2678
+      },
+      {
+        "path": "per_user_metrics.csv",
+        "size": 60746
+      },
+      {
+        "path": "horizon_metrics.csv",
+        "size": 32209
+      },
+      {
+        "path": "resolved_config.json",
+        "size": 1751
+      },
+      {
+        "path": "window_metrics.csv",
+        "size": 2045858
+      }
+    ],
+    "required": [
+      "summary.json",
+      "per_user_metrics.csv",
+      "horizon_metrics.csv",
+      "resolved_config.json",
+      "window_metrics.csv"
+    ]
   },
   "config": {
     "experiment": {},
@@ -126,11 +153,11 @@
         "slurm_job_id": "2910738"
       }
     ],
-    "finished_at_utc": null,
+    "finished_at_utc": "2026-08-26T23:41:01.301685+00:00",
     "launch_id": "selena_2910738",
     "launched_at_utc": "2026-08-26T22:25:48.864057+00:00",
     "mode": "test",
-    "ready_at_utc": null,
+    "ready_at_utc": "2026-08-26T23:40:59.338870+00:00",
     "started_at_utc": "2026-08-26T22:25:48.867308+00:00"
   },
   "manifest_id": "0a3cc3f2-5812-41c5-8817-726a6f12fbd1",
@@ -142,8 +169,14 @@
   "schema_version": 1,
   "seed_status": {
     "1": {
-      "artifacts": [],
-      "status": "running"
+      "artifacts": [
+        "summary.json",
+        "per_user_metrics.csv",
+        "horizon_metrics.csv",
+        "resolved_config.json",
+        "window_metrics.csv"
+      ],
+      "status": "completed"
     }
   },
   "seeds": [
@@ -154,7 +187,7 @@
     "path": "998d68c5b98e4bcf118f907545b82796b9e55a3aaed34dd96f7974fd90a77e98",
     "pipeline": "e5ddd5f46aec790d34fb3ecd49d2fc52daa268363f7dcbd0f6e697542bffe8f0"
   },
-  "status": "running",
+  "status": "completed",
   "table": {
     "column_config": [
       "normalization",
