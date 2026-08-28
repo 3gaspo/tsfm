@@ -10,6 +10,7 @@ from results.reporting import (
     _chronos_win_rates,
     _comparison_frame,
     _marginal_frame,
+    _task_file_values,
     _task_pairs,
 )
 
@@ -24,6 +25,14 @@ def test_best_baseline_marginals_and_chronos_wins() -> None:
     }
     with tempfile.TemporaryDirectory(dir=PROJECT_ROOT / "outputs") as directory:
         root = Path(directory)
+        tasks_file = root / "tasks.txt"
+        tasks_file.write_text(
+            "electricity=168:24\ntime/a_h=336:48\n", encoding="utf-8"
+        )
+        assert _task_pairs(_task_file_values(tasks_file)) == {
+            ("electricity", "168:24"),
+            ("time/a_h", "336:48"),
+        }
         common = {
             "dataset": "toy",
             "lags": 4,

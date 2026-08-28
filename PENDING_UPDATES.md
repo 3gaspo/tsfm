@@ -608,3 +608,18 @@ execution, and publishing were deliberately not performed.
 - README/LaTeX and reruns: README, notebook paths, and guideline source describe
   the split; re-render the guideline during maintenance. Existing TSFM
   inference does not need rerunning solely for this hierarchy change.
+
+## 2026-08-28 — File-backed full-profile report selection
+
+- Behavior and affected contracts: report launchers now write exact
+  dataset/setting pairs to a temporary task file and pass its short path to
+  `scripts.report`, avoiding Selena's `srun` argument limit without changing
+  report selection semantics.
+- Focused check completed: `src/tests/test_slurm_workflow.py` passed in the
+  shared thesis runtime.
+- Deferred integration: deploy the committed change to Selena and run the
+  univariate, controls, and covariates full profiles with `STAGES=report`.
+  If the already-submitted full foundation job loaded the older shell, retain
+  its completed evaluations and rerun only its report.
+- README/LaTeX and reruns: public commands and the scientific contract are
+  unchanged, so no documentation update or inference rerun is required.

@@ -307,24 +307,26 @@ run_evaluation() {
 
 build_report() {
     local family="$1"
+    local report_status
+    local task_file
     local -a report_args
     log "report family=$family"
+    task_file="$(mktemp "$OUTPUTS_ROOT/.report_tasks.XXXXXX")"
+    local task_index
+    for task_index in "${!TASK_DATASETS[@]}"; do
+        printf '%s=%s\n' "${TASK_DATASETS[$task_index]}" "${TASK_SETTINGS[$task_index]}" >> "$task_file"
+    done
     report_args=(
         "$OUTPUT_ROOT"
         --output "$OUTPUTS_ROOT/reports/$family/${EXPERIMENT_MODE:-test}"
         --diagnostics-output "$OUTPUTS_ROOT/diagnostics/$family/${EXPERIMENT_MODE:-test}"
-        --datasets "$(IFS=,; echo "${DATASETS[*]}")"
-        --settings "$(IFS=,; echo "${SETTINGS[*]}")"
+        --tasks-file "$task_file"
         --models "$(IFS=,; echo "${MODELS[*]}")"
         --config-policy "${TABLE_CONFIG_POLICY:-distinct}"
         --repeat-policy "${TABLE_REPEAT_POLICY:-selected}"
         --metric "${TABLE_METRIC:-nmse}"
         --reference-model "${TABLE_REFERENCE_MODEL:-best_baseline}"
     )
-    local task_index
-    for task_index in "${!TASK_DATASETS[@]}"; do
-        report_args+=(--task "${TASK_DATASETS[$task_index]}=${TASK_SETTINGS[$task_index]}")
-    done
     if [ "${TABLE_PLOTS:-true}" = false ]; then report_args+=(--no-plots); fi
     if [ -n "${TABLE_PIPELINE_CONFIGS:-}" ]; then
         local item
@@ -338,5 +340,11 @@ build_report() {
     else
         report_args+=(--purpose publication)
     fi
-    srun --ntasks=1 uv run python -m scripts.report "${report_args[@]}"
+    if srun --ntasks=1 uv run python -m scripts.report "${report_args[@]}"; then
+        report_status=0
+    else
+        report_status=$?
+    fi
+    rm -f -- "$task_file"
+    return "$report_status"
 }

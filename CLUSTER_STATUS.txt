@@ -1,64 +1,51 @@
 Last updated: 2026-08-28
 
-Scope: this handoff records only Slurm artifacts published by current commit
-3eb64b99. Jobs and outputs deleted before that commit are not retained as
-history here. The manifest counts below are per-configuration records produced
-by the eight listed Slurm jobs; they are not additional jobs.
+CURRENT SCHEDULER STATE
+- The full Selena foundation-model workflow was submitted on 2026-08-28.
+  Its scheduler state and job ID have not yet been synchronized locally.
+- The latest synchronized publication is commit eef9edce and contains Selena
+  logs for jobs 2955373, 2955374, 2955375, and 2955400 plus lightweight test
+  reports. Detailed run manifests were not published in this commit.
 
-Synchronized test jobs:
-- sunivar, job 2913480: 01_univariate, test profile. Successful: all five
-  configurations completed and the univariate test report was generated.
-- scontrols, job 2913481: 02_controls, test profile. Successful: all eight
-  configurations completed and the controls test report was generated.
-- scovars, job 2913482: 03_covariates, test profile. Successful: all four
-  configurations completed and the covariates test report was generated.
-- sfoundation, job 2913483: 04_foundation_models, test profile. Failed during
-  Chronos-T5 loading with an unexpected input_patch_size configuration field.
-  Chronos-2 and Chronos-Bolt completed; Chronos-T5 is interrupted, TS-ICL was
-  not reached, and no foundation test report was generated.
+LATEST JOB OUTCOMES
+- sunivar, job 2955373, full profile: the evaluation stage visited all 945
+  configurations (713 exact completed runs reused and 232 new runs made
+  artifact-ready). The final full-report `srun` failed with `Pathname of a
+  file, directory or other parameter too long`; no full univariate report was
+  produced. Do not rerun evaluation.
+- scontrols, job 2955374, full profile: the evaluation stage visited all 1,512
+  configurations (546 reused and 966 new artifact-ready). The final report
+  failed with the same overlong-parameter error; no full controls report was
+  produced. Do not rerun evaluation.
+- scovars, job 2955375, full profile: the evaluation stage visited all 756
+  configurations (423 reused and 333 new artifact-ready). The final report
+  failed with the same overlong-parameter error; no full covariates report was
+  produced. Do not rerun evaluation.
+- sfoundation, job 2955400, test profile: successful. All four foundation
+  configurations were available (Chronos-2 and Chronos-Bolt reused;
+  Chronos-T5 and TS-ICL completed), and
+  outputs_selena/reports/foundation_models/test/results.csv plus its report
+  manifest were generated.
 
-Synchronized full-profile jobs:
-- sunivar, job 2913508: 01_univariate, full profile. Failed on Selena disk
-  quota after 707 configurations completed. One additional artifact-ready
-  manifest remains marked running because its final completion write failed.
-  No full report was generated.
-- scontrols, job 2913582: 02_controls, full profile. Failed on Selena disk
-  quota after 537 configurations completed. One additional artifact-ready
-  manifest remains marked running because its final completion write failed.
-  No full report was generated.
-- scovars, job 2913583: 03_covariates, full profile. Failed on Selena disk
-  quota after 419 configurations completed. The next configuration could not
-  create its identity directory, so it has no non-completed manifest. No full
-  report was generated.
-- sfoundation, job 2913584: 04_foundation_models, full profile. Failed during
-  Chronos-T5 loading with the same unexpected input_patch_size field.
-  Chronos-2 and Chronos-Bolt completed; Chronos-T5 is interrupted, TS-ICL was
-  not reached, and no full report was generated.
+INTERPRETATION
+- The three full evaluation sweeps reached their complete configuration lists;
+  only aggregate reporting failed. The local fix now passes exact task
+  selection through a short task-file argument instead of expanding 189 task
+  pairs on the `srun` command line. Deploy it to Selena before report-only
+  resubmission.
+- The earlier Chronos-T5 checkpoint/configuration failure is resolved by job
+  2955400. The foundation-model full profile is now eligible to run.
+- CUDA determinism warnings and Chronos-T5 horizon warnings were non-fatal.
 
-Current manifest inventory: 1,684 completed, 2 running but artifact-ready, and
-2 interrupted, for 1,688 configuration manifests across the eight jobs. All
-record the current csv_only_drop_replacement input contract. Completed
-configurations remain eligible for exact reuse. The DGX/Git mirror now retains
-the lightweight analysis subset: 1,686 per-window CSV payloads were removed
-locally but remain on Selena and can be restored with detailed result sync.
+NEXT JOBS
+1. Observe the submitted full foundation-model workflow and record its job ID
+   and scheduler state. If its batch shell started before this fix reached
+   Selena, keep its completed evaluations and rerun only its report afterward.
+2. Deploy the report task-file fix to Selena.
+3. `STAGES=report EXPERIMENT_MODE=full sbatch slurm/selena/main/01_univariate_selena.slurm`
+4. `STAGES=report EXPERIMENT_MODE=full sbatch slurm/selena/main/02_controls_selena.slurm`
+5. `STAGES=report EXPERIMENT_MODE=full sbatch slurm/selena/main/03_covariates_selena.slurm`
 
-Next actions:
-1. Put the one-line NNI file at $HOME/codes/.secrets/nni on DGX and Selena.
-2. Move the current Selena payload to
-   /scratch/users/<lowercase-nni>/codes/tsfm/outputs_selena and logs_selena,
-   then run sync_code_to_selena.sh to deploy the scratch-aware fronts and
-   ensure both scratch directories exist.
-3. Reconcile terminal launches selena_2913508 and selena_2913582 through the
-   supported interrupt-launch lifecycle command. Their ready manifests should
-   be promoted to completed. Do not edit manifests directly.
-4. Verify that weights/chronos-t5-base contains the genuine Chronos-T5
-   checkpoint configuration compatible with the prepared chronos-forecasting
-   environment.
-5. Rerun 04_foundation_models in test mode. After it succeeds, resume the four
-   full profiles. The default overwrite_exact policy should skip completed
-   configurations and continue incomplete work.
-6. Generate each full report only after its family completes.
-
-Lightweight result sync is now the default. Use detailed sync before local
-per-window diagnostics or strict manifest artifact revalidation, and full sync
-only for binary recovery payloads.
+After each terminal job, pull results to DGX and publish the exact logs plus
+lightweight reports. Use detailed synchronization only when manifest-level or
+per-window diagnosis is required.

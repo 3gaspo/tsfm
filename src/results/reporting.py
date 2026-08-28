@@ -85,6 +85,16 @@ def _task_pairs(values: list[str] | None) -> set[tuple[str, str]]:
     return selected
 
 
+def _task_file_values(path: str | Path | None) -> list[str]:
+    if path is None:
+        return []
+    return [
+        line.strip()
+        for line in Path(path).read_text(encoding="utf-8").splitlines()
+        if line.strip()
+    ]
+
+
 def _safe_name(value: Any) -> str:
     return re.sub(r"[^A-Za-z0-9_.-]+", "_", str(value)).strip("._") or "value"
 
@@ -557,6 +567,7 @@ def main() -> None:
     parser.add_argument("--datasets")
     parser.add_argument("--settings")
     parser.add_argument("--task", action="append", default=[])
+    parser.add_argument("--tasks-file")
     parser.add_argument("--models")
     parser.add_argument("--pipeline-config", action="append", default=[])
     parser.add_argument("--config-policy", choices=["distinct", "latest", "average"], default="distinct")
@@ -573,7 +584,7 @@ def main() -> None:
             diagnostics_output=args.diagnostics_output,
             datasets=_names(args.datasets),
             settings=_names(args.settings),
-            tasks=_task_pairs(args.task),
+            tasks=_task_pairs([*args.task, *_task_file_values(args.tasks_file)]),
             models=_names(args.models),
             pipeline_config=_pipeline_pairs(args.pipeline_config),
             config_policy=args.config_policy,

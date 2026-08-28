@@ -87,7 +87,9 @@ def test_root_fronts_and_workflows() -> None:
     assert 'TASK_DATASETS+=("$dataset")' in common
     assert 'TASK_SETTINGS+=("$setting")' in common
     assert 'TASK_PERIODS+=("$period")' in common
-    assert 'report_args+=(--task "${TASK_DATASETS[$task_index]}=${TASK_SETTINGS[$task_index]}")' in common
+    assert 'task_file="$(mktemp "$OUTPUTS_ROOT/.report_tasks.XXXXXX")"' in common
+    assert '--tasks-file "$task_file"' in common
+    assert "report_args+=(--task" not in common
     assert "model_valid_for_setting" in common
     assert 'local period="${LOOKBACK_PERIOD_STEPS:-$cadence_period}"' in common
     assert '"model.lookback_period=$LOOKBACK_PERIOD_STEPS"' in common
