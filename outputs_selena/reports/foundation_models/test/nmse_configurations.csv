@@ -1,0 +1,5 @@
+dataset,lags,horizon,covariate_mode,instance_normalize,remove_constant,stride,seed,setting,range,model,metric,value,reference_model,reference_value,improvement_pct
+electricity,504,168,none,False,False,512,1,504:168,long,chronos2,nmse,0.24782999046821788,chronos2,0.24782999046821788,0.0
+electricity,504,168,none,False,False,512,1,504:168,long,chronos_bolt,nmse,0.2376318578784874,chronos2,0.24782999046821788,4.114971142299385
+electricity,504,168,none,False,False,512,1,504:168,long,chronos_t5,nmse,0.26680749352620586,chronos2,0.24782999046821788,-7.657468340346681
+electricity,504,168,none,False,False,512,1,504:168,long,ts_icl,nmse,0.26451305195966135,chronos2,0.24782999046821788,-6.731655624052865

@@ -1,0 +1,5 @@
+dataset,model,metric,mean_value,mean_reference_value,mean_improvement_pct,configurations,reference_models
+electricity,chronos2,nmse,0.24782999046821788,0.24782999046821788,0.0,1,chronos2
+electricity,chronos_bolt,nmse,0.2376318578784874,0.24782999046821788,4.114971142299385,1,chronos2
+electricity,chronos_t5,nmse,0.26680749352620586,0.24782999046821788,-7.657468340346681,1,chronos2
+electricity,ts_icl,nmse,0.26451305195966135,0.24782999046821788,-6.731655624052865,1,chronos2
