@@ -1,0 +1,80 @@
+{
+  "covariate_mode": "none",
+  "data": {
+    "applied_config_keys": [
+      "date_col",
+      "drop_users"
+    ],
+    "config_path": "/fssmall/home/h61084/codes/datasets/electricity/config.json",
+    "covariate_mode": "none",
+    "effective_options": {
+      "aggr": null,
+      "date_col": "date",
+      "drop_users": [
+        6,
+        57,
+        106,
+        113,
+        127,
+        143,
+        182,
+        245,
+        298
+      ]
+    },
+    "external_covariates": [],
+    "source": "/fssmall/home/h61084/codes/datasets/electricity/electricity.csv",
+    "source_mtime_ns": 1787699097000000000,
+    "source_size": 95581762
+  },
+  "dataset": "electricity",
+  "horizon": 24,
+  "inference": {
+    "batch_size": 512,
+    "device": "cuda",
+    "model_load_seconds": 0.00010567065328359604,
+    "seconds": 0.018705977126955986,
+    "seconds_per_series_window": 1.1529818248863403e-06,
+    "seconds_per_user": 5.99550548940897e-05
+  },
+  "instance_normalize": true,
+  "lags": 168,
+  "lookback_period": null,
+  "mase_seasonality": 1,
+  "metrics": {
+    "mae": 915.3110588420531,
+    "mase": 3.0078890307852815,
+    "mse": 58493792.89792326,
+    "nmae": 0.8930377558054434,
+    "nmse": 1.5240863998646956,
+    "sample_std_mae": 7058.299002791773,
+    "sample_std_mase": 2.168718406053,
+    "sample_std_mse": 1347207517.1570137,
+    "sample_std_nmae": 0.5810051394068794,
+    "sample_std_nmse": 30.512320897485196,
+    "user_mean_mae": 915.311058842053,
+    "user_mean_mase": 3.0078890307852815,
+    "user_mean_mse": 58493792.897923246,
+    "user_mean_nmae": 0.8930377558054433,
+    "user_mean_nmse": 1.5240863998646954,
+    "user_std_mae": 6220.7793883691775,
+    "user_std_mase": 0.9238903966456665,
+    "user_std_mse": 965920219.8491875,
+    "user_std_nmae": 0.09744799129230204,
+    "user_std_nmse": 4.555980749565663,
+    "w10_mae": 6886.597724987911,
+    "w10_mase": 4.679145088114847,
+    "w10_mse": 568975044.475492,
+    "w10_nmae": 1.0377382894512266,
+    "w10_nmse": 5.760794665274891
+  },
+  "model": "expected",
+  "query_dates": 52,
+  "remove_constant": false,
+  "removed_constant_windows": 0,
+  "run_dir": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/electricity/168_24/expected/none/instance/keep/run_0",
+  "seed": 1,
+  "series_windows": 16224,
+  "stride": 512,
+  "users": 312
+}

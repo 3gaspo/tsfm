@@ -1,0 +1,76 @@
+{
+  "covariate_mode": "identity",
+  "data": {
+    "applied_config_keys": [
+      "date_col",
+      "drop_users",
+      "target_cols"
+    ],
+    "config_path": "/fssmall/home/h61084/codes/datasets/time/crypto_d/config.json",
+    "covariate_mode": "identity",
+    "effective_options": {
+      "date_col": "timestamp",
+      "drop_users": [],
+      "target_cols": [
+        "BitcoinCash",
+        "Bitcoin",
+        "Ethereum",
+        "Litecoin"
+      ]
+    },
+    "external_covariates": [],
+    "source": "/fssmall/home/h61084/codes/datasets/time/crypto_d/crypto_d.csv",
+    "source_mtime_ns": 1787689696000000000,
+    "source_size": 117025
+  },
+  "dataset": "time/crypto_d",
+  "horizon": 1,
+  "inference": {
+    "batch_size": 64,
+    "device": "cuda",
+    "model_load_seconds": 5.468608041293919,
+    "seconds": 0.19587242510169744,
+    "seconds_per_series_window": 0.00816135104590406,
+    "seconds_per_user": 0.04896810627542436
+  },
+  "instance_normalize": true,
+  "lags": 7,
+  "lookback_period": null,
+  "mase_seasonality": 1,
+  "metrics": {
+    "mae": 95.50491285324097,
+    "mase": 0.65798300706471,
+    "mse": 81405.05135353778,
+    "nmae": 0.5491312025114894,
+    "nmse": 0.557194195665943,
+    "sample_std_mae": 268.8565851953219,
+    "sample_std_mase": 0.6675610767669564,
+    "sample_std_mse": 303428.4499510386,
+    "sample_std_nmae": 0.5056175679262328,
+    "sample_std_nmse": 0.8382831990205248,
+    "user_mean_mae": 95.50491285324097,
+    "user_mean_mase": 0.65798300706471,
+    "user_mean_mse": 81405.0513535378,
+    "user_mean_nmae": 0.5491312025114894,
+    "user_mean_nmse": 0.557194195665943,
+    "user_std_mae": 153.68391751539107,
+    "user_std_mase": 0.1567489608742816,
+    "user_std_mse": 140819.23583026166,
+    "user_std_nmae": 0.13041336695654668,
+    "user_std_nmse": 0.2931799229749097,
+    "w10_mae": 361.6329752604167,
+    "w10_mase": 0.8987132546802362,
+    "w10_mse": 325311.0843302409,
+    "w10_nmae": 0.7735023610293865,
+    "w10_nmse": 1.051574656041339
+  },
+  "model": "chronos2",
+  "query_dates": 6,
+  "remove_constant": false,
+  "removed_constant_windows": 0,
+  "run_dir": "/fssmall/home/h61084/codes/tsfm/outputs_selena/covariates/time-crypto_d/7_1/chronos2/identity/instance/keep/run_0",
+  "seed": 1,
+  "series_windows": 24,
+  "stride": 512,
+  "users": 4
+}

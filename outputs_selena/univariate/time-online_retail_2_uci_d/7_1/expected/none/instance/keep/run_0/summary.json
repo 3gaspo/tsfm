@@ -1,0 +1,73 @@
+{
+  "covariate_mode": "none",
+  "data": {
+    "applied_config_keys": [
+      "date_col",
+      "drop_users",
+      "target_cols"
+    ],
+    "config_path": "/fssmall/home/h61084/codes/datasets/time/online_retail_2_uci_d/config.json",
+    "covariate_mode": "none",
+    "effective_options": {
+      "date_col": "timestamp",
+      "drop_users": [],
+      "target_cols": [
+        "sales"
+      ]
+    },
+    "external_covariates": [],
+    "source": "/fssmall/home/h61084/codes/datasets/time/online_retail_2_uci_d/online_retail_2_uci_d.csv",
+    "source_mtime_ns": 1787689696000000000,
+    "source_size": 14051
+  },
+  "dataset": "time/online_retail_2_uci_d",
+  "horizon": 1,
+  "inference": {
+    "batch_size": 512,
+    "device": "cuda",
+    "model_load_seconds": 0.00010553188621997833,
+    "seconds": 0.020432925783097744,
+    "seconds_per_series_window": 0.010216462891548872,
+    "seconds_per_user": 0.020432925783097744
+  },
+  "instance_normalize": true,
+  "lags": 7,
+  "lookback_period": null,
+  "mase_seasonality": 1,
+  "metrics": {
+    "mae": 9760.408203125,
+    "mase": 0.7070064544677734,
+    "mse": 118634694.0,
+    "nmae": 0.6566064432263374,
+    "nmse": 0.6044474970549345,
+    "sample_std_mae": 4834.162109375,
+    "sample_std_mase": 0.4587068557739258,
+    "sample_std_mse": 94366794.0,
+    "sample_std_nmae": 0.41631173342466354,
+    "sample_std_nmse": 0.546705948188901,
+    "user_mean_mae": 9760.408203125,
+    "user_mean_mase": 0.7070064544677734,
+    "user_mean_mse": 118634694.0,
+    "user_mean_nmae": 0.6566064432263374,
+    "user_mean_nmse": 0.6044474970549345,
+    "user_std_mae": 0.0,
+    "user_std_mase": 0.0,
+    "user_std_mse": 0.0,
+    "user_std_nmae": 0.0,
+    "user_std_nmse": 0.0,
+    "w10_mae": 9760.408203125,
+    "w10_mase": 0.7070064544677734,
+    "w10_mse": 118634694.0,
+    "w10_nmae": 0.6566064432263374,
+    "w10_nmse": 0.6044474970549345
+  },
+  "model": "expected",
+  "query_dates": 2,
+  "remove_constant": false,
+  "removed_constant_windows": 0,
+  "run_dir": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/time-online_retail_2_uci_d/7_1/expected/none/instance/keep/run_0",
+  "seed": 1,
+  "series_windows": 2,
+  "stride": 512,
+  "users": 1
+}

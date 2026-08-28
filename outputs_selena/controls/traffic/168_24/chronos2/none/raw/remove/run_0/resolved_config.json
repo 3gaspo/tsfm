@@ -1,0 +1,70 @@
+{
+  "data": {
+    "aggr": null,
+    "aggr_period": null,
+    "config_path": null,
+    "covariate_cols": null,
+    "covariate_mode": "none",
+    "covariate_paths": null,
+    "date_col": null,
+    "drop_users": [],
+    "name": "traffic",
+    "path": "/fssmall/home/h61084/codes/datasets/traffic",
+    "target_cols": null
+  },
+  "evaluation": {
+    "batch_size": 64,
+    "end_fraction": 1.0,
+    "mase_seasonality": 1,
+    "remove_constant": true,
+    "save_window_metrics": true,
+    "seed": 1,
+    "start_fraction": 0.0,
+    "stride": 512
+  },
+  "misc": {
+    "log_level": "INFO"
+  },
+  "model": {
+    "cross_learning": false,
+    "device": "cuda",
+    "local_files_only": true,
+    "lookback_period": null,
+    "name": "chronos2",
+    "num_samples": 20,
+    "quantile_index": null,
+    "quantile_level": 0.5,
+    "weights_path": "/fssmall/home/h61084/codes/weights/chronos2"
+  },
+  "output": {
+    "column_config": [
+      "normalization",
+      "constant_policy"
+    ],
+    "conflict_policy": "overwrite_exact",
+    "dir": "/fssmall/home/h61084/codes/tsfm/outputs_selena/controls",
+    "force": false,
+    "launch_id": "selena_2913582",
+    "mode": "full",
+    "model_config_order": [
+      "covariate_mode",
+      "normalization",
+      "constant_policy"
+    ],
+    "purpose": "publication",
+    "row_config": [
+      "covariate_mode"
+    ],
+    "run_index": null,
+    "skip_completed": true,
+    "workflow": "controls"
+  },
+  "preprocessing": {
+    "eps": 1e-08,
+    "instance_normalize": false
+  },
+  "task": {
+    "horizon": 24,
+    "lags": 168
+  }
+}

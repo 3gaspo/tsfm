@@ -1,0 +1,167 @@
+{
+  "artifacts": {
+    "files": [
+      {
+        "path": "summary.json",
+        "size": 2164
+      },
+      {
+        "path": "per_user_metrics.csv",
+        "size": 273
+      },
+      {
+        "path": "horizon_metrics.csv",
+        "size": 248
+      },
+      {
+        "path": "resolved_config.json",
+        "size": 1549
+      },
+      {
+        "path": "window_metrics.csv",
+        "size": 365
+      }
+    ],
+    "required": [
+      "summary.json",
+      "per_user_metrics.csv",
+      "horizon_metrics.csv",
+      "resolved_config.json",
+      "window_metrics.csv"
+    ]
+  },
+  "config": {
+    "experiment": {},
+    "model": {
+      "constant_policy": "keep",
+      "covariate_mode": "none",
+      "normalization": "instance"
+    },
+    "pipeline": {
+      "data.aggr": null,
+      "data.aggr_period": null,
+      "data.covariate_cols": null,
+      "data.covariate_paths": null,
+      "data.date_col": null,
+      "data.drop_users": [],
+      "data.input_contract": "csv_only_drop_replacement",
+      "data.target_cols": null,
+      "evaluation.end_fraction": 1.0,
+      "evaluation.mase_seasonality": 1,
+      "evaluation.save_window_metrics": true,
+      "evaluation.start_fraction": 0.0,
+      "evaluation.stride": 512,
+      "model.cross_learning": false,
+      "model.kwargs": {},
+      "model.local_files_only": true,
+      "model.lookback_period": 7,
+      "model.quantile_index": null,
+      "model.quantile_level": 0.5,
+      "model.seasonal_periods": null,
+      "preprocessing.eps": 1e-08
+    },
+    "runtime": {
+      "evaluation.batch_size": 512,
+      "model.device": "cuda"
+    }
+  },
+  "identity": {
+    "backbone": "lookback",
+    "dataset": "time/ecdc_covid_d_part07",
+    "horizon": 1,
+    "lookback": 7,
+    "model_config": {
+      "constant_policy": "keep",
+      "covariate_mode": "none",
+      "normalization": "instance"
+    },
+    "model_config_order": [
+      "covariate_mode",
+      "normalization",
+      "constant_policy"
+    ]
+  },
+  "inputs": {
+    "dataset": {
+      "applied_config_keys": [
+        "date_col",
+        "drop_users",
+        "target_cols"
+      ],
+      "config_path": "/fssmall/home/h61084/codes/datasets/time/ecdc_covid_d_part07/config.json",
+      "covariate_mode": "none",
+      "effective_options": {
+        "date_col": "timestamp",
+        "drop_users": [],
+        "target_cols": [
+          "value"
+        ]
+      },
+      "external_covariates": [],
+      "source": "/fssmall/home/h61084/codes/datasets/time/ecdc_covid_d_part07/ecdc_covid_d_part07.csv",
+      "source_mtime_ns": 1787689696000000000,
+      "source_size": 18651
+    }
+  },
+  "launch": {
+    "attempts": [
+      {
+        "launch_id": "selena_2913508",
+        "launched_at_utc": "2026-08-27T13:13:39.935792+00:00",
+        "mode": "full",
+        "purpose": "publication",
+        "slurm_array_task_id": null,
+        "slurm_job_id": "2913508"
+      }
+    ],
+    "finished_at_utc": "2026-08-27T13:13:42.216605+00:00",
+    "launch_id": "selena_2913508",
+    "launched_at_utc": "2026-08-27T13:13:39.935792+00:00",
+    "mode": "full",
+    "ready_at_utc": "2026-08-27T13:13:40.161010+00:00",
+    "started_at_utc": "2026-08-27T13:13:39.939181+00:00"
+  },
+  "manifest_id": "7de29601-d2f5-49dc-a7ba-d6ed282da3f3",
+  "project": "tsfm_evaluation",
+  "purposes": [
+    "publication"
+  ],
+  "run_index": 0,
+  "schema_version": 1,
+  "seed_status": {
+    "1": {
+      "artifacts": [
+        "summary.json",
+        "per_user_metrics.csv",
+        "horizon_metrics.csv",
+        "resolved_config.json",
+        "window_metrics.csv"
+      ],
+      "status": "completed"
+    }
+  },
+  "seeds": [
+    1
+  ],
+  "signatures": {
+    "computation": "7434daa4eaa55f4ea67b81451b84eba9aa241ec4ce5eed829425c37c5e7f74ea",
+    "path": "dd00d87b70b846dc6115474296411f14f54d3bcb7fde6c3df027b032e24d7f6a",
+    "pipeline": "ed2082b00c8df0257436a5b6fc59f96b4be96e685498421a8102e2b301da11bd"
+  },
+  "status": "completed",
+  "table": {
+    "column_config": [
+      "normalization",
+      "constant_policy"
+    ],
+    "display_name": "lookback",
+    "row_config": [
+      "covariate_mode"
+    ]
+  },
+  "workflow": {
+    "path": [
+      "univariate"
+    ]
+  }
+}

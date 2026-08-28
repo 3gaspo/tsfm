@@ -1,0 +1,76 @@
+{
+  "covariate_mode": "none",
+  "data": {
+    "applied_config_keys": [
+      "date_col",
+      "drop_users",
+      "target_cols"
+    ],
+    "config_path": "/fssmall/home/h61084/codes/datasets/time/ne_china_wind_h/config.json",
+    "covariate_mode": "none",
+    "effective_options": {
+      "date_col": "timestamp",
+      "drop_users": [],
+      "target_cols": [
+        "u component",
+        "v component",
+        "geopotential height",
+        "temperature"
+      ]
+    },
+    "external_covariates": [],
+    "source": "/fssmall/home/h61084/codes/datasets/time/ne_china_wind_h/ne_china_wind_h.csv",
+    "source_mtime_ns": 1787689696000000000,
+    "source_size": 561669
+  },
+  "dataset": "time/ne_china_wind_h",
+  "horizon": 48,
+  "inference": {
+    "batch_size": 512,
+    "device": "cuda",
+    "model_load_seconds": 9.832065552473068e-05,
+    "seconds": 0.025047939270734787,
+    "seconds_per_series_window": 0.000368352048099041,
+    "seconds_per_user": 0.006261984817683697
+  },
+  "instance_normalize": true,
+  "lags": 336,
+  "lookback_period": null,
+  "mase_seasonality": 1,
+  "metrics": {
+    "mae": 0.4448470715433359,
+    "mase": 8.772630933453055,
+    "mse": 0.33657034468727515,
+    "nmae": 0.976273185628302,
+    "nmse": 1.6295965295284986,
+    "sample_std_mae": 0.2640573538213548,
+    "sample_std_mase": 7.424913767878326,
+    "sample_std_mse": 0.4236463357120006,
+    "sample_std_nmae": 0.5672071856659013,
+    "sample_std_nmse": 1.9114548727673075,
+    "user_mean_mae": 0.4448470715433359,
+    "user_mean_mase": 8.772630933453055,
+    "user_mean_mse": 0.33657034468727515,
+    "user_mean_nmae": 0.976273185628302,
+    "user_mean_nmse": 1.6295965295284986,
+    "user_std_mae": 0.10770338224700657,
+    "user_std_mase": 3.454227243017578,
+    "user_std_mse": 0.1491718634124635,
+    "user_std_nmae": 0.16187015479084357,
+    "user_std_nmse": 0.37768247488479595,
+    "w10_mae": 0.5595854363020729,
+    "w10_mase": 14.23729658126831,
+    "w10_mse": 0.5157086099771893,
+    "w10_nmae": 1.120472648564507,
+    "w10_nmse": 2.109850711243994
+  },
+  "model": "expected",
+  "query_dates": 17,
+  "remove_constant": false,
+  "removed_constant_windows": 0,
+  "run_dir": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/time-ne_china_wind_h/336_48/expected/none/instance/keep/run_0",
+  "seed": 1,
+  "series_windows": 68,
+  "stride": 512,
+  "users": 4
+}

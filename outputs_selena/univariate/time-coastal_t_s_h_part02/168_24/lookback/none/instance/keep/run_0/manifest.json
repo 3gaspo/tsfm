@@ -1,0 +1,169 @@
+{
+  "artifacts": {
+    "files": [
+      {
+        "path": "summary.json",
+        "size": 2333
+      },
+      {
+        "path": "per_user_metrics.csv",
+        "size": 689
+      },
+      {
+        "path": "horizon_metrics.csv",
+        "size": 4546
+      },
+      {
+        "path": "resolved_config.json",
+        "size": 1556
+      },
+      {
+        "path": "window_metrics.csv",
+        "size": 2897
+      }
+    ],
+    "required": [
+      "summary.json",
+      "per_user_metrics.csv",
+      "horizon_metrics.csv",
+      "resolved_config.json",
+      "window_metrics.csv"
+    ]
+  },
+  "config": {
+    "experiment": {},
+    "model": {
+      "constant_policy": "keep",
+      "covariate_mode": "none",
+      "normalization": "instance"
+    },
+    "pipeline": {
+      "data.aggr": null,
+      "data.aggr_period": null,
+      "data.covariate_cols": null,
+      "data.covariate_paths": null,
+      "data.date_col": null,
+      "data.drop_users": [],
+      "data.input_contract": "csv_only_drop_replacement",
+      "data.target_cols": null,
+      "evaluation.end_fraction": 1.0,
+      "evaluation.mase_seasonality": 1,
+      "evaluation.save_window_metrics": true,
+      "evaluation.start_fraction": 0.0,
+      "evaluation.stride": 512,
+      "model.cross_learning": false,
+      "model.kwargs": {},
+      "model.local_files_only": true,
+      "model.lookback_period": 168,
+      "model.quantile_index": null,
+      "model.quantile_level": 0.5,
+      "model.seasonal_periods": null,
+      "preprocessing.eps": 1e-08
+    },
+    "runtime": {
+      "evaluation.batch_size": 512,
+      "model.device": "cuda"
+    }
+  },
+  "identity": {
+    "backbone": "lookback",
+    "dataset": "time/coastal_t_s_h_part02",
+    "horizon": 24,
+    "lookback": 168,
+    "model_config": {
+      "constant_policy": "keep",
+      "covariate_mode": "none",
+      "normalization": "instance"
+    },
+    "model_config_order": [
+      "covariate_mode",
+      "normalization",
+      "constant_policy"
+    ]
+  },
+  "inputs": {
+    "dataset": {
+      "applied_config_keys": [
+        "date_col",
+        "drop_users",
+        "target_cols"
+      ],
+      "config_path": "/fssmall/home/h61084/codes/datasets/time/coastal_t_s_h_part02/config.json",
+      "covariate_mode": "none",
+      "effective_options": {
+        "date_col": "timestamp",
+        "drop_users": [],
+        "target_cols": [
+          "TEMP",
+          "PSAL",
+          "PRES_REL"
+        ]
+      },
+      "external_covariates": [],
+      "source": "/fssmall/home/h61084/codes/datasets/time/coastal_t_s_h_part02/coastal_t_s_h_part02.csv",
+      "source_mtime_ns": 1787689695000000000,
+      "source_size": 164767
+    }
+  },
+  "launch": {
+    "attempts": [
+      {
+        "launch_id": "selena_2913508",
+        "launched_at_utc": "2026-08-27T12:34:30.031971+00:00",
+        "mode": "full",
+        "purpose": "publication",
+        "slurm_array_task_id": null,
+        "slurm_job_id": "2913508"
+      }
+    ],
+    "finished_at_utc": "2026-08-27T12:34:31.042166+00:00",
+    "launch_id": "selena_2913508",
+    "launched_at_utc": "2026-08-27T12:34:30.031971+00:00",
+    "mode": "full",
+    "ready_at_utc": "2026-08-27T12:34:30.267630+00:00",
+    "started_at_utc": "2026-08-27T12:34:30.035824+00:00"
+  },
+  "manifest_id": "1abefa20-0aad-4e31-a5b8-abab3d96ec20",
+  "project": "tsfm_evaluation",
+  "purposes": [
+    "publication"
+  ],
+  "run_index": 0,
+  "schema_version": 1,
+  "seed_status": {
+    "1": {
+      "artifacts": [
+        "summary.json",
+        "per_user_metrics.csv",
+        "horizon_metrics.csv",
+        "resolved_config.json",
+        "window_metrics.csv"
+      ],
+      "status": "completed"
+    }
+  },
+  "seeds": [
+    1
+  ],
+  "signatures": {
+    "computation": "8e0265c3e4ee92300e0adc54940177b5b4b5749a6ed1d6c0815da7d4fbda629b",
+    "path": "6880b69382e3c600874dca1d4a2621d18bb29c3120d89486557c1d3dec520219",
+    "pipeline": "9701d1430f5f415de90f7e1fce2e6b3ed1201ff6e7d8bdc3fd600a44e9875307"
+  },
+  "status": "completed",
+  "table": {
+    "column_config": [
+      "normalization",
+      "constant_policy"
+    ],
+    "display_name": "lookback",
+    "row_config": [
+      "covariate_mode"
+    ]
+  },
+  "workflow": {
+    "path": [
+      "univariate"
+    ]
+  }
+}

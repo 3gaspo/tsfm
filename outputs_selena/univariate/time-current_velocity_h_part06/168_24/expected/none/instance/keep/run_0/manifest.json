@@ -1,0 +1,172 @@
+{
+  "artifacts": {
+    "files": [
+      {
+        "path": "summary.json",
+        "size": 2410
+      },
+      {
+        "path": "per_user_metrics.csv",
+        "size": 1323
+      },
+      {
+        "path": "horizon_metrics.csv",
+        "size": 4572
+      },
+      {
+        "path": "resolved_config.json",
+        "size": 1567
+      },
+      {
+        "path": "window_metrics.csv",
+        "size": 9055
+      }
+    ],
+    "required": [
+      "summary.json",
+      "per_user_metrics.csv",
+      "horizon_metrics.csv",
+      "resolved_config.json",
+      "window_metrics.csv"
+    ]
+  },
+  "config": {
+    "experiment": {},
+    "model": {
+      "constant_policy": "keep",
+      "covariate_mode": "none",
+      "normalization": "instance"
+    },
+    "pipeline": {
+      "data.aggr": null,
+      "data.aggr_period": null,
+      "data.covariate_cols": null,
+      "data.covariate_paths": null,
+      "data.date_col": null,
+      "data.drop_users": [],
+      "data.input_contract": "csv_only_drop_replacement",
+      "data.target_cols": null,
+      "evaluation.end_fraction": 1.0,
+      "evaluation.mase_seasonality": 1,
+      "evaluation.save_window_metrics": true,
+      "evaluation.start_fraction": 0.0,
+      "evaluation.stride": 512,
+      "model.cross_learning": false,
+      "model.kwargs": {},
+      "model.local_files_only": true,
+      "model.lookback_period": null,
+      "model.quantile_index": null,
+      "model.quantile_level": 0.5,
+      "model.seasonal_periods": null,
+      "preprocessing.eps": 1e-08
+    },
+    "runtime": {
+      "evaluation.batch_size": 512,
+      "model.device": "cuda"
+    }
+  },
+  "identity": {
+    "backbone": "expected",
+    "dataset": "time/current_velocity_h_part06",
+    "horizon": 24,
+    "lookback": 168,
+    "model_config": {
+      "constant_policy": "keep",
+      "covariate_mode": "none",
+      "normalization": "instance"
+    },
+    "model_config_order": [
+      "covariate_mode",
+      "normalization",
+      "constant_policy"
+    ]
+  },
+  "inputs": {
+    "dataset": {
+      "applied_config_keys": [
+        "date_col",
+        "drop_users",
+        "target_cols"
+      ],
+      "config_path": "/fssmall/home/h61084/codes/datasets/time/current_velocity_h_part06/config.json",
+      "covariate_mode": "none",
+      "effective_options": {
+        "date_col": "timestamp",
+        "drop_users": [],
+        "target_cols": [
+          "UCUR",
+          "VCUR",
+          "WCUR",
+          "TEMP",
+          "PRES_REL",
+          "ABSIC1"
+        ]
+      },
+      "external_covariates": [],
+      "source": "/fssmall/home/h61084/codes/datasets/time/current_velocity_h_part06/current_velocity_h_part06.csv",
+      "source_mtime_ns": 1787689697000000000,
+      "source_size": 421076
+    }
+  },
+  "launch": {
+    "attempts": [
+      {
+        "launch_id": "selena_2913508",
+        "launched_at_utc": "2026-08-27T13:30:44.943561+00:00",
+        "mode": "full",
+        "purpose": "publication",
+        "slurm_array_task_id": null,
+        "slurm_job_id": "2913508"
+      }
+    ],
+    "finished_at_utc": "2026-08-27T13:30:47.652365+00:00",
+    "launch_id": "selena_2913508",
+    "launched_at_utc": "2026-08-27T13:30:44.943561+00:00",
+    "mode": "full",
+    "ready_at_utc": "2026-08-27T13:30:45.173605+00:00",
+    "started_at_utc": "2026-08-27T13:30:44.947170+00:00"
+  },
+  "manifest_id": "b3563f39-cccb-4d9e-8071-8c681c82e0c9",
+  "project": "tsfm_evaluation",
+  "purposes": [
+    "publication"
+  ],
+  "run_index": 0,
+  "schema_version": 1,
+  "seed_status": {
+    "1": {
+      "artifacts": [
+        "summary.json",
+        "per_user_metrics.csv",
+        "horizon_metrics.csv",
+        "resolved_config.json",
+        "window_metrics.csv"
+      ],
+      "status": "completed"
+    }
+  },
+  "seeds": [
+    1
+  ],
+  "signatures": {
+    "computation": "2108ae4b418d41350af0f4d9586b8b0ad73b89c74106e21d677d52c5fa998487",
+    "path": "626824f9328f2feb06b61f109d4eeb9dfa9f561d0c680cb1eb9b2c65e5d987d9",
+    "pipeline": "60237e1ae7b1e358d775b8bb082916553b2fdf483ec72fa1649212055ce26f78"
+  },
+  "status": "completed",
+  "table": {
+    "column_config": [
+      "normalization",
+      "constant_policy"
+    ],
+    "display_name": "expected",
+    "row_config": [
+      "covariate_mode"
+    ]
+  },
+  "workflow": {
+    "path": [
+      "univariate"
+    ]
+  }
+}

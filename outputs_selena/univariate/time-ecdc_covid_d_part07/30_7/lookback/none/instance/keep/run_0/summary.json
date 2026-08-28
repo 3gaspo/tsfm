@@ -1,0 +1,73 @@
+{
+  "covariate_mode": "none",
+  "data": {
+    "applied_config_keys": [
+      "date_col",
+      "drop_users",
+      "target_cols"
+    ],
+    "config_path": "/fssmall/home/h61084/codes/datasets/time/ecdc_covid_d_part07/config.json",
+    "covariate_mode": "none",
+    "effective_options": {
+      "date_col": "timestamp",
+      "drop_users": [],
+      "target_cols": [
+        "value"
+      ]
+    },
+    "external_covariates": [],
+    "source": "/fssmall/home/h61084/codes/datasets/time/ecdc_covid_d_part07/ecdc_covid_d_part07.csv",
+    "source_mtime_ns": 1787689696000000000,
+    "source_size": 18651
+  },
+  "dataset": "time/ecdc_covid_d_part07",
+  "horizon": 7,
+  "inference": {
+    "batch_size": 512,
+    "device": "cuda",
+    "model_load_seconds": 0.00010037049651145935,
+    "seconds": 0.02051369659602642,
+    "seconds_per_series_window": 0.00683789886534214,
+    "seconds_per_user": 0.02051369659602642
+  },
+  "instance_normalize": true,
+  "lags": 30,
+  "lookback_period": 7,
+  "mase_seasonality": 1,
+  "metrics": {
+    "mae": 36.04762077331543,
+    "mase": 7.981159925460815,
+    "mse": 2344.1429545084634,
+    "nmae": 1.0468303163846333,
+    "nmse": 1.5830579673250516,
+    "sample_std_mae": 31.09396375368951,
+    "sample_std_mase": 5.86887539938955,
+    "sample_std_mse": 2976.1765346011616,
+    "sample_std_nmae": 0.6489740409160613,
+    "sample_std_nmse": 1.4986649764463753,
+    "user_mean_mae": 36.04762077331543,
+    "user_mean_mase": 7.981159925460815,
+    "user_mean_mse": 2344.1429545084634,
+    "user_mean_nmae": 1.0468303163846333,
+    "user_mean_nmse": 1.5830579673250516,
+    "user_std_mae": 0.0,
+    "user_std_mase": 0.0,
+    "user_std_mse": 0.0,
+    "user_std_nmae": 0.0,
+    "user_std_nmse": 0.0,
+    "w10_mae": 36.04762077331543,
+    "w10_mase": 7.981159925460815,
+    "w10_mse": 2344.1429545084634,
+    "w10_nmae": 1.0468303163846333,
+    "w10_nmse": 1.5830579673250516
+  },
+  "model": "lookback",
+  "query_dates": 3,
+  "remove_constant": false,
+  "removed_constant_windows": 0,
+  "run_dir": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/time-ecdc_covid_d_part07/30_7/lookback/none/instance/keep/run_0",
+  "seed": 1,
+  "series_windows": 3,
+  "stride": 512,
+  "users": 1
+}

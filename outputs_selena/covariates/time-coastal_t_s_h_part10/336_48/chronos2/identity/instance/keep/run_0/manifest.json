@@ -1,0 +1,170 @@
+{
+  "artifacts": {
+    "files": [
+      {
+        "path": "summary.json",
+        "size": 2378
+      },
+      {
+        "path": "per_user_metrics.csv",
+        "size": 740
+      },
+      {
+        "path": "horizon_metrics.csv",
+        "size": 9783
+      },
+      {
+        "path": "resolved_config.json",
+        "size": 1601
+      },
+      {
+        "path": "window_metrics.csv",
+        "size": 4797
+      }
+    ],
+    "required": [
+      "summary.json",
+      "per_user_metrics.csv",
+      "horizon_metrics.csv",
+      "resolved_config.json",
+      "window_metrics.csv"
+    ]
+  },
+  "config": {
+    "experiment": {},
+    "model": {
+      "constant_policy": "keep",
+      "covariate_mode": "identity",
+      "normalization": "instance"
+    },
+    "pipeline": {
+      "data.aggr": null,
+      "data.aggr_period": null,
+      "data.covariate_cols": null,
+      "data.covariate_paths": null,
+      "data.date_col": null,
+      "data.drop_users": [],
+      "data.input_contract": "csv_only_drop_replacement",
+      "data.target_cols": null,
+      "evaluation.end_fraction": 1.0,
+      "evaluation.mase_seasonality": 1,
+      "evaluation.save_window_metrics": true,
+      "evaluation.start_fraction": 0.0,
+      "evaluation.stride": 512,
+      "model.cross_learning": false,
+      "model.kwargs": {},
+      "model.local_files_only": true,
+      "model.lookback_period": null,
+      "model.quantile_index": null,
+      "model.quantile_level": 0.5,
+      "model.seasonal_periods": null,
+      "preprocessing.eps": 1e-08
+    },
+    "runtime": {
+      "evaluation.batch_size": 64,
+      "model.device": "cuda"
+    }
+  },
+  "identity": {
+    "backbone": "chronos2",
+    "dataset": "time/coastal_t_s_h_part10",
+    "horizon": 48,
+    "lookback": 336,
+    "model_config": {
+      "constant_policy": "keep",
+      "covariate_mode": "identity",
+      "normalization": "instance"
+    },
+    "model_config_order": [
+      "covariate_mode",
+      "normalization",
+      "constant_policy"
+    ]
+  },
+  "inputs": {
+    "dataset": {
+      "applied_config_keys": [
+        "date_col",
+        "drop_users",
+        "target_cols"
+      ],
+      "config_path": "/fssmall/home/h61084/codes/datasets/time/coastal_t_s_h_part10/config.json",
+      "covariate_mode": "identity",
+      "effective_options": {
+        "date_col": "timestamp",
+        "drop_users": [],
+        "target_cols": [
+          "TEMP",
+          "PSAL",
+          "PRES_REL"
+        ]
+      },
+      "external_covariates": [],
+      "source": "/fssmall/home/h61084/codes/datasets/time/coastal_t_s_h_part10/coastal_t_s_h_part10.csv",
+      "source_mtime_ns": 1787689695000000000,
+      "source_size": 239577
+    },
+    "weights": "/fssmall/home/h61084/codes/weights/chronos2"
+  },
+  "launch": {
+    "attempts": [
+      {
+        "launch_id": "selena_2913583",
+        "launched_at_utc": "2026-08-27T12:59:25.490268+00:00",
+        "mode": "full",
+        "purpose": "publication",
+        "slurm_array_task_id": null,
+        "slurm_job_id": "2913583"
+      }
+    ],
+    "finished_at_utc": "2026-08-27T12:59:32.624449+00:00",
+    "launch_id": "selena_2913583",
+    "launched_at_utc": "2026-08-27T12:59:25.490268+00:00",
+    "mode": "full",
+    "ready_at_utc": "2026-08-27T12:59:31.241278+00:00",
+    "started_at_utc": "2026-08-27T12:59:25.493536+00:00"
+  },
+  "manifest_id": "cc0fa648-9b17-4de4-af7e-e860b31e7afe",
+  "project": "tsfm_evaluation",
+  "purposes": [
+    "publication"
+  ],
+  "run_index": 0,
+  "schema_version": 1,
+  "seed_status": {
+    "1": {
+      "artifacts": [
+        "summary.json",
+        "per_user_metrics.csv",
+        "horizon_metrics.csv",
+        "resolved_config.json",
+        "window_metrics.csv"
+      ],
+      "status": "completed"
+    }
+  },
+  "seeds": [
+    1
+  ],
+  "signatures": {
+    "computation": "a474cb698ca2817f4e92bdbc6db8d1c2c5559ed259cf14939c9def01969a10ef",
+    "path": "f96cfd8735ac1f6d07096e043943ca256d9f301c636ad0b6ddc5a0bf710a27ac",
+    "pipeline": "60237e1ae7b1e358d775b8bb082916553b2fdf483ec72fa1649212055ce26f78"
+  },
+  "status": "completed",
+  "table": {
+    "column_config": [
+      "normalization",
+      "constant_policy"
+    ],
+    "display_name": "chronos2",
+    "row_config": [
+      "covariate_mode"
+    ]
+  },
+  "workflow": {
+    "path": [
+      "covariates"
+    ]
+  }
+}

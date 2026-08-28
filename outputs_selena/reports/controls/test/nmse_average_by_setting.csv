@@ -1,0 +1,3 @@
+setting,model,metric,mean_value,mean_reference_value,mean_improvement_pct,configurations,reference_models
+504:168,chronos2,nmse,2.7982500866278196e+16,2.7982500866278196e+16,12.615999008763112,4,repeat
+504:168,repeat,nmse,2.7982500866278196e+16,2.7982500866278196e+16,0.0,4,repeat

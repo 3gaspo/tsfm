@@ -1,0 +1,70 @@
+{
+  "covariate_mode": "none",
+  "data": {
+    "applied_config_keys": [
+      "date_col",
+      "drop_users"
+    ],
+    "config_path": "/fssmall/home/h61084/codes/datasets/exchange_rate/config.json",
+    "covariate_mode": "none",
+    "effective_options": {
+      "aggr": null,
+      "date_col": "date",
+      "drop_users": []
+    },
+    "external_covariates": [],
+    "source": "/fssmall/home/h61084/codes/datasets/exchange_rate/exchange_rate.csv",
+    "source_mtime_ns": 1787699099000000000,
+    "source_size": 630212
+  },
+  "dataset": "exchange_rate",
+  "horizon": 2,
+  "inference": {
+    "batch_size": 512,
+    "device": "cuda",
+    "model_load_seconds": 9.45008359849453e-05,
+    "seconds": 7.516099140048027e-05,
+    "seconds_per_series_window": 6.263415950040023e-07,
+    "seconds_per_user": 9.395123925060034e-06
+  },
+  "instance_normalize": false,
+  "lags": 14,
+  "lookback_period": null,
+  "mase_seasonality": 1,
+  "metrics": {
+    "mae": 0.003997270823068296,
+    "mase": 1.9406336744936803,
+    "mse": 4.924731154336247e-05,
+    "nmae": 1.0536470286703359,
+    "nmse": 2.7941869551180085,
+    "sample_std_mae": 0.004925149059648494,
+    "sample_std_mase": 2.4496181250802396,
+    "sample_std_mse": 0.0001136388754804782,
+    "sample_std_nmae": 1.0716366591833704,
+    "sample_std_nmse": 6.640907751938378,
+    "user_mean_mae": 0.0039972708230682965,
+    "user_mean_mase": 1.9406336744936805,
+    "user_mean_mse": 4.924731154336246e-05,
+    "user_mean_nmae": 1.0536470286703357,
+    "user_mean_nmse": 2.7941869551180085,
+    "user_std_mae": 0.002967532982109325,
+    "user_std_mase": 0.3527121856708719,
+    "user_std_mse": 5.2446284950633096e-05,
+    "user_std_nmae": 0.13654625184983163,
+    "user_std_nmse": 1.1425040914486326,
+    "w10_mae": 0.009466699759165446,
+    "w10_mase": 2.715678248802821,
+    "w10_mse": 0.00016968827140620608,
+    "w10_nmae": 1.2942449068029722,
+    "w10_nmse": 4.808838138977687
+  },
+  "model": "repeat",
+  "query_dates": 15,
+  "remove_constant": false,
+  "removed_constant_windows": 0,
+  "run_dir": "/fssmall/home/h61084/codes/tsfm/outputs_selena/controls/exchange_rate/14_2/repeat/none/raw/keep/run_0",
+  "seed": 1,
+  "series_windows": 120,
+  "stride": 512,
+  "users": 8
+}

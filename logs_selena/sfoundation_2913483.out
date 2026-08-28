@@ -1,0 +1,15 @@
+2026-08-27 14:21:49 | resources data_root=auto weights_root=auto output_root=/fssmall/home/h61084/codes/tsfm/outputs_selena/foundation_models
+2026-08-27 14:21:57 | profile mode=test datasets=electricity settings=504:168 tasks=1 seeds=1
+2026-08-27 14:21:57 | foundation models=chronos2 chronos_bolt chronos_t5 ts_icl
+2026-08-27 14:21:57 | configuration dataset=electricity L=504 H=168 model=chronos2 covariates=none instance_norm=false remove_constant=false seed=1 batch_size=64
+[2026-08-27 14:22:00,572][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/electricity/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-27 14:22:01,419][evaluation.evaluator][INFO] - evaluate dataset=electricity users=312 dates=26304 windows=15912 removed_constant=0 L=504 H=168 stride=512
+[2026-08-27 14:22:20,995][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/foundation_models/electricity/504_168/chronos2/none/raw/keep/run_0 mse=6.19322e+06 nmse=0.24783 inference_seconds=7.249
+2026-08-27 14:22:21 | configuration dataset=electricity L=504 H=168 model=chronos_bolt covariates=none instance_norm=false remove_constant=false seed=1 batch_size=128
+[2026-08-27 14:22:24,455][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/electricity/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-27 14:22:25,169][evaluation.evaluator][INFO] - evaluate dataset=electricity users=312 dates=26304 windows=15912 removed_constant=0 L=504 H=168 stride=512
+[2026-08-27 14:23:54,353][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/foundation_models/electricity/504_168/chronos_bolt/none/raw/keep/run_0 mse=5.31318e+06 nmse=0.237632 inference_seconds=82.048
+2026-08-27 14:23:55 | configuration dataset=electricity L=504 H=168 model=chronos_t5 covariates=none instance_norm=false remove_constant=false seed=1 batch_size=32
+[2026-08-27 14:23:57,781][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/electricity/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-27 14:23:58,484][evaluation.evaluator][INFO] - evaluate dataset=electricity users=312 dates=26304 windows=15912 removed_constant=0 L=504 H=168 stride=512
+/fssmall/home/h61084/codes/tsfm/outputs_selena/foundation_models/electricity/504_168/chronos_t5/none/raw/keep/run_0

@@ -1,0 +1,170 @@
+{
+  "artifacts": {
+    "files": [
+      {
+        "path": "summary.json",
+        "size": 2282
+      },
+      {
+        "path": "per_user_metrics.csv",
+        "size": 885
+      },
+      {
+        "path": "horizon_metrics.csv",
+        "size": 1385
+      },
+      {
+        "path": "resolved_config.json",
+        "size": 1528
+      },
+      {
+        "path": "window_metrics.csv",
+        "size": 3256
+      }
+    ],
+    "required": [
+      "summary.json",
+      "per_user_metrics.csv",
+      "horizon_metrics.csv",
+      "resolved_config.json",
+      "window_metrics.csv"
+    ]
+  },
+  "config": {
+    "experiment": {},
+    "model": {
+      "constant_policy": "keep",
+      "covariate_mode": "none",
+      "normalization": "instance"
+    },
+    "pipeline": {
+      "data.aggr": null,
+      "data.aggr_period": null,
+      "data.covariate_cols": null,
+      "data.covariate_paths": null,
+      "data.date_col": null,
+      "data.drop_users": [],
+      "data.input_contract": "csv_only_drop_replacement",
+      "data.target_cols": null,
+      "evaluation.end_fraction": 1.0,
+      "evaluation.mase_seasonality": 1,
+      "evaluation.save_window_metrics": true,
+      "evaluation.start_fraction": 0.0,
+      "evaluation.stride": 512,
+      "model.cross_learning": false,
+      "model.kwargs": {},
+      "model.local_files_only": true,
+      "model.lookback_period": 7,
+      "model.quantile_index": null,
+      "model.quantile_level": 0.5,
+      "model.seasonal_periods": null,
+      "preprocessing.eps": 1e-08
+    },
+    "runtime": {
+      "evaluation.batch_size": 512,
+      "model.device": "cuda"
+    }
+  },
+  "identity": {
+    "backbone": "lookback",
+    "dataset": "time/crypto_d",
+    "horizon": 7,
+    "lookback": 30,
+    "model_config": {
+      "constant_policy": "keep",
+      "covariate_mode": "none",
+      "normalization": "instance"
+    },
+    "model_config_order": [
+      "covariate_mode",
+      "normalization",
+      "constant_policy"
+    ]
+  },
+  "inputs": {
+    "dataset": {
+      "applied_config_keys": [
+        "date_col",
+        "drop_users",
+        "target_cols"
+      ],
+      "config_path": "/fssmall/home/h61084/codes/datasets/time/crypto_d/config.json",
+      "covariate_mode": "none",
+      "effective_options": {
+        "date_col": "timestamp",
+        "drop_users": [],
+        "target_cols": [
+          "BitcoinCash",
+          "Bitcoin",
+          "Ethereum",
+          "Litecoin"
+        ]
+      },
+      "external_covariates": [],
+      "source": "/fssmall/home/h61084/codes/datasets/time/crypto_d/crypto_d.csv",
+      "source_mtime_ns": 1787689696000000000,
+      "source_size": 117025
+    }
+  },
+  "launch": {
+    "attempts": [
+      {
+        "launch_id": "selena_2913508",
+        "launched_at_utc": "2026-08-27T13:04:20.823898+00:00",
+        "mode": "full",
+        "purpose": "publication",
+        "slurm_array_task_id": null,
+        "slurm_job_id": "2913508"
+      }
+    ],
+    "finished_at_utc": "2026-08-27T13:04:22.746289+00:00",
+    "launch_id": "selena_2913508",
+    "launched_at_utc": "2026-08-27T13:04:20.823898+00:00",
+    "mode": "full",
+    "ready_at_utc": "2026-08-27T13:04:21.046777+00:00",
+    "started_at_utc": "2026-08-27T13:04:20.827530+00:00"
+  },
+  "manifest_id": "8157b774-7335-4d09-a042-bb01f35d7404",
+  "project": "tsfm_evaluation",
+  "purposes": [
+    "publication"
+  ],
+  "run_index": 0,
+  "schema_version": 1,
+  "seed_status": {
+    "1": {
+      "artifacts": [
+        "summary.json",
+        "per_user_metrics.csv",
+        "horizon_metrics.csv",
+        "resolved_config.json",
+        "window_metrics.csv"
+      ],
+      "status": "completed"
+    }
+  },
+  "seeds": [
+    1
+  ],
+  "signatures": {
+    "computation": "fa52eb442c4a8ce200a831872de248ac0884d930fcf39188aad0be2381cea93c",
+    "path": "cd7af7f5a097d08eb039f8cef72ae2181b536241f3f1c16f5056ebb996458e52",
+    "pipeline": "ed2082b00c8df0257436a5b6fc59f96b4be96e685498421a8102e2b301da11bd"
+  },
+  "status": "completed",
+  "table": {
+    "column_config": [
+      "normalization",
+      "constant_policy"
+    ],
+    "display_name": "lookback",
+    "row_config": [
+      "covariate_mode"
+    ]
+  },
+  "workflow": {
+    "path": [
+      "univariate"
+    ]
+  }
+}

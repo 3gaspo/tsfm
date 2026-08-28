@@ -1,0 +1,75 @@
+{
+  "covariate_mode": "none",
+  "data": {
+    "applied_config_keys": [
+      "date_col",
+      "drop_users",
+      "target_cols"
+    ],
+    "config_path": "/fssmall/home/h61084/codes/datasets/time/coastal_t_s_h_part11/config.json",
+    "covariate_mode": "none",
+    "effective_options": {
+      "date_col": "timestamp",
+      "drop_users": [],
+      "target_cols": [
+        "TEMP",
+        "PSAL",
+        "PRES_REL"
+      ]
+    },
+    "external_covariates": [],
+    "source": "/fssmall/home/h61084/codes/datasets/time/coastal_t_s_h_part11/coastal_t_s_h_part11.csv",
+    "source_mtime_ns": 1787689695000000000,
+    "source_size": 347843
+  },
+  "dataset": "time/coastal_t_s_h_part11",
+  "horizon": 24,
+  "inference": {
+    "batch_size": 512,
+    "device": "cuda",
+    "model_load_seconds": 9.606219828128815e-05,
+    "seconds": 0.024427383206784725,
+    "seconds_per_series_window": 0.0005089038168080151,
+    "seconds_per_user": 0.008142461068928242
+  },
+  "instance_normalize": true,
+  "lags": 168,
+  "lookback_period": null,
+  "mase_seasonality": 1,
+  "metrics": {
+    "mae": 0.09539352069259621,
+    "mase": 3.44968643411994,
+    "mse": 0.03267639412653504,
+    "nmae": 0.7545282929204404,
+    "nmse": 1.1482315180279936,
+    "sample_std_mae": 0.13267577481060766,
+    "sample_std_mase": 3.3430969616942687,
+    "sample_std_mse": 0.0771866904461476,
+    "sample_std_nmae": 0.5523492199523932,
+    "sample_std_nmse": 1.4598019501516717,
+    "user_mean_mae": 0.09539352069259621,
+    "user_mean_mase": 3.44968643411994,
+    "user_mean_mse": 0.03267639412653504,
+    "user_mean_nmae": 0.7545282929204404,
+    "user_mean_nmse": 1.1482315180279936,
+    "user_std_mae": 0.06413375815309927,
+    "user_std_mase": 1.6274901970559903,
+    "user_std_mse": 0.026420396290798568,
+    "user_std_nmae": 0.12552602067941393,
+    "user_std_nmse": 0.30676120846107424,
+    "w10_mae": 0.17816891055554152,
+    "w10_mase": 4.708261929452419,
+    "w10_mse": 0.06554623572446872,
+    "w10_nmae": 0.9278966132551432,
+    "w10_nmse": 1.5687370616942644
+  },
+  "model": "persistence",
+  "query_dates": 16,
+  "remove_constant": false,
+  "removed_constant_windows": 0,
+  "run_dir": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/time-coastal_t_s_h_part11/168_24/persistence/none/instance/keep/run_0",
+  "seed": 1,
+  "series_windows": 48,
+  "stride": 512,
+  "users": 3
+}

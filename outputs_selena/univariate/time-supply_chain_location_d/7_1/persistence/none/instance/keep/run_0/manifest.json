@@ -1,0 +1,217 @@
+{
+  "artifacts": {
+    "files": [
+      {
+        "path": "summary.json",
+        "size": 4009
+      },
+      {
+        "path": "per_user_metrics.csv",
+        "size": 10368
+      },
+      {
+        "path": "horizon_metrics.csv",
+        "size": 261
+      },
+      {
+        "path": "resolved_config.json",
+        "size": 1563
+      },
+      {
+        "path": "window_metrics.csv",
+        "size": 26896
+      }
+    ],
+    "required": [
+      "summary.json",
+      "per_user_metrics.csv",
+      "horizon_metrics.csv",
+      "resolved_config.json",
+      "window_metrics.csv"
+    ]
+  },
+  "config": {
+    "experiment": {},
+    "model": {
+      "constant_policy": "keep",
+      "covariate_mode": "none",
+      "normalization": "instance"
+    },
+    "pipeline": {
+      "data.aggr": null,
+      "data.aggr_period": null,
+      "data.covariate_cols": null,
+      "data.covariate_paths": null,
+      "data.date_col": null,
+      "data.drop_users": [],
+      "data.input_contract": "csv_only_drop_replacement",
+      "data.target_cols": null,
+      "evaluation.end_fraction": 1.0,
+      "evaluation.mase_seasonality": 1,
+      "evaluation.save_window_metrics": true,
+      "evaluation.start_fraction": 0.0,
+      "evaluation.stride": 512,
+      "model.cross_learning": false,
+      "model.kwargs": {},
+      "model.local_files_only": true,
+      "model.lookback_period": null,
+      "model.quantile_index": null,
+      "model.quantile_level": 0.5,
+      "model.seasonal_periods": null,
+      "preprocessing.eps": 1e-08
+    },
+    "runtime": {
+      "evaluation.batch_size": 512,
+      "model.device": "cuda"
+    }
+  },
+  "identity": {
+    "backbone": "persistence",
+    "dataset": "time/supply_chain_location_d",
+    "horizon": 1,
+    "lookback": 7,
+    "model_config": {
+      "constant_policy": "keep",
+      "covariate_mode": "none",
+      "normalization": "instance"
+    },
+    "model_config_order": [
+      "covariate_mode",
+      "normalization",
+      "constant_policy"
+    ]
+  },
+  "inputs": {
+    "dataset": {
+      "applied_config_keys": [
+        "date_col",
+        "drop_users",
+        "target_cols"
+      ],
+      "config_path": "/fssmall/home/h61084/codes/datasets/time/supply_chain_location_d/config.json",
+      "covariate_mode": "none",
+      "effective_options": {
+        "date_col": "timestamp",
+        "drop_users": [],
+        "target_cols": [
+          "Atlanta_OrderCount",
+          "Atlanta_NumberOfPieces",
+          "Atlanta_TotalRevenue",
+          "Birmingham_OrderCount",
+          "Birmingham_NumberOfPieces",
+          "Birmingham_TotalRevenue",
+          "Chicago_OrderCount",
+          "Chicago_NumberOfPieces",
+          "Chicago_TotalRevenue",
+          "Dallas_OrderCount",
+          "Dallas_NumberOfPieces",
+          "Dallas_TotalRevenue",
+          "Detroit_OrderCount",
+          "Detroit_NumberOfPieces",
+          "Detroit_TotalRevenue",
+          "Houston_OrderCount",
+          "Houston_NumberOfPieces",
+          "Houston_TotalRevenue",
+          "Los_Angeles_OrderCount",
+          "Los_Angeles_NumberOfPieces",
+          "Los_Angeles_TotalRevenue",
+          "Miami_OrderCount",
+          "Miami_NumberOfPieces",
+          "Miami_TotalRevenue",
+          "Milwaukee_OrderCount",
+          "Milwaukee_NumberOfPieces",
+          "Milwaukee_TotalRevenue",
+          "Minneapolis_OrderCount",
+          "Minneapolis_NumberOfPieces",
+          "Minneapolis_TotalRevenue",
+          "Nashville_OrderCount",
+          "Nashville_NumberOfPieces",
+          "Nashville_TotalRevenue",
+          "New_York_OrderCount",
+          "New_York_NumberOfPieces",
+          "New_York_TotalRevenue",
+          "Sacramento_OrderCount",
+          "Sacramento_NumberOfPieces",
+          "Sacramento_TotalRevenue",
+          "San_Diego_OrderCount",
+          "San_Diego_NumberOfPieces",
+          "San_Diego_TotalRevenue",
+          "San_Francisco_OrderCount",
+          "San_Francisco_NumberOfPieces",
+          "San_Francisco_TotalRevenue",
+          "Seattle_OrderCount",
+          "Seattle_NumberOfPieces",
+          "Seattle_TotalRevenue",
+          "Tampa_Bay_OrderCount",
+          "Tampa_Bay_NumberOfPieces",
+          "Tampa_Bay_TotalRevenue"
+        ]
+      },
+      "external_covariates": [],
+      "source": "/fssmall/home/h61084/codes/datasets/time/supply_chain_location_d/supply_chain_location_d.csv",
+      "source_mtime_ns": 1787689696000000000,
+      "source_size": 686976
+    }
+  },
+  "launch": {
+    "attempts": [
+      {
+        "launch_id": "selena_2913508",
+        "launched_at_utc": "2026-08-27T13:21:06.549830+00:00",
+        "mode": "full",
+        "purpose": "publication",
+        "slurm_array_task_id": null,
+        "slurm_job_id": "2913508"
+      }
+    ],
+    "finished_at_utc": "2026-08-27T13:21:09.020699+00:00",
+    "launch_id": "selena_2913508",
+    "launched_at_utc": "2026-08-27T13:21:06.549830+00:00",
+    "mode": "full",
+    "ready_at_utc": "2026-08-27T13:21:06.795351+00:00",
+    "started_at_utc": "2026-08-27T13:21:06.553257+00:00"
+  },
+  "manifest_id": "207e6527-c86b-4dcd-b3c5-95cb5c739dec",
+  "project": "tsfm_evaluation",
+  "purposes": [
+    "publication"
+  ],
+  "run_index": 0,
+  "schema_version": 1,
+  "seed_status": {
+    "1": {
+      "artifacts": [
+        "summary.json",
+        "per_user_metrics.csv",
+        "horizon_metrics.csv",
+        "resolved_config.json",
+        "window_metrics.csv"
+      ],
+      "status": "completed"
+    }
+  },
+  "seeds": [
+    1
+  ],
+  "signatures": {
+    "computation": "6c179e3e13bdab029c8407ee2befc051f08a2d22b6701bbf945dc8abd0c8ae62",
+    "path": "2346931e18bf3878583eabc20368eb976f337240164b0c1390af182546b4ac21",
+    "pipeline": "60237e1ae7b1e358d775b8bb082916553b2fdf483ec72fa1649212055ce26f78"
+  },
+  "status": "completed",
+  "table": {
+    "column_config": [
+      "normalization",
+      "constant_policy"
+    ],
+    "display_name": "persistence",
+    "row_config": [
+      "covariate_mode"
+    ]
+  },
+  "workflow": {
+    "path": [
+      "univariate"
+    ]
+  }
+}

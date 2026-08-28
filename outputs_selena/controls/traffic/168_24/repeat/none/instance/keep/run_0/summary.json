@@ -1,0 +1,70 @@
+{
+  "covariate_mode": "none",
+  "data": {
+    "applied_config_keys": [
+      "date_col",
+      "drop_users"
+    ],
+    "config_path": "/fssmall/home/h61084/codes/datasets/traffic/config.json",
+    "covariate_mode": "none",
+    "effective_options": {
+      "aggr": null,
+      "date_col": "date",
+      "drop_users": []
+    },
+    "external_covariates": [],
+    "source": "/fssmall/home/h61084/codes/datasets/traffic/traffic.csv",
+    "source_mtime_ns": 1787699104000000000,
+    "source_size": 136478119
+  },
+  "dataset": "traffic",
+  "horizon": 24,
+  "inference": {
+    "batch_size": 512,
+    "device": "cuda",
+    "model_load_seconds": 0.00010752095840871334,
+    "seconds": 0.018614604836329818,
+    "seconds_per_series_window": 6.351373289316847e-07,
+    "seconds_per_user": 2.1594669183677282e-05
+  },
+  "instance_normalize": true,
+  "lags": 168,
+  "lookback_period": null,
+  "mase_seasonality": 1,
+  "metrics": {
+    "mae": 0.01580883253052842,
+    "mase": 1.145393660767923,
+    "mse": 0.0013823339433987954,
+    "nmae": 0.3517403335672968,
+    "nmse": 0.534723311480059,
+    "sample_std_mae": 0.013548878098788209,
+    "sample_std_mase": 0.7471116347929719,
+    "sample_std_mse": 0.002809767428493181,
+    "sample_std_nmae": 0.222241672990228,
+    "sample_std_nmse": 1.124713694398586,
+    "user_mean_mae": 0.015808832530528425,
+    "user_mean_mase": 1.145393660767923,
+    "user_mean_mse": 0.0013823339433987954,
+    "user_mean_nmae": 0.35174033356729684,
+    "user_mean_nmse": 0.534723311480059,
+    "user_std_mae": 0.008268261349486234,
+    "user_std_mase": 0.16877887535667824,
+    "user_std_mse": 0.0015711177115709843,
+    "user_std_nmae": 0.06369620336916601,
+    "user_std_nmse": 0.26030025289818703,
+    "w10_mae": 0.033685164159817774,
+    "w10_mase": 1.489992351412894,
+    "w10_mse": 0.004661885678509344,
+    "w10_nmae": 0.4800061072154252,
+    "w10_nmse": 1.0565924144746623
+  },
+  "model": "repeat",
+  "query_dates": 34,
+  "remove_constant": false,
+  "removed_constant_windows": 0,
+  "run_dir": "/fssmall/home/h61084/codes/tsfm/outputs_selena/controls/traffic/168_24/repeat/none/instance/keep/run_0",
+  "seed": 1,
+  "series_windows": 29308,
+  "stride": 512,
+  "users": 862
+}

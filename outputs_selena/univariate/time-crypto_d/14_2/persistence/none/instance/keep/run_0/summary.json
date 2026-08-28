@@ -1,0 +1,76 @@
+{
+  "covariate_mode": "none",
+  "data": {
+    "applied_config_keys": [
+      "date_col",
+      "drop_users",
+      "target_cols"
+    ],
+    "config_path": "/fssmall/home/h61084/codes/datasets/time/crypto_d/config.json",
+    "covariate_mode": "none",
+    "effective_options": {
+      "date_col": "timestamp",
+      "drop_users": [],
+      "target_cols": [
+        "BitcoinCash",
+        "Bitcoin",
+        "Ethereum",
+        "Litecoin"
+      ]
+    },
+    "external_covariates": [],
+    "source": "/fssmall/home/h61084/codes/datasets/time/crypto_d/crypto_d.csv",
+    "source_mtime_ns": 1787689696000000000,
+    "source_size": 117025
+  },
+  "dataset": "time/crypto_d",
+  "horizon": 2,
+  "inference": {
+    "batch_size": 512,
+    "device": "cuda",
+    "model_load_seconds": 9.363051503896713e-05,
+    "seconds": 0.024714916944503784,
+    "seconds_per_series_window": 0.001029788206020991,
+    "seconds_per_user": 0.006178729236125946
+  },
+  "instance_normalize": true,
+  "lags": 14,
+  "lookback_period": null,
+  "mase_seasonality": 1,
+  "metrics": {
+    "mae": 181.74614675839743,
+    "mase": 1.0124776127437751,
+    "mse": 235868.86351337843,
+    "nmae": 0.6815841062925756,
+    "nmse": 1.0128494323192474,
+    "sample_std_mae": 448.7591546514815,
+    "sample_std_mase": 0.7279080299651612,
+    "sample_std_mse": 804048.5418499794,
+    "sample_std_nmae": 0.6889512157181344,
+    "sample_std_nmse": 2.4163006426240803,
+    "user_mean_mae": 181.74614675839743,
+    "user_mean_mase": 1.0124776127437751,
+    "user_mean_mse": 235868.86351337846,
+    "user_mean_nmae": 0.6815841062925756,
+    "user_mean_nmse": 1.0128494323192474,
+    "user_std_mae": 280.4764265900759,
+    "user_std_mase": 0.06562464708613105,
+    "user_std_mse": 406085.5182787647,
+    "user_std_nmae": 0.12164822633387684,
+    "user_std_nmse": 0.6785857713075673,
+    "w10_mae": 667.1666666666666,
+    "w10_mase": 1.069473508745432,
+    "w10_mse": 939228.0,
+    "w10_nmae": 0.8583828999350468,
+    "w10_nmse": 2.17603078042157
+  },
+  "model": "persistence",
+  "query_dates": 6,
+  "remove_constant": false,
+  "removed_constant_windows": 0,
+  "run_dir": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/time-crypto_d/14_2/persistence/none/instance/keep/run_0",
+  "seed": 1,
+  "series_windows": 24,
+  "stride": 512,
+  "users": 4
+}

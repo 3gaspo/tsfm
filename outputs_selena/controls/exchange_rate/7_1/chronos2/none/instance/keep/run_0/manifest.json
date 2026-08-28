@@ -1,0 +1,165 @@
+{
+  "artifacts": {
+    "files": [
+      {
+        "path": "summary.json",
+        "size": 2214
+      },
+      {
+        "path": "per_user_metrics.csv",
+        "size": 1754
+      },
+      {
+        "path": "horizon_metrics.csv",
+        "size": 275
+      },
+      {
+        "path": "resolved_config.json",
+        "size": 1564
+      },
+      {
+        "path": "window_metrics.csv",
+        "size": 16485
+      }
+    ],
+    "required": [
+      "summary.json",
+      "per_user_metrics.csv",
+      "horizon_metrics.csv",
+      "resolved_config.json",
+      "window_metrics.csv"
+    ]
+  },
+  "config": {
+    "experiment": {},
+    "model": {
+      "constant_policy": "keep",
+      "covariate_mode": "none",
+      "normalization": "instance"
+    },
+    "pipeline": {
+      "data.aggr": null,
+      "data.aggr_period": null,
+      "data.covariate_cols": null,
+      "data.covariate_paths": null,
+      "data.date_col": null,
+      "data.drop_users": [],
+      "data.input_contract": "csv_only_drop_replacement",
+      "data.target_cols": null,
+      "evaluation.end_fraction": 1.0,
+      "evaluation.mase_seasonality": 1,
+      "evaluation.save_window_metrics": true,
+      "evaluation.start_fraction": 0.0,
+      "evaluation.stride": 512,
+      "model.cross_learning": false,
+      "model.kwargs": {},
+      "model.local_files_only": true,
+      "model.lookback_period": null,
+      "model.quantile_index": null,
+      "model.quantile_level": 0.5,
+      "model.seasonal_periods": null,
+      "preprocessing.eps": 1e-08
+    },
+    "runtime": {
+      "evaluation.batch_size": 64,
+      "model.device": "cuda"
+    }
+  },
+  "identity": {
+    "backbone": "chronos2",
+    "dataset": "exchange_rate",
+    "horizon": 1,
+    "lookback": 7,
+    "model_config": {
+      "constant_policy": "keep",
+      "covariate_mode": "none",
+      "normalization": "instance"
+    },
+    "model_config_order": [
+      "covariate_mode",
+      "normalization",
+      "constant_policy"
+    ]
+  },
+  "inputs": {
+    "dataset": {
+      "applied_config_keys": [
+        "date_col",
+        "drop_users"
+      ],
+      "config_path": "/fssmall/home/h61084/codes/datasets/exchange_rate/config.json",
+      "covariate_mode": "none",
+      "effective_options": {
+        "aggr": null,
+        "date_col": "date",
+        "drop_users": []
+      },
+      "external_covariates": [],
+      "source": "/fssmall/home/h61084/codes/datasets/exchange_rate/exchange_rate.csv",
+      "source_mtime_ns": 1787699099000000000,
+      "source_size": 630212
+    },
+    "weights": "/fssmall/home/h61084/codes/weights/chronos2"
+  },
+  "launch": {
+    "attempts": [
+      {
+        "launch_id": "selena_2913582",
+        "launched_at_utc": "2026-08-27T12:38:05.309379+00:00",
+        "mode": "full",
+        "purpose": "publication",
+        "slurm_array_task_id": null,
+        "slurm_job_id": "2913582"
+      }
+    ],
+    "finished_at_utc": "2026-08-27T12:38:11.933274+00:00",
+    "launch_id": "selena_2913582",
+    "launched_at_utc": "2026-08-27T12:38:05.309379+00:00",
+    "mode": "full",
+    "ready_at_utc": "2026-08-27T12:38:10.989513+00:00",
+    "started_at_utc": "2026-08-27T12:38:05.312638+00:00"
+  },
+  "manifest_id": "12cc4e39-18a5-4b53-9ecd-c47ee26a02b8",
+  "project": "tsfm_evaluation",
+  "purposes": [
+    "publication"
+  ],
+  "run_index": 0,
+  "schema_version": 1,
+  "seed_status": {
+    "1": {
+      "artifacts": [
+        "summary.json",
+        "per_user_metrics.csv",
+        "horizon_metrics.csv",
+        "resolved_config.json",
+        "window_metrics.csv"
+      ],
+      "status": "completed"
+    }
+  },
+  "seeds": [
+    1
+  ],
+  "signatures": {
+    "computation": "4df5d46a642401bcafb4925ce154cfab40a1f72298d5ba7b014c86f786341055",
+    "path": "a55b67b352136773ecc82529719031f030bed8fc67daf5052e5095de6c7f5d14",
+    "pipeline": "60237e1ae7b1e358d775b8bb082916553b2fdf483ec72fa1649212055ce26f78"
+  },
+  "status": "completed",
+  "table": {
+    "column_config": [
+      "normalization",
+      "constant_policy"
+    ],
+    "display_name": "chronos2",
+    "row_config": [
+      "covariate_mode"
+    ]
+  },
+  "workflow": {
+    "path": [
+      "controls"
+    ]
+  }
+}

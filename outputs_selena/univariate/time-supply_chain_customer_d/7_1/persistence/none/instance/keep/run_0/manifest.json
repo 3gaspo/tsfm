@@ -1,0 +1,202 @@
+{
+  "artifacts": {
+    "files": [
+      {
+        "path": "summary.json",
+        "size": 3478
+      },
+      {
+        "path": "per_user_metrics.csv",
+        "size": 7382
+      },
+      {
+        "path": "horizon_metrics.csv",
+        "size": 262
+      },
+      {
+        "path": "resolved_config.json",
+        "size": 1563
+      },
+      {
+        "path": "window_metrics.csv",
+        "size": 18819
+      }
+    ],
+    "required": [
+      "summary.json",
+      "per_user_metrics.csv",
+      "horizon_metrics.csv",
+      "resolved_config.json",
+      "window_metrics.csv"
+    ]
+  },
+  "config": {
+    "experiment": {},
+    "model": {
+      "constant_policy": "keep",
+      "covariate_mode": "none",
+      "normalization": "instance"
+    },
+    "pipeline": {
+      "data.aggr": null,
+      "data.aggr_period": null,
+      "data.covariate_cols": null,
+      "data.covariate_paths": null,
+      "data.date_col": null,
+      "data.drop_users": [],
+      "data.input_contract": "csv_only_drop_replacement",
+      "data.target_cols": null,
+      "evaluation.end_fraction": 1.0,
+      "evaluation.mase_seasonality": 1,
+      "evaluation.save_window_metrics": true,
+      "evaluation.start_fraction": 0.0,
+      "evaluation.stride": 512,
+      "model.cross_learning": false,
+      "model.kwargs": {},
+      "model.local_files_only": true,
+      "model.lookback_period": null,
+      "model.quantile_index": null,
+      "model.quantile_level": 0.5,
+      "model.seasonal_periods": null,
+      "preprocessing.eps": 1e-08
+    },
+    "runtime": {
+      "evaluation.batch_size": 512,
+      "model.device": "cuda"
+    }
+  },
+  "identity": {
+    "backbone": "persistence",
+    "dataset": "time/supply_chain_customer_d",
+    "horizon": 1,
+    "lookback": 7,
+    "model_config": {
+      "constant_policy": "keep",
+      "covariate_mode": "none",
+      "normalization": "instance"
+    },
+    "model_config_order": [
+      "covariate_mode",
+      "normalization",
+      "constant_policy"
+    ]
+  },
+  "inputs": {
+    "dataset": {
+      "applied_config_keys": [
+        "date_col",
+        "drop_users",
+        "target_cols"
+      ],
+      "config_path": "/fssmall/home/h61084/codes/datasets/time/supply_chain_customer_d/config.json",
+      "covariate_mode": "none",
+      "effective_options": {
+        "date_col": "timestamp",
+        "drop_users": [],
+        "target_cols": [
+          "Amazon_OrderCount",
+          "Amazon_NumberOfPieces",
+          "Amazon_TotalRevenue",
+          "Chick-Fil-A_OrderCount",
+          "Chick-Fil-A_NumberOfPieces",
+          "Chick-Fil-A_TotalRevenue",
+          "Chipotle_OrderCount",
+          "Chipotle_NumberOfPieces",
+          "Chipotle_TotalRevenue",
+          "Costco_OrderCount",
+          "Costco_NumberOfPieces",
+          "Costco_TotalRevenue",
+          "Home_Depot_OrderCount",
+          "Home_Depot_NumberOfPieces",
+          "Home_Depot_TotalRevenue",
+          "Home_Goods_OrderCount",
+          "Home_Goods_NumberOfPieces",
+          "Home_Goods_TotalRevenue",
+          "Lowes_OrderCount",
+          "Lowes_NumberOfPieces",
+          "Lowes_TotalRevenue",
+          "Shein_OrderCount",
+          "Shein_NumberOfPieces",
+          "Shein_TotalRevenue",
+          "Starbucks_OrderCount",
+          "Starbucks_NumberOfPieces",
+          "Starbucks_TotalRevenue",
+          "T.J._Maxx_OrderCount",
+          "T.J._Maxx_NumberOfPieces",
+          "T.J._Maxx_TotalRevenue",
+          "Target_OrderCount",
+          "Target_NumberOfPieces",
+          "Target_TotalRevenue",
+          "Walmart_OrderCount",
+          "Walmart_NumberOfPieces",
+          "Walmart_TotalRevenue"
+        ]
+      },
+      "external_covariates": [],
+      "source": "/fssmall/home/h61084/codes/datasets/time/supply_chain_customer_d/supply_chain_customer_d.csv",
+      "source_mtime_ns": 1787689696000000000,
+      "source_size": 493913
+    }
+  },
+  "launch": {
+    "attempts": [
+      {
+        "launch_id": "selena_2913508",
+        "launched_at_utc": "2026-08-27T13:19:33.170180+00:00",
+        "mode": "full",
+        "purpose": "publication",
+        "slurm_array_task_id": null,
+        "slurm_job_id": "2913508"
+      }
+    ],
+    "finished_at_utc": "2026-08-27T13:19:35.557319+00:00",
+    "launch_id": "selena_2913508",
+    "launched_at_utc": "2026-08-27T13:19:33.170180+00:00",
+    "mode": "full",
+    "ready_at_utc": "2026-08-27T13:19:33.419136+00:00",
+    "started_at_utc": "2026-08-27T13:19:33.173667+00:00"
+  },
+  "manifest_id": "c1d45ea0-3c25-4947-844b-1ac11181b1b3",
+  "project": "tsfm_evaluation",
+  "purposes": [
+    "publication"
+  ],
+  "run_index": 0,
+  "schema_version": 1,
+  "seed_status": {
+    "1": {
+      "artifacts": [
+        "summary.json",
+        "per_user_metrics.csv",
+        "horizon_metrics.csv",
+        "resolved_config.json",
+        "window_metrics.csv"
+      ],
+      "status": "completed"
+    }
+  },
+  "seeds": [
+    1
+  ],
+  "signatures": {
+    "computation": "f4dd890c1703578176ff294aa572c242b2f1357575ca3607c7f0f2a6d2cb144b",
+    "path": "94af91de1e19cbdb551c8610920e50a36b300f4e3412b115b79365a0fec9fb0d",
+    "pipeline": "60237e1ae7b1e358d775b8bb082916553b2fdf483ec72fa1649212055ce26f78"
+  },
+  "status": "completed",
+  "table": {
+    "column_config": [
+      "normalization",
+      "constant_policy"
+    ],
+    "display_name": "persistence",
+    "row_config": [
+      "covariate_mode"
+    ]
+  },
+  "workflow": {
+    "path": [
+      "univariate"
+    ]
+  }
+}

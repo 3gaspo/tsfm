@@ -1,0 +1,185 @@
+{
+  "artifacts": {
+    "files": [
+      {
+        "path": "summary.json",
+        "size": 2310
+      },
+      {
+        "path": "per_user_metrics.csv",
+        "size": 62806
+      },
+      {
+        "path": "horizon_metrics.csv",
+        "size": 9293
+      },
+      {
+        "path": "resolved_config.json",
+        "size": 1578
+      },
+      {
+        "path": "window_metrics.csv",
+        "size": 2116167
+      }
+    ],
+    "required": [
+      "summary.json",
+      "per_user_metrics.csv",
+      "horizon_metrics.csv",
+      "resolved_config.json",
+      "window_metrics.csv"
+    ]
+  },
+  "config": {
+    "experiment": {},
+    "model": {
+      "constant_policy": "keep",
+      "covariate_mode": "none",
+      "normalization": "instance"
+    },
+    "pipeline": {
+      "data.aggr": null,
+      "data.aggr_period": null,
+      "data.covariate_cols": null,
+      "data.covariate_paths": null,
+      "data.date_col": null,
+      "data.drop_users": [
+        6,
+        57,
+        106,
+        113,
+        127,
+        143,
+        182,
+        245,
+        298
+      ],
+      "data.input_contract": "csv_only_drop_replacement",
+      "data.target_cols": null,
+      "evaluation.end_fraction": 1.0,
+      "evaluation.mase_seasonality": 1,
+      "evaluation.save_window_metrics": true,
+      "evaluation.start_fraction": 0.0,
+      "evaluation.stride": 512,
+      "model.cross_learning": false,
+      "model.kwargs": {},
+      "model.local_files_only": true,
+      "model.lookback_period": null,
+      "model.quantile_index": null,
+      "model.quantile_level": 0.5,
+      "model.seasonal_periods": null,
+      "preprocessing.eps": 1e-08
+    },
+    "runtime": {
+      "evaluation.batch_size": 32,
+      "model.device": "cuda"
+    }
+  },
+  "identity": {
+    "backbone": "ts_icl",
+    "dataset": "electricity",
+    "horizon": 48,
+    "lookback": 336,
+    "model_config": {
+      "constant_policy": "keep",
+      "covariate_mode": "none",
+      "normalization": "instance"
+    },
+    "model_config_order": [
+      "covariate_mode",
+      "normalization",
+      "constant_policy"
+    ]
+  },
+  "inputs": {
+    "dataset": {
+      "applied_config_keys": [
+        "date_col",
+        "drop_users"
+      ],
+      "config_path": "/fssmall/home/h61084/codes/datasets/electricity/config.json",
+      "covariate_mode": "none",
+      "effective_options": {
+        "aggr": null,
+        "date_col": "date",
+        "drop_users": [
+          6,
+          57,
+          106,
+          113,
+          127,
+          143,
+          182,
+          245,
+          298
+        ]
+      },
+      "external_covariates": [],
+      "source": "/fssmall/home/h61084/codes/datasets/electricity/electricity.csv",
+      "source_mtime_ns": 1787699097000000000,
+      "source_size": 95581762
+    },
+    "weights": "/fssmall/home/h61084/codes/weights/tsicl/tsicl-v1.ckpt"
+  },
+  "launch": {
+    "attempts": [
+      {
+        "launch_id": "selena_2913583",
+        "launched_at_utc": "2026-08-27T12:28:31.118310+00:00",
+        "mode": "full",
+        "purpose": "publication",
+        "slurm_array_task_id": null,
+        "slurm_job_id": "2913583"
+      }
+    ],
+    "finished_at_utc": "2026-08-27T12:29:01.689062+00:00",
+    "launch_id": "selena_2913583",
+    "launched_at_utc": "2026-08-27T12:28:31.118310+00:00",
+    "mode": "full",
+    "ready_at_utc": "2026-08-27T12:29:00.986000+00:00",
+    "started_at_utc": "2026-08-27T12:28:31.122276+00:00"
+  },
+  "manifest_id": "2b4a72d9-09e3-46ed-bfb6-e8536406bdd8",
+  "project": "tsfm_evaluation",
+  "purposes": [
+    "publication"
+  ],
+  "run_index": 0,
+  "schema_version": 1,
+  "seed_status": {
+    "1": {
+      "artifacts": [
+        "summary.json",
+        "per_user_metrics.csv",
+        "horizon_metrics.csv",
+        "resolved_config.json",
+        "window_metrics.csv"
+      ],
+      "status": "completed"
+    }
+  },
+  "seeds": [
+    1
+  ],
+  "signatures": {
+    "computation": "5e847b6cb24dfba3338ea155fecc1226ccb2cf03dbf469c723157c2779bf78b6",
+    "path": "1a2510224093b5873598f5963581e0b267ebb9a500cd2e782e6b7f293f106e7d",
+    "pipeline": "efb8ba58257aacafd1587842a0cb5e0774ddc2e0d1605d7eb711d8984e22d39c"
+  },
+  "status": "completed",
+  "table": {
+    "column_config": [
+      "normalization",
+      "constant_policy"
+    ],
+    "display_name": "ts_icl",
+    "row_config": [
+      "covariate_mode"
+    ]
+  },
+  "workflow": {
+    "path": [
+      "covariates"
+    ]
+  }
+}

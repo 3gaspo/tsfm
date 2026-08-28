@@ -1,0 +1,25 @@
+2026-08-27 14:21:39 | resources data_root=auto weights_root=auto output_root=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate
+2026-08-27 14:21:47 | profile mode=test datasets=electricity settings=504:168 tasks=1 seeds=1
+2026-08-27 14:21:47 | configuration dataset=electricity L=504 H=168 model=persistence covariates=none instance_norm=true remove_constant=false seed=1 batch_size=512
+[2026-08-27 14:21:50,298][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/electricity/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-27 14:21:51,139][evaluation.evaluator][INFO] - evaluate dataset=electricity users=312 dates=26304 windows=15912 removed_constant=0 L=504 H=168 stride=512
+[2026-08-27 14:21:52,143][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/electricity/504_168/persistence/none/instance/keep/run_0 mse=1.10792e+08 nmse=1.84018 inference_seconds=0.068
+2026-08-27 14:21:52 | configuration dataset=electricity L=504 H=168 model=expected covariates=none instance_norm=true remove_constant=false seed=1 batch_size=512
+[2026-08-27 14:21:55,305][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/electricity/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-27 14:21:56,007][evaluation.evaluator][INFO] - evaluate dataset=electricity users=312 dates=26304 windows=15912 removed_constant=0 L=504 H=168 stride=512
+[2026-08-27 14:21:56,830][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/electricity/504_168/expected/none/instance/keep/run_0 mse=5.85967e+07 nmse=1.13275 inference_seconds=0.019
+2026-08-27 14:21:57 | configuration dataset=electricity L=504 H=168 model=repeat covariates=none instance_norm=true remove_constant=false seed=1 batch_size=512
+[2026-08-27 14:21:59,999][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/electricity/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-27 14:22:00,693][evaluation.evaluator][INFO] - evaluate dataset=electricity users=312 dates=26304 windows=15912 removed_constant=0 L=504 H=168 stride=512
+[2026-08-27 14:22:01,495][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/electricity/504_168/repeat/none/instance/keep/run_0 mse=7.29561e+06 nmse=0.335086 inference_seconds=0.016
+2026-08-27 14:22:02 | configuration dataset=electricity L=504 H=168 model=lookback covariates=none instance_norm=true remove_constant=false seed=1 batch_size=512
+[2026-08-27 14:22:04,611][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/electricity/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-27 14:22:05,217][evaluation.evaluator][INFO] - lookback weekly period=168 observations
+[2026-08-27 14:22:05,313][evaluation.evaluator][INFO] - evaluate dataset=electricity users=312 dates=26304 windows=15912 removed_constant=0 L=504 H=168 stride=512
+[2026-08-27 14:22:06,113][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/electricity/504_168/lookback/none/instance/keep/run_0 mse=7.29561e+06 nmse=0.335086 inference_seconds=0.016
+2026-08-27 14:22:06 | configuration dataset=electricity L=504 H=168 model=chronos2 covariates=none instance_norm=true remove_constant=false seed=1 batch_size=64
+[2026-08-27 14:22:09,239][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/electricity/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-27 14:22:09,942][evaluation.evaluator][INFO] - evaluate dataset=electricity users=312 dates=26304 windows=15912 removed_constant=0 L=504 H=168 stride=512
+[2026-08-27 14:22:29,465][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/electricity/504_168/chronos2/none/instance/keep/run_0 mse=6.19322e+06 nmse=0.24783 inference_seconds=7.217
+2026-08-27 14:22:30 | report family=univariate
+/fssmall/home/h61084/codes/tsfm/outputs_selena/reports/univariate/test/results.csv

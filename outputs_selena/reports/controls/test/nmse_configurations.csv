@@ -1,0 +1,9 @@
+dataset,lags,horizon,covariate_mode,instance_normalize,remove_constant,stride,seed,setting,range,model,metric,value,reference_model,reference_value,improvement_pct
+electricity,504,168,none,False,False,512,1,504:168,long,chronos2,nmse,5.596500173255639e+16,repeat,5.596500173255639e+16,0.0
+electricity,504,168,none,False,False,512,1,504:168,long,repeat,nmse,5.596500173255639e+16,repeat,5.596500173255639e+16,0.0
+electricity,504,168,none,False,True,512,1,504:168,long,chronos2,nmse,0.27335967838622127,repeat,0.36561051607630396,25.23199788674286
+electricity,504,168,none,False,True,512,1,504:168,long,repeat,nmse,0.36561051607630396,repeat,0.36561051607630396,0.0
+electricity,504,168,none,True,False,512,1,504:168,long,chronos2,nmse,5.596500173255639e+16,repeat,5.596500173255639e+16,0.0
+electricity,504,168,none,True,False,512,1,504:168,long,repeat,nmse,5.596500173255639e+16,repeat,5.596500173255639e+16,0.0
+electricity,504,168,none,True,True,512,1,504:168,long,chronos2,nmse,0.2733596774027728,repeat,0.3656105160400143,25.231998148309586
+electricity,504,168,none,True,True,512,1,504:168,long,repeat,nmse,0.3656105160400143,repeat,0.3656105160400143,0.0

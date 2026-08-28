@@ -1,0 +1,73 @@
+{
+  "covariate_mode": "none",
+  "data": {
+    "applied_config_keys": [
+      "date_col",
+      "drop_users",
+      "target_cols"
+    ],
+    "config_path": "/fssmall/home/h61084/codes/datasets/time/cphl_h_part02/config.json",
+    "covariate_mode": "none",
+    "effective_options": {
+      "date_col": "timestamp",
+      "drop_users": [],
+      "target_cols": [
+        "CPHL"
+      ]
+    },
+    "external_covariates": [],
+    "source": "/fssmall/home/h61084/codes/datasets/time/cphl_h_part02/cphl_h_part02.csv",
+    "source_mtime_ns": 1787689695000000000,
+    "source_size": 66951
+  },
+  "dataset": "time/cphl_h_part02",
+  "horizon": 48,
+  "inference": {
+    "batch_size": 512,
+    "device": "cuda",
+    "model_load_seconds": 0.00010202080011367798,
+    "seconds": 0.02517753653228283,
+    "seconds_per_series_window": 0.005035507306456566,
+    "seconds_per_user": 0.02517753653228283
+  },
+  "instance_normalize": true,
+  "lags": 336,
+  "lookback_period": null,
+  "mase_seasonality": 1,
+  "metrics": {
+    "mae": 0.20176668614149093,
+    "mase": 2.443389868736267,
+    "mse": 0.08462546318769455,
+    "nmae": 0.6698576450347901,
+    "nmse": 0.7174478232860565,
+    "sample_std_mae": 0.11845255072058924,
+    "sample_std_mase": 0.7094876268463115,
+    "sample_std_mse": 0.10286051666382313,
+    "sample_std_nmae": 0.18044095098211893,
+    "sample_std_nmse": 0.303082859192645,
+    "user_mean_mae": 0.20176668614149093,
+    "user_mean_mase": 2.443389868736267,
+    "user_mean_mse": 0.08462546318769455,
+    "user_mean_nmae": 0.6698576450347901,
+    "user_mean_nmse": 0.7174478232860565,
+    "user_std_mae": 0.0,
+    "user_std_mase": 0.0,
+    "user_std_mse": 0.0,
+    "user_std_nmae": 0.0,
+    "user_std_nmse": 0.0,
+    "w10_mae": 0.20176668614149093,
+    "w10_mase": 2.443389868736267,
+    "w10_mse": 0.08462546318769455,
+    "w10_nmae": 0.6698576450347901,
+    "w10_nmse": 0.7174478232860565
+  },
+  "model": "persistence",
+  "query_dates": 5,
+  "remove_constant": false,
+  "removed_constant_windows": 0,
+  "run_dir": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/time-cphl_h_part02/336_48/persistence/none/instance/keep/run_0",
+  "seed": 1,
+  "series_windows": 5,
+  "stride": 512,
+  "users": 1
+}

@@ -1,0 +1,73 @@
+{
+  "covariate_mode": "identity",
+  "data": {
+    "applied_config_keys": [
+      "date_col",
+      "drop_users"
+    ],
+    "config_path": "/fssmall/home/h61084/codes/datasets/traffic/config.json",
+    "covariate_mode": "identity",
+    "effective_options": {
+      "aggr": null,
+      "date_col": "date",
+      "drop_users": [
+        181,
+        743
+      ]
+    },
+    "external_covariates": [],
+    "source": "/fssmall/home/h61084/codes/datasets/traffic/traffic.csv",
+    "source_mtime_ns": 1787699104000000000,
+    "source_size": 136478119
+  },
+  "dataset": "traffic",
+  "horizon": 24,
+  "inference": {
+    "batch_size": 64,
+    "device": "cuda",
+    "model_load_seconds": 5.37954469025135,
+    "seconds": 12.001751232892275,
+    "seconds_per_series_window": 0.0004104566085120477,
+    "seconds_per_user": 0.013955524689409622
+  },
+  "instance_normalize": true,
+  "lags": 168,
+  "lookback_period": null,
+  "mase_seasonality": 1,
+  "metrics": {
+    "mae": 0.00474280238417068,
+    "mase": 0.35057638665449725,
+    "mse": 0.00012596164512299542,
+    "nmae": 0.10689228250592228,
+    "nmse": 0.06107351693146967,
+    "sample_std_mae": 0.0038179494939829875,
+    "sample_std_mase": 0.2500345966841746,
+    "sample_std_mse": 0.00033352592678128034,
+    "sample_std_nmae": 0.07259331792729853,
+    "sample_std_nmse": 0.5469577227719716,
+    "user_mean_mae": 0.0047428023841706805,
+    "user_mean_mase": 0.35057638665449725,
+    "user_mean_mse": 0.00012596164512299545,
+    "user_mean_nmae": 0.10689228250592228,
+    "user_mean_nmse": 0.06107351693146967,
+    "user_std_mae": 0.0023741766096225564,
+    "user_std_mase": 0.05401294242143653,
+    "user_std_mse": 0.0001209098818741766,
+    "user_std_nmae": 0.018240615864427302,
+    "user_std_nmse": 0.09796607782903045,
+    "w10_mae": 0.009870497864219086,
+    "w10_mase": 0.459063490309973,
+    "w10_mse": 0.00039856805731355854,
+    "w10_nmae": 0.14342239115861147,
+    "w10_nmse": 0.2111355391060911
+  },
+  "model": "chronos2",
+  "query_dates": 34,
+  "remove_constant": false,
+  "removed_constant_windows": 0,
+  "run_dir": "/fssmall/home/h61084/codes/tsfm/outputs_selena/covariates/traffic/168_24/chronos2/identity/instance/keep/run_0",
+  "seed": 1,
+  "series_windows": 29240,
+  "stride": 512,
+  "users": 860
+}

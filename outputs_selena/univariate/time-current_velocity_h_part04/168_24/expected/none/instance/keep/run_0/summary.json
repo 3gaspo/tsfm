@@ -1,0 +1,78 @@
+{
+  "covariate_mode": "none",
+  "data": {
+    "applied_config_keys": [
+      "date_col",
+      "drop_users",
+      "target_cols"
+    ],
+    "config_path": "/fssmall/home/h61084/codes/datasets/time/current_velocity_h_part04/config.json",
+    "covariate_mode": "none",
+    "effective_options": {
+      "date_col": "timestamp",
+      "drop_users": [],
+      "target_cols": [
+        "UCUR",
+        "VCUR",
+        "WCUR",
+        "TEMP",
+        "PRES_REL",
+        "ABSIC1"
+      ]
+    },
+    "external_covariates": [],
+    "source": "/fssmall/home/h61084/codes/datasets/time/current_velocity_h_part04/current_velocity_h_part04.csv",
+    "source_mtime_ns": 1787689697000000000,
+    "source_size": 305999
+  },
+  "dataset": "time/current_velocity_h_part04",
+  "horizon": 24,
+  "inference": {
+    "batch_size": 512,
+    "device": "cuda",
+    "model_load_seconds": 9.680073708295822e-05,
+    "seconds": 0.024757476523518562,
+    "seconds_per_series_window": 0.00045847178747256595,
+    "seconds_per_user": 0.004126246087253094
+  },
+  "instance_normalize": true,
+  "lags": 168,
+  "lookback_period": null,
+  "mase_seasonality": 1,
+  "metrics": {
+    "mae": 1.5262173317325372,
+    "mase": 3.314973986811108,
+    "mse": 21.1128538513308,
+    "nmae": 0.8521641619779445,
+    "nmse": 1.265038164332509,
+    "sample_std_mae": 3.528800649365476,
+    "sample_std_mase": 3.437048064780392,
+    "sample_std_mse": 62.67618961980969,
+    "sample_std_nmae": 0.43147558707350564,
+    "sample_std_nmse": 1.4392474792495367,
+    "user_mean_mae": 1.5262173317325372,
+    "user_mean_mase": 3.314973986811108,
+    "user_mean_mse": 21.1128538513308,
+    "user_mean_nmae": 0.8521641619779445,
+    "user_mean_nmse": 1.265038164332509,
+    "user_std_mae": 3.2016149506179086,
+    "user_std_mase": 1.9023080780486268,
+    "user_std_mse": 47.15690759059069,
+    "user_std_nmae": 0.0761199452956509,
+    "user_std_nmse": 0.2634224809463316,
+    "w10_mae": 8.683655023574829,
+    "w10_mase": 6.672853840721978,
+    "w10_mse": 126.5588919321696,
+    "w10_nmae": 0.9554789331224229,
+    "w10_nmse": 1.6102382967041597
+  },
+  "model": "expected",
+  "query_dates": 9,
+  "remove_constant": false,
+  "removed_constant_windows": 0,
+  "run_dir": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/time-current_velocity_h_part04/168_24/expected/none/instance/keep/run_0",
+  "seed": 1,
+  "series_windows": 54,
+  "stride": 512,
+  "users": 6
+}

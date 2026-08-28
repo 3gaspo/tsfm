@@ -1,0 +1,73 @@
+{
+  "covariate_mode": "identity",
+  "data": {
+    "applied_config_keys": [
+      "date_col",
+      "drop_users",
+      "target_cols"
+    ],
+    "config_path": "/fssmall/home/h61084/codes/datasets/time/ecdc_covid_d_part02/config.json",
+    "covariate_mode": "identity",
+    "effective_options": {
+      "date_col": "timestamp",
+      "drop_users": [],
+      "target_cols": [
+        "value"
+      ]
+    },
+    "external_covariates": [],
+    "source": "/fssmall/home/h61084/codes/datasets/time/ecdc_covid_d_part02/ecdc_covid_d_part02.csv",
+    "source_mtime_ns": 1787689696000000000,
+    "source_size": 20340
+  },
+  "dataset": "time/ecdc_covid_d_part02",
+  "horizon": 7,
+  "inference": {
+    "batch_size": 32,
+    "device": "cuda",
+    "model_load_seconds": 0.6485324669629335,
+    "seconds": 1.2718646405264735,
+    "seconds_per_series_window": 0.42395488017549116,
+    "seconds_per_user": 1.2718646405264735
+  },
+  "instance_normalize": true,
+  "lags": 30,
+  "lookback_period": null,
+  "mase_seasonality": 1,
+  "metrics": {
+    "mae": 104.04299608866374,
+    "mase": 0.8774808943271637,
+    "mse": 29428.162038167316,
+    "nmae": 0.12611263742049536,
+    "nmse": 0.02423750050365925,
+    "sample_std_mae": 115.57396147503412,
+    "sample_std_mase": 0.35873608907389837,
+    "sample_std_mse": 39841.60142317601,
+    "sample_std_nmae": 0.014659898296611469,
+    "sample_std_nmse": 0.00727286109433231,
+    "user_mean_mae": 104.04299608866374,
+    "user_mean_mase": 0.8774808943271637,
+    "user_mean_mse": 29428.162038167316,
+    "user_mean_nmae": 0.12611263742049536,
+    "user_mean_nmse": 0.02423750050365925,
+    "user_std_mae": 0.0,
+    "user_std_mase": 0.0,
+    "user_std_mse": 0.0,
+    "user_std_nmae": 0.0,
+    "user_std_nmse": 0.0,
+    "w10_mae": 104.04299608866374,
+    "w10_mase": 0.8774808943271637,
+    "w10_mse": 29428.162038167316,
+    "w10_nmae": 0.12611263742049536,
+    "w10_nmse": 0.02423750050365925
+  },
+  "model": "ts_icl",
+  "query_dates": 3,
+  "remove_constant": false,
+  "removed_constant_windows": 0,
+  "run_dir": "/fssmall/home/h61084/codes/tsfm/outputs_selena/covariates/time-ecdc_covid_d_part02/30_7/ts_icl/identity/instance/keep/run_0",
+  "seed": 1,
+  "series_windows": 3,
+  "stride": 512,
+  "users": 1
+}

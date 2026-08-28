@@ -1,0 +1,76 @@
+{
+  "covariate_mode": "none",
+  "data": {
+    "applied_config_keys": [
+      "date_col",
+      "drop_users",
+      "target_cols"
+    ],
+    "config_path": "/fssmall/home/h61084/codes/datasets/time/crypto_d/config.json",
+    "covariate_mode": "none",
+    "effective_options": {
+      "date_col": "timestamp",
+      "drop_users": [],
+      "target_cols": [
+        "BitcoinCash",
+        "Bitcoin",
+        "Ethereum",
+        "Litecoin"
+      ]
+    },
+    "external_covariates": [],
+    "source": "/fssmall/home/h61084/codes/datasets/time/crypto_d/crypto_d.csv",
+    "source_mtime_ns": 1787689696000000000,
+    "source_size": 117025
+  },
+  "dataset": "time/crypto_d",
+  "horizon": 7,
+  "inference": {
+    "batch_size": 512,
+    "device": "cuda",
+    "model_load_seconds": 9.529106318950653e-05,
+    "seconds": 0.02084262203425169,
+    "seconds_per_series_window": 0.0008684425847604871,
+    "seconds_per_user": 0.0052106555085629225
+  },
+  "instance_normalize": true,
+  "lags": 30,
+  "lookback_period": 7,
+  "mase_seasonality": 1,
+  "metrics": {
+    "mae": 462.243548899889,
+    "mase": 3.1887831489245095,
+    "mse": 1152611.410836344,
+    "nmae": 1.047142152984937,
+    "nmse": 1.88691142698129,
+    "sample_std_mae": 803.6846166060024,
+    "sample_std_mase": 1.661980934400959,
+    "sample_std_mse": 2907399.0507211387,
+    "sample_std_nmae": 0.6975211753916932,
+    "sample_std_nmse": 2.425243328143286,
+    "user_mean_mae": 462.243548899889,
+    "user_mean_mase": 3.18878314892451,
+    "user_mean_mse": 1152611.410836344,
+    "user_mean_nmae": 1.047142152984937,
+    "user_mean_nmse": 1.88691142698129,
+    "user_std_mae": 686.2708280630377,
+    "user_std_mase": 0.4604379653505212,
+    "user_std_mse": 1952618.719694929,
+    "user_std_nmae": 0.1584816676047219,
+    "user_std_nmse": 0.6360864087266792,
+    "w10_mae": 1649.3572082519531,
+    "w10_mase": 3.924573858579,
+    "w10_mse": 4534408.385416667,
+    "w10_nmae": 1.205840935309728,
+    "w10_nmse": 2.532563286523024
+  },
+  "model": "lookback",
+  "query_dates": 6,
+  "remove_constant": false,
+  "removed_constant_windows": 0,
+  "run_dir": "/fssmall/home/h61084/codes/tsfm/outputs_selena/univariate/time-crypto_d/30_7/lookback/none/instance/keep/run_0",
+  "seed": 1,
+  "series_windows": 24,
+  "stride": 512,
+  "users": 4
+}

@@ -1,0 +1,165 @@
+{
+  "artifacts": {
+    "files": [
+      {
+        "path": "summary.json",
+        "size": 2226
+      },
+      {
+        "path": "per_user_metrics.csv",
+        "size": 1741
+      },
+      {
+        "path": "horizon_metrics.csv",
+        "size": 474
+      },
+      {
+        "path": "resolved_config.json",
+        "size": 1584
+      },
+      {
+        "path": "window_metrics.csv",
+        "size": 16387
+      }
+    ],
+    "required": [
+      "summary.json",
+      "per_user_metrics.csv",
+      "horizon_metrics.csv",
+      "resolved_config.json",
+      "window_metrics.csv"
+    ]
+  },
+  "config": {
+    "experiment": {},
+    "model": {
+      "constant_policy": "keep",
+      "covariate_mode": "identity",
+      "normalization": "instance"
+    },
+    "pipeline": {
+      "data.aggr": null,
+      "data.aggr_period": null,
+      "data.covariate_cols": null,
+      "data.covariate_paths": null,
+      "data.date_col": null,
+      "data.drop_users": [],
+      "data.input_contract": "csv_only_drop_replacement",
+      "data.target_cols": null,
+      "evaluation.end_fraction": 1.0,
+      "evaluation.mase_seasonality": 1,
+      "evaluation.save_window_metrics": true,
+      "evaluation.start_fraction": 0.0,
+      "evaluation.stride": 512,
+      "model.cross_learning": false,
+      "model.kwargs": {},
+      "model.local_files_only": true,
+      "model.lookback_period": null,
+      "model.quantile_index": null,
+      "model.quantile_level": 0.5,
+      "model.seasonal_periods": null,
+      "preprocessing.eps": 1e-08
+    },
+    "runtime": {
+      "evaluation.batch_size": 32,
+      "model.device": "cuda"
+    }
+  },
+  "identity": {
+    "backbone": "ts_icl",
+    "dataset": "exchange_rate",
+    "horizon": 2,
+    "lookback": 14,
+    "model_config": {
+      "constant_policy": "keep",
+      "covariate_mode": "identity",
+      "normalization": "instance"
+    },
+    "model_config_order": [
+      "covariate_mode",
+      "normalization",
+      "constant_policy"
+    ]
+  },
+  "inputs": {
+    "dataset": {
+      "applied_config_keys": [
+        "date_col",
+        "drop_users"
+      ],
+      "config_path": "/fssmall/home/h61084/codes/datasets/exchange_rate/config.json",
+      "covariate_mode": "identity",
+      "effective_options": {
+        "aggr": null,
+        "date_col": "date",
+        "drop_users": []
+      },
+      "external_covariates": [],
+      "source": "/fssmall/home/h61084/codes/datasets/exchange_rate/exchange_rate.csv",
+      "source_mtime_ns": 1787699099000000000,
+      "source_size": 630212
+    },
+    "weights": "/fssmall/home/h61084/codes/weights/tsicl/tsicl-v1.ckpt"
+  },
+  "launch": {
+    "attempts": [
+      {
+        "launch_id": "selena_2913583",
+        "launched_at_utc": "2026-08-27T12:41:34.266617+00:00",
+        "mode": "full",
+        "purpose": "publication",
+        "slurm_array_task_id": null,
+        "slurm_job_id": "2913583"
+      }
+    ],
+    "finished_at_utc": "2026-08-27T12:41:37.287153+00:00",
+    "launch_id": "selena_2913583",
+    "launched_at_utc": "2026-08-27T12:41:34.266617+00:00",
+    "mode": "full",
+    "ready_at_utc": "2026-08-27T12:41:36.520644+00:00",
+    "started_at_utc": "2026-08-27T12:41:34.270278+00:00"
+  },
+  "manifest_id": "7732862a-d017-42be-8716-10c8800ef050",
+  "project": "tsfm_evaluation",
+  "purposes": [
+    "publication"
+  ],
+  "run_index": 0,
+  "schema_version": 1,
+  "seed_status": {
+    "1": {
+      "artifacts": [
+        "summary.json",
+        "per_user_metrics.csv",
+        "horizon_metrics.csv",
+        "resolved_config.json",
+        "window_metrics.csv"
+      ],
+      "status": "completed"
+    }
+  },
+  "seeds": [
+    1
+  ],
+  "signatures": {
+    "computation": "02431ddd93a8a5e97ead0c0f321cd1e44dee7bdf0d7186db5e860ec5bd8341c8",
+    "path": "64c8fcc98802cfe885a46d30b6ba2c90b65a5d8d1fd57a3ad8a5e8387dc1d2e5",
+    "pipeline": "60237e1ae7b1e358d775b8bb082916553b2fdf483ec72fa1649212055ce26f78"
+  },
+  "status": "completed",
+  "table": {
+    "column_config": [
+      "normalization",
+      "constant_policy"
+    ],
+    "display_name": "ts_icl",
+    "row_config": [
+      "covariate_mode"
+    ]
+  },
+  "workflow": {
+    "path": [
+      "covariates"
+    ]
+  }
+}

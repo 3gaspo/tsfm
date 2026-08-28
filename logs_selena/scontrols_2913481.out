@@ -1,0 +1,36 @@
+2026-08-27 14:21:43 | resources data_root=auto weights_root=auto output_root=/fssmall/home/h61084/codes/tsfm/outputs_selena/controls
+2026-08-27 14:21:51 | profile mode=test datasets=electricity settings=504:168 tasks=1 seeds=1
+2026-08-27 14:21:51 | configuration dataset=electricity L=504 H=168 model=repeat covariates=none instance_norm=true remove_constant=false seed=1 batch_size=512
+[2026-08-27 14:21:54,577][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/electricity/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-27 14:21:55,416][evaluation.evaluator][INFO] - evaluate dataset=electricity users=321 dates=26304 windows=16371 removed_constant=0 L=504 H=168 stride=512
+[2026-08-27 14:21:56,433][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/controls/electricity/504_168/repeat/none/instance/keep/run_0 mse=7.09166e+06 nmse=5.5965e+16 inference_seconds=0.057
+2026-08-27 14:21:56 | configuration dataset=electricity L=504 H=168 model=repeat covariates=none instance_norm=true remove_constant=true seed=1 batch_size=512
+[2026-08-27 14:21:59,543][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/electricity/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-27 14:22:00,276][evaluation.evaluator][INFO] - evaluate dataset=electricity users=321 dates=26304 windows=16302 removed_constant=69 L=504 H=168 stride=512
+[2026-08-27 14:22:01,106][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/controls/electricity/504_168/repeat/none/instance/remove/run_0 mse=7.12167e+06 nmse=0.365611 inference_seconds=0.020
+2026-08-27 14:22:01 | configuration dataset=electricity L=504 H=168 model=repeat covariates=none instance_norm=false remove_constant=false seed=1 batch_size=512
+[2026-08-27 14:22:04,207][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/electricity/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-27 14:22:04,908][evaluation.evaluator][INFO] - evaluate dataset=electricity users=321 dates=26304 windows=16371 removed_constant=0 L=504 H=168 stride=512
+[2026-08-27 14:22:05,724][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/controls/electricity/504_168/repeat/none/raw/keep/run_0 mse=7.09166e+06 nmse=5.5965e+16 inference_seconds=0.001
+2026-08-27 14:22:06 | configuration dataset=electricity L=504 H=168 model=repeat covariates=none instance_norm=false remove_constant=true seed=1 batch_size=512
+[2026-08-27 14:22:08,789][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/electricity/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-27 14:22:09,513][evaluation.evaluator][INFO] - evaluate dataset=electricity users=321 dates=26304 windows=16302 removed_constant=69 L=504 H=168 stride=512
+[2026-08-27 14:22:10,330][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/controls/electricity/504_168/repeat/none/raw/remove/run_0 mse=7.12167e+06 nmse=0.365611 inference_seconds=0.001
+2026-08-27 14:22:10 | configuration dataset=electricity L=504 H=168 model=chronos2 covariates=none instance_norm=true remove_constant=false seed=1 batch_size=64
+[2026-08-27 14:22:13,405][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/electricity/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-27 14:22:14,111][evaluation.evaluator][INFO] - evaluate dataset=electricity users=321 dates=26304 windows=16371 removed_constant=0 L=504 H=168 stride=512
+[2026-08-27 14:22:33,726][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/controls/electricity/504_168/chronos2/none/instance/keep/run_0 mse=6.01999e+06 nmse=5.5965e+16 inference_seconds=7.503
+2026-08-27 14:22:34 | configuration dataset=electricity L=504 H=168 model=chronos2 covariates=none instance_norm=true remove_constant=true seed=1 batch_size=64
+[2026-08-27 14:22:37,152][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/electricity/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-27 14:22:37,885][evaluation.evaluator][INFO] - evaluate dataset=electricity users=321 dates=26304 windows=16302 removed_constant=69 L=504 H=168 stride=512
+[2026-08-27 14:22:51,103][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/controls/electricity/504_168/chronos2/none/instance/remove/run_0 mse=6.04546e+06 nmse=0.27336 inference_seconds=7.087
+2026-08-27 14:22:51 | configuration dataset=electricity L=504 H=168 model=chronos2 covariates=none instance_norm=false remove_constant=false seed=1 batch_size=64
+[2026-08-27 14:22:54,531][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/electricity/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-27 14:22:55,252][evaluation.evaluator][INFO] - evaluate dataset=electricity users=321 dates=26304 windows=16371 removed_constant=0 L=504 H=168 stride=512
+[2026-08-27 14:23:08,528][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/controls/electricity/504_168/chronos2/none/raw/keep/run_0 mse=6.01999e+06 nmse=5.5965e+16 inference_seconds=7.112
+2026-08-27 14:23:09 | configuration dataset=electricity L=504 H=168 model=chronos2 covariates=none instance_norm=false remove_constant=true seed=1 batch_size=64
+[2026-08-27 14:23:11,984][data.dataset][INFO] - dataset config path=/fssmall/home/h61084/codes/datasets/electricity/config.json applied_keys=['date_col', 'drop_users']
+[2026-08-27 14:23:12,709][evaluation.evaluator][INFO] - evaluate dataset=electricity users=321 dates=26304 windows=16302 removed_constant=69 L=504 H=168 stride=512
+[2026-08-27 14:23:25,973][evaluation.evaluator][INFO] - artifacts ready run=/fssmall/home/h61084/codes/tsfm/outputs_selena/controls/electricity/504_168/chronos2/none/raw/remove/run_0 mse=6.04546e+06 nmse=0.27336 inference_seconds=7.071
+2026-08-27 14:23:26 | report family=controls
+/fssmall/home/h61084/codes/tsfm/outputs_selena/reports/controls/test/results.csv
