@@ -42,14 +42,29 @@ def test_root_fronts_and_workflows() -> None:
         text = front.read_text(encoding="utf-8")
         assert "#SBATCH --partition=an" in text
         assert "#SBATCH --qos=an_preemptable" in text
-        assert "#SBATCH --output=logs_selena/%x_%j.out" in text
-        assert "#SBATCH --error=logs_selena/%x_%j.err" in text
+        assert "#SBATCH --output=/scratch/users/%u/codes/tsfm/logs_selena/%x_%j.out" in text
+        assert "#SBATCH --error=/scratch/users/%u/codes/tsfm/logs_selena/%x_%j.err" in text
         assert "#SBATCH --exclusive" in text
         assert "#SBATCH --no-requeue" not in text
         assert "#SBATCH --wckey=P12CU:DATASCIENCE" in text
-        assert 'OUTPUTS_ROOT="$PROJECT_ROOT/outputs_selena"' in text
-        assert 'LOGS_ROOT="$PROJECT_ROOT/logs_selena"' in text
+        assert 'source "$PROJECT_ROOT/src/slurm/selena_runtime.sh"' in text
         assert 'EXPERIMENT_LAUNCH_ID="selena_${SLURM_JOB_ID' in text
+    selena_runtime = (PROJECT_ROOT / "src/slurm/selena_runtime.sh").read_text(
+        encoding="utf-8"
+    )
+    assert '${NNI_FILE:-$HOME/codes/.secrets/nni}' in selena_runtime
+    assert (
+        'SELENA_SCRATCH_PROJECT_ROOT="/scratch/users/$selena_nni/codes/$PROJECT_NAME"'
+        in selena_runtime
+    )
+    assert (
+        'OUTPUTS_ROOT="${OUTPUTS_ROOT:-$SELENA_SCRATCH_PROJECT_ROOT/outputs_selena}"'
+        in selena_runtime
+    )
+    assert (
+        'LOGS_ROOT="${LOGS_ROOT:-$SELENA_SCRATCH_PROJECT_ROOT/logs_selena}"'
+        in selena_runtime
+    )
     common = (PROJECT_ROOT / "src/slurm/benchmark_common.sh").read_text(encoding="utf-8")
     assert "STAGES:-evaluate,report" in common
     assert 'LOGS_ROOT="${LOGS_ROOT:-$PROJECT_ROOT/logs}"' in common
@@ -122,6 +137,7 @@ def test_root_fronts_and_workflows() -> None:
     for script in (code_sync, result_sync):
         assert 'PROJECT_NAME="$(basename "$PROJECT_ROOT")"' in script
         assert "sed -n '1p'" in script
+        assert 'NNI_FILE="$HOME/codes/.secrets/nni"' in script
     for excluded in (
         ".git/",
         ".venv/",
@@ -137,7 +153,15 @@ def test_root_fronts_and_workflows() -> None:
     assert "selena.hpc.edf.fr" in code_sync
     assert "--delete" in code_sync
     assert "dgx-front.retd.edf.fr" not in result_sync
-    assert 'SOURCE_ROOT="$nni@selena.hpc.edf.fr:~/codes/$PROJECT_NAME"' in result_sync
+    assert (
+        'SOURCE_ROOT="$nni@selena.hpc.edf.fr:/scratch/users/$nni/codes/$PROJECT_NAME"'
+        in result_sync
+    )
+    assert (
+        'SCRATCH_PROJECT_ROOT="/scratch/users/$nni/codes/$PROJECT_NAME"'
+        in code_sync
+    )
+    assert '"mkdir -p \'$SCRATCH_PROJECT_ROOT/outputs_selena\'' in code_sync
     assert 'DESTINATION_ROOT="$PROJECT_ROOT"' in result_sync
     assert 'mkdir -p "$DESTINATION_ROOT/outputs_selena"' in result_sync
     assert "--include='outputs_selena/.gitkeep'" in code_sync

@@ -1,5 +1,33 @@
 # Pending updates
 
+- 2026-08-28: Redirected every Selena Slurm stream and default runtime output
+  from the quota-limited home checkout to
+  `/scratch/users/<lowercase-nni>/codes/tsfm/{logs_selena,outputs_selena}`.
+  Added a shared Selena runtime helper, made both synchronization scripts read
+  and lowercase the one-line `$HOME/codes/.secrets/nni`, made code sync create
+  the scratch trees, and made result sync pull from scratch. Affected
+  contracts: all four Selena fronts, synchronization, focused workflow checks,
+  README, and cluster handoff. Bash syntax passed for both sync scripts, the
+  helper, and all Selena fronts; the direct Slurm workflow check passed; Git
+  diff checking passed. Deferred integration: create the NNI file on both
+  hosts, move the current Selena payload, run code sync, inspect one scratch
+  stream, and pull one result tree to DGX. No scientific identity or LaTeX
+  contract changed. Reruns remain the foundation test after checkpoint repair,
+  then the resumable full univariate, controls, covariates, and foundation
+  profiles.
+
+- 2026-08-28: Replaced the stale cluster handoff with only the eight jobs and
+  artifacts published by current commit 3eb64b99. `CLUSTER_STATUS.txt` now
+  names each Slurm job, experiment family, profile, terminal outcome, report
+  state, and owned configuration-manifest counts, while excluding every
+  previously deleted job. Direct HEAD-path and log inspection plus parsing all
+  1,688 manifests confirmed 1,684 completed, two artifact-ready but running,
+  and two interrupted current-contract configurations. This is a handoff-only
+  correction with no code, scientific contract, README, or LaTeX impact.
+  Deferred work remains Selena quota recovery, lifecycle reconciliation for
+  jobs 2913508 and 2913582, Chronos-T5 checkpoint correction, the foundation
+  test rerun, and resumable completion of the four full profiles.
+
 - 2026-08-27: Replaced the shared foundation-model contract with `chronos2`,
   `chronos_bolt`, `chronos_t5`, and `ts_icl`; removed TiREx-2 and TabPFN from
   dependencies, locks, registries, launchers, and current documentation;

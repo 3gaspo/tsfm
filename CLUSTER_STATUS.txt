@@ -1,38 +1,58 @@
-Last updated: 2026-08-27
+Last updated: 2026-08-28
 
-Latest synchronized inventory: 76 completed manifests (60 univariate,
-9 controls, 3 covariates, and 4 foundation), 2 manifests still marked running,
-and 1 interrupted foundation manifest. Every completed manifest predates the
-current CSV-only input contract and records prepared tensor inputs. Controls
-also used the former additive exclusion behavior. Current-contract completed
-evidence therefore remains zero.
+Scope: this handoff records only Slurm artifacts published by current commit
+3eb64b99. Jobs and outputs deleted before that commit are not retained as
+history here. The manifest counts below are per-configuration records produced
+by the eight listed Slurm jobs; they are not additional jobs.
 
-Current scientific contract: settings are cadence-specific. Hourly datasets
-use 168:24, 336:48, 504:168; daily datasets use 7:1, 14:2, 30:7; and 15-minute
-datasets use 96:4, 192:8, 672:96. Full univariate, controls, and covariates
-include Electricity, Traffic, Solar, Exchange Rate, and every feasible dataset
-listed in datasets/time/catalog.json. Full foundation uses its five primary
-datasets plus feasible TIME datasets at the cadence-specific mid and long
-ranges. Reports aggregate comparable short/mid/long ranges while retaining
-literal-setting tables. Schema 1 is unchanged.
+Synchronized test jobs:
+- sunivar, job 2913480: 01_univariate, test profile. Successful: all five
+  configurations completed and the univariate test report was generated.
+- scontrols, job 2913481: 02_controls, test profile. Successful: all eight
+  configurations completed and the controls test report was generated.
+- scovars, job 2913482: 03_covariates, test profile. Successful: all four
+  configurations completed and the covariates test report was generated.
+- sfoundation, job 2913483: 04_foundation_models, test profile. Failed during
+  Chronos-T5 loading with an unexpected input_patch_size configuration field.
+  Chronos-2 and Chronos-Bolt completed; Chronos-T5 is interrupted, TS-ICL was
+  not reached, and no foundation test report was generated.
 
-Reuse/rerun decision: no synchronized manifest may be reused for a current
-computation identity. Rerun the test boundary for all four families after the
-current code and CSV dataset configuration are synchronized. Then rerun the
-cadence-aware full scope, including Exchange Rate at its three daily ranges and
-all feasible TIME datasets. Regenerate reports only from current identities.
+Synchronized full-profile jobs:
+- sunivar, job 2913508: 01_univariate, full profile. Failed on Selena disk
+  quota after 707 configurations completed. One additional artifact-ready
+  manifest remains marked running because its final completion write failed.
+  No full report was generated.
+- scontrols, job 2913582: 02_controls, full profile. Failed on Selena disk
+  quota after 537 configurations completed. One additional artifact-ready
+  manifest remains marked running because its final completion write failed.
+  No full report was generated.
+- scovars, job 2913583: 03_covariates, full profile. Failed on Selena disk
+  quota after 419 configurations completed. The next configuration could not
+  create its identity directory, so it has no non-completed manifest. No full
+  report was generated.
+- sfoundation, job 2913584: 04_foundation_models, full profile. Failed during
+  Chronos-T5 loading with the same unexpected input_patch_size field.
+  Chronos-2 and Chronos-Bolt completed; Chronos-T5 is interrupted, TS-ICL was
+  not reached, and no full report was generated.
 
-Running or queued jobs: controls job 2910738 and covariates job 2910739 each
-left one now-obsolete removed-model manifest marked running. DGX foundation job 45673 is marked
-interrupted after Chronos-2 weights were unavailable. Query scheduler state
-before using the supported lifecycle recovery; do not edit manifests directly.
+Current manifest inventory: 1,684 completed, 2 running but artifact-ready, and
+2 interrupted, for 1,688 configuration manifests across the eight jobs. All
+record the current csv_only_drop_replacement input contract. Completed
+configurations remain eligible for exact reuse.
 
-Next cluster actions: publish and synchronize the current code, verify the CSV
-dataset root and time/catalog.json, query jobs 2910738 and 2910739, and resolve
-any terminal stale manifests through the workflow. Run the four test families
-before submitting cadence-aware full profiles. Use DATASETS_OVERRIDE only for
-a narrow recovery run; an override replaces automatic TIME selection.
-
-Known job IDs: 2897225, 2897846 (historical univariate); 2898430 (historical
-controls); 2898431 (historical covariates); 2897232, 2897857 (historical
-foundation); 2910738, 2910739 (manifests marked running); 45673 (interrupted).
+Next actions:
+1. Put the one-line NNI file at $HOME/codes/.secrets/nni on DGX and Selena.
+2. Move the current Selena payload to
+   /scratch/users/<lowercase-nni>/codes/tsfm/outputs_selena and logs_selena,
+   then run sync_code_to_selena.sh to deploy the scratch-aware fronts and
+   ensure both scratch directories exist.
+3. Reconcile terminal launches selena_2913508 and selena_2913582 through the
+   supported interrupt-launch lifecycle command. Their ready manifests should
+   be promoted to completed. Do not edit manifests directly.
+4. Verify that weights/chronos-t5-base contains the genuine Chronos-T5
+   checkpoint configuration compatible with the prepared chronos-forecasting
+   environment.
+5. Rerun 04_foundation_models in test mode. After it succeeds, resume the four
+   full profiles. The default overwrite_exact policy should skip completed
+   configurations and continue incomplete work.
+6. Generate each full report only after its family completes.

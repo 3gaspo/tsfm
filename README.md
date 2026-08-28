@@ -246,12 +246,14 @@ They run the identical implementations and experiment paths on partition `an`
 with QoS `an_preemptable`, an exclusive allocation without disabling the
 cluster's requeue behavior, WCKey
 `P12CU:DATASCIENCE`, Selena-specific job names, and `selena_`-prefixed launch
-IDs. Their Slurm streams go to `logs_selena/`, and every manifest, result, and
-report goes to `outputs_selena/`. The relative artifact identity stays the same
-as DGX, but synchronized Selena work cannot collide with `logs/` or `outputs/`.
-The shared `LOGS_ROOT` and `OUTPUTS_ROOT` variables default to the DGX
-directories and remain explicitly overridable. Use the Selena fronts only
-through the documented overflow workflow.
+IDs. Their Slurm streams and artifacts go under
+`/scratch/users/<lowercase-nni>/codes/tsfm/logs_selena/` and
+`outputs_selena/`. The relative artifact identity stays the same as DGX, but
+synchronized Selena work cannot collide with `logs/` or `outputs/`. The
+shared `LOGS_ROOT` and `OUTPUTS_ROOT` variables remain explicitly overridable;
+custom Slurm stream paths require matching `sbatch --output` and `--error`
+overrides. Use the Selena fronts only through the documented overflow
+workflow.
 
 Each front is one sequential, resumable allocation. `STAGES=evaluate,report`
 is the default; either stage may be selected for recovery. `EXPERIMENT_MODE`
@@ -398,20 +400,19 @@ and `weights/` directories.
 
 ## Synchronizing DGX and Selena
 
-On each machine, keep the protected shared proxy credentials outside the
-project repository. Its first line is the uppercase NNI and its second line is
-the proxy password:
+On each machine, keep the NNI outside the project repository in a one-line
+protected file. Synchronization and Selena runtime helpers strip whitespace
+and lowercase it for the SSH account and scratch path:
 
 ```bash
 mkdir -p "$HOME/codes/.secrets"
-chmod 600 "$HOME/codes/.secrets/proxy.credentials"
+printf '%s\n' 'YOUR_NNI' > "$HOME/codes/.secrets/nni"
+chmod 600 "$HOME/codes/.secrets/nni"
 ```
 
 Both synchronization scripts derive the project directory name from their own
-checkout, read only the first credentials line, and convert the NNI to
-lowercase for SSH usernames and home-directory paths. They do not read or
-export the password. Because `codes/.secrets/` is outside the project, the
-credentials are never copied or committed with it.
+checkout and read only this NNI file. Because `codes/.secrets/` is outside the
+project, it is never copied or committed with the checkout.
 
 After pulling code updates on DGX, synchronize the execution copy on Selena:
 
@@ -419,13 +420,12 @@ After pulling code updates on DGX, synchronize the execution copy on Selena:
 bash sync_code_to_selena.sh
 ```
 
-The transfer makes Selena's implementation code match DGX while preserving
-Selena's `.venv`, `.secrets`, `pyproject.toml`, `uv.lock`, datasets, weights,
-DGX outputs/logs, and Selena's `outputs_selena`/`logs_selena` payloads. The two
-Selena directories and their placeholders are created by the mirrored project
-tree, but their existing contents are protected from deletion. Git metadata
-and dependency manifests are not transferred; Selena keeps its user-managed
-environment and dependency resolution.
+The transfer makes Selena's implementation code match DGX, preserves Selena's
+`.venv`, `.secrets`, `pyproject.toml`, `uv.lock`, datasets, weights, and DGX-
+named outputs/logs, and creates the scratch `outputs_selena/` and
+`logs_selena/` directories. Git metadata and dependency manifests are not
+transferred; Selena keeps its user-managed environment and dependency
+resolution.
 
 After Selena jobs finish, run the result helper from the TSFM checkout on DGX.
 DGX initiates the SSH connection and pulls the lightweight Selena results, so
@@ -435,9 +435,9 @@ Selena never needs outbound SSH or SCP access:
 bash sync_results_to_dgx.sh
 ```
 
-This pulls new or changed files from Selena's `outputs_selena/` and
-`logs_selena/` into the same named directories on DGX without deleting anything
-already present. Do not run this helper on Selena.
+This pulls new or changed files from Selena's scratch `outputs_selena/` and
+`logs_selena/` trees into the same named directories on DGX without deleting
+anything already present. Do not run this helper on Selena.
 
 ## Publishing terminal Slurm artifacts
 
