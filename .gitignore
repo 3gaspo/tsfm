@@ -1,5 +1,7 @@
 AGENTS.md
-archive/
+archive/*
+!archive/retired_external_models/
+!archive/retired_external_models/**
 .secrets/
 .venv
 __pycache__/

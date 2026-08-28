@@ -433,11 +433,17 @@ Selena never needs outbound SSH or SCP access:
 
 ```bash
 bash sync_results_to_dgx.sh
+bash sync_results_to_dgx.sh --size detailed
+bash sync_results_to_dgx.sh --size full
 ```
 
-This pulls new or changed files from Selena's scratch `outputs_selena/` and
-`logs_selena/` trees into the same named directories on DGX without deleting
-anything already present. Do not run this helper on Selena.
+The default lightweight tier transfers logs, manifests, aggregate metrics,
+reports, and ordinary plots while omitting row-level window/user-date/sample
+tables and per-run diagnostic plots. `detailed` adds those text and plotting
+artifacts; `full` also retrieves cluster-only `.pt`, `.npy`, `.cbm`, and other
+binary payloads for recovery or deep debugging. `--job-id ID` restricts the
+logs to the exact standard job pair. Transfers never delete DGX files. Do not
+run this helper on Selena; returned artifacts remain in the `_selena` trees.
 
 ## Publishing terminal Slurm artifacts
 
@@ -463,11 +469,14 @@ lightweight `outputs/` trees plus paired `logs_selena/` and lightweight
 
 ```bash
 bash publish_job.sh
+bash publish_job.sh --size detailed
 ```
 
-The same `*.pt`, `*.npy`, and `*.cbm` exclusions apply to every selected
-output tree. A partial Selena namespace fails closed instead of publishing one
-side. Job-ID mode remains scoped to the exact standard `logs/` pair.
+Lightweight is the default and applies the same row-level/per-run diagnostic
+omissions as lightweight sync. `detailed` publishes all non-binary diagnostics.
+The `*.pt`, `*.npy`, and `*.cbm` exclusions apply to both tiers, so the sync
+helper is the only route for those cluster-only payloads. A partial Selena
+namespace fails closed; job-ID mode remains scoped to the exact log pair.
 
 Before staging, each selected non-excluded file larger than 100,000,000 bytes
 is replaced for publication by `<original>.sample.txt`. Text samples contain

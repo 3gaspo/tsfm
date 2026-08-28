@@ -1,5 +1,19 @@
 # Pending updates
 
+- 2026-08-28: Made result transfer tiered: sync now defaults to aggregate
+  lightweight analysis artifacts, `detailed` adds row-level/per-run
+  diagnostics, and `full` explicitly retrieves binary recovery payloads;
+  publication defaults to the same lightweight scope and offers non-binary
+  `detailed` output. Removed 1,686 synchronized `window_metrics.csv` payloads
+  from the DGX/Git mirror; they remain recoverable from Selena with detailed
+  sync. Affected contracts: both result-transfer scripts, README, cluster
+  handoff, Git-side artifact scope, and focused transfer checks. Git Bash
+  syntax passed for both scripts, the transfer-tier and existing publisher
+  checks passed, and all nine publisher copies were byte-identical. No
+  scientific rerun or LaTeX update is required; local per-window analysis or
+  full artifact revalidation first requires detailed sync. Deferred
+  integration: exercise all sync tiers and inspect one detailed publication.
+
 - 2026-08-28: Redirected every Selena Slurm stream and default runtime output
   from the quota-limited home checkout to
   `/scratch/users/<lowercase-nni>/codes/tsfm/{logs_selena,outputs_selena}`.

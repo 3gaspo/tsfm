@@ -38,7 +38,9 @@ Synchronized full-profile jobs:
 Current manifest inventory: 1,684 completed, 2 running but artifact-ready, and
 2 interrupted, for 1,688 configuration manifests across the eight jobs. All
 record the current csv_only_drop_replacement input contract. Completed
-configurations remain eligible for exact reuse.
+configurations remain eligible for exact reuse. The DGX/Git mirror now retains
+the lightweight analysis subset: 1,686 per-window CSV payloads were removed
+locally but remain on Selena and can be restored with detailed result sync.
 
 Next actions:
 1. Put the one-line NNI file at $HOME/codes/.secrets/nni on DGX and Selena.
@@ -56,3 +58,7 @@ Next actions:
    full profiles. The default overwrite_exact policy should skip completed
    configurations and continue incomplete work.
 6. Generate each full report only after its family completes.
+
+Lightweight result sync is now the default. Use detailed sync before local
+per-window diagnostics or strict manifest artifact revalidation, and full sync
+only for binary recovery payloads.
