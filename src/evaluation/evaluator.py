@@ -157,6 +157,10 @@ def _run_allocation(config: Mapping[str, Any], panel) -> tuple[Path, str]:
         "evaluation.save_window_metrics": evaluation.get("save_window_metrics", True),
         "evaluation.mase_seasonality": evaluation.get("mase_seasonality", 1),
     }
+    if (panel.metadata or {}).get("missing_values_replaced", 0):
+        pipeline["data.missing_values"] = (panel.metadata or {})[
+            "effective_options"
+        ].get("missing_values", "zero")
     runtime = {
         "evaluation.batch_size": int(evaluation.get("batch_size", 64)),
         "model.device": str(model.get("device", "cuda")),

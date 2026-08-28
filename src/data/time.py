@@ -149,7 +149,7 @@ def _timestamp_column(frame: pd.DataFrame) -> str:
     return str(frame.columns[0])
 
 
-def _read_source(source: SourceFile) -> ParsedFile:
+def _read_source(source: SourceFile, missing_values: str = "zero") -> ParsedFile:
     frame = pd.read_csv(source.path)
     if frame.shape[1] < 2:
         raise ValueError("requires a timestamp and at least one target column")
@@ -163,6 +163,14 @@ def _read_source(source: SourceFile) -> ParsedFile:
         raise ValueError("contains duplicate timestamps")
 
     numeric = frame.apply(pd.to_numeric, errors="coerce").astype(np.float32)
+    missing_values = str(missing_values or "zero").lower()
+    if missing_values not in {"zero", "error"}:
+        raise ValueError("missing_values must be 'zero' or 'error'")
+    missing_count = int(numeric.isna().sum().sum())
+    if missing_count and missing_values == "error":
+        raise ValueError(f"contains {missing_count} missing values")
+    if missing_count:
+        numeric = numeric.fillna(0.0)
     finite = np.isfinite(numeric.to_numpy()).all(axis=0)
     dropped = [str(column) for column, keep in zip(numeric.columns, finite) if not keep]
     numeric = numeric.loc[:, finite]
@@ -283,6 +291,7 @@ def prepare_time_csv(
     revision: str = "main",
     cache_dir: Path | None = None,
     overwrite: bool = False,
+    missing_values: str = "zero",
 ) -> dict[str, object]:
     if stride <= 0:
         raise ValueError("stride must be positive")
@@ -319,7 +328,7 @@ def prepare_time_csv(
     skipped: list[dict[str, object]] = []
     for source in sources:
         try:
-            parsed = _read_source(source)
+            parsed = _read_source(source, missing_values)
         except (OSError, ValueError, TypeError) as error:
             skipped.append({"source_files": [source.relative_path], "reason": str(error)})
             continue
@@ -456,6 +465,7 @@ def _parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("--stride", type=int, default=DEFAULT_STRIDE)
     parser.add_argument("--overwrite", action="store_true")
+    parser.add_argument("--missing-values", choices=("zero", "error"), default="zero")
     return parser
 
 
@@ -474,6 +484,7 @@ def main(argv: Iterable[str] | None = None) -> None:
         revision=args.revision,
         cache_dir=args.cache_dir,
         overwrite=args.overwrite,
+        missing_values=args.missing_values,
     )
     selected_bytes = catalog["selected_download_bytes"]
     size = "unknown" if selected_bytes is None else f"{int(selected_bytes) / 2**20:.2f} MiB"

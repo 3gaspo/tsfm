@@ -30,6 +30,7 @@ PORTABLE_KEYS = {
     "drop_users",
     "aggr",
     "aggr_period",
+    "missing_values",
 }
 def _as_list(value: Any) -> list[Any]:
     if value is None:
@@ -110,7 +111,7 @@ def _merge_dataset_options(
     return effective, config_path, applied
 
 
-def _read_csv(source: Path, options: Mapping[str, Any]) -> pd.DataFrame:
+def _read_csv(source: Path, options: Mapping[str, Any]) -> tuple[pd.DataFrame, int]:
     frame = pd.read_csv(source)
     date_col = options.get("date_col")
     if date_col is None:
@@ -135,7 +136,15 @@ def _read_csv(source: Path, options: Mapping[str, Any]) -> pd.DataFrame:
             frame = frame.resample(period).mean()
         else:
             raise ValueError(f"unsupported aggregation {aggr!r}")
-    return frame
+    policy = str(options.get("missing_values") or "zero").lower()
+    if policy not in {"zero", "error"}:
+        raise ValueError("missing_values must be 'zero' or 'error'")
+    missing_count = int(frame.isna().sum().sum())
+    if missing_count and policy == "error":
+        raise ValueError(f"dataset contains {missing_count} missing values")
+    if missing_count:
+        frame = frame.fillna(0.0)
+    return frame, missing_count
 
 
 def _drop_columns(columns: Sequence[str], drop_users: Sequence[Any]) -> list[str]:
@@ -155,7 +164,7 @@ def _load_csv_panel(
     source: Path,
     options: Mapping[str, Any],
 ) -> tuple[pd.DataFrame, pd.DataFrame | None]:
-    frame = _read_csv(source, options)
+    frame, missing_count = _read_csv(source, options)
     covariate_cols = [str(value) for value in _as_list(options.get("covariate_cols"))]
     missing_covariates = [column for column in covariate_cols if column not in frame]
     if missing_covariates:
@@ -175,6 +184,7 @@ def _load_csv_panel(
         raise ValueError("dataset has no target columns after drop_users")
     targets = frame[target_cols].astype(np.float32)
     covariates = frame[covariate_cols].astype(np.float32) if covariate_cols else None
+    targets.attrs["missing_values_replaced"] = missing_count
     return targets, covariates
 
 
@@ -210,6 +220,7 @@ def _external_covariate(
         "config_path": None if config_path is None else str(config_path),
         "applied_config_keys": applied_keys,
         "effective_options": options,
+        "missing_values_replaced": int(frame.attrs.get("missing_values_replaced", 0)),
     }
     tensor = torch.as_tensor(frame.to_numpy(copy=True).T.copy(), dtype=torch.float32).unsqueeze(1)
     return tensor, metadata
@@ -284,6 +295,7 @@ def load_panel(config: Mapping[str, Any]) -> PanelData:
         "config_path": None if config_path is None else str(config_path),
         "applied_config_keys": applied_keys,
         "effective_options": options,
+        "missing_values_replaced": int(targets.attrs.get("missing_values_replaced", 0)),
         "covariate_mode": mode,
         "external_covariates": [item for _, item in external],
     }

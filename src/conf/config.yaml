@@ -10,6 +10,7 @@ data:
   drop_users: null  # null inherits config.json; [] explicitly keeps every user
   aggr: null
   aggr_period: null
+  missing_values: null  # null/config omission defaults to zero; alternative: error
 
 task:
   lags: 168
