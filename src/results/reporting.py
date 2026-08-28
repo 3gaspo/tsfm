@@ -416,6 +416,7 @@ def build_report(
     root: str | Path,
     output: str | Path,
     *,
+    diagnostics_output: str | Path,
     datasets: set[str] | None = None,
     settings: set[str] | None = None,
     tasks: set[tuple[str, str]] | None = None,
@@ -434,6 +435,7 @@ def build_report(
     root = Path(root).expanduser().resolve()
     active_launch = os.environ.get("EXPERIMENT_LAUNCH_ID")
     output = Path(output).expanduser().resolve()
+    diagnostics_output = Path(diagnostics_output).expanduser().resolve()
     identity_roots = sorted(
         {path.parent.parent for path in root.rglob("manifest.json") if path.parent.name.startswith("run_")}
     )
@@ -491,14 +493,20 @@ def build_report(
     )
     average_policy = config_policy == "average" or repeat_policy == "average"
     analysis_frame = (
-        _average_analysis_frame(raw_frame, output) if average_policy else raw_frame
+        _average_analysis_frame(raw_frame, diagnostics_output)
+        if average_policy
+        else raw_frame
     )
     comparison = _comparison_frame(analysis_frame, metric, reference_model)
     by_dataset = _marginal_frame(comparison, "dataset")
     by_setting = _marginal_frame(comparison, "setting")
     by_range = _marginal_frame(comparison, "range")
     win_rates = _chronos_win_rates(analysis_frame)
-    plot_index = build_plots(analysis_frame, output) if make_plots else pd.DataFrame()
+    plot_index = (
+        build_plots(analysis_frame, diagnostics_output)
+        if make_plots
+        else pd.DataFrame()
+    )
 
     frame = analysis_frame.drop(columns=["_run_dir"])
 
@@ -541,6 +549,11 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("root", help="evaluation output root")
     parser.add_argument("--output", required=True, help="report directory")
+    parser.add_argument(
+        "--diagnostics-output",
+        required=True,
+        help="directory for per-configuration plots and averaged analysis inputs",
+    )
     parser.add_argument("--datasets")
     parser.add_argument("--settings")
     parser.add_argument("--task", action="append", default=[])
@@ -557,6 +570,7 @@ def main() -> None:
         build_report(
             args.root,
             args.output,
+            diagnostics_output=args.diagnostics_output,
             datasets=_names(args.datasets),
             settings=_names(args.settings),
             tasks=_task_pairs(args.task),

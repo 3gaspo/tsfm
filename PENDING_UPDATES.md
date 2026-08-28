@@ -1,5 +1,17 @@
 # Pending updates
 
+- 2026-08-28: Reconciled the five-view documentation contract by reducing the
+  public README to a 117-line goal/setup/execution quickstart and leaving the
+  evaluation formulation, architecture, four workflow families, protocol, and
+  current-contract evidence boundary in their designated views. The README
+  retains the one-time report-diagnostics migration command. The validator now
+  enforces README ownership, owner links, complete DGX-front coverage, and
+  absence of stale LaTeX artifacts. The shared six-project documentation check
+  passed; the current four-page guideline was rebuilt and visually inspected,
+  and the two-page method note remains current. The output hierarchy and
+  required reruns are unchanged. Deferred integration: preview code sync on
+  DGX, inspect every `*deleting` line, then perform the real sync.
+
 - 2026-08-28: Made result transfer tiered: sync now defaults to aggregate
   lightweight analysis artifacts, `detailed` adds row-level/per-run
   diagnostics, and `full` explicitly retrieves binary recovery payloads;
@@ -577,3 +589,22 @@ execution, and publishing were deliberately not performed.
   maintenance. Existing runs whose recorded input contract predates this
   behavior are not reusable; rerun affected controls and any configuration
   whose effective exclusions changed. The executive summary is unchanged.
+
+## 2026-08-28 — Compact reports and separate diagnostics
+
+- Behavior and affected contracts: lightweight result sync and publication now
+  select logs plus only `outputs*/reports/`, without traversing TSFM's scaled
+  run trees. Report generation writes per-configuration plots and averaged
+  analysis inputs to `outputs*/diagnostics/<family>/<mode>/`; compact tables,
+  manifests, and the plot index remain under `reports/`.
+- Focused check completed: the shared transfer-tier contract check passed in
+  all six active experiment repositories (13 tests total); the TSFM case also
+  moved legacy plots/averaged inputs in a temporary tree and verified that a
+  second migration is a no-op.
+- Deferred integration: run
+  `PYTHONPATH=src uv run python -m scripts.migrate_report_diagnostics
+  --outputs-root outputs_selena` once on Selena, then exercise a real DGX pull
+  and manual publisher. No remote files, commits, or branches changed locally.
+- README/LaTeX and reruns: README, notebook paths, and guideline source describe
+  the split; re-render the guideline during maintenance. Existing TSFM
+  inference does not need rerunning solely for this hierarchy change.

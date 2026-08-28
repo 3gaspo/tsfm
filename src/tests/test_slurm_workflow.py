@@ -71,6 +71,10 @@ def test_root_fronts_and_workflows() -> None:
     assert 'OUTPUTS_ROOT="${OUTPUTS_ROOT:-$PROJECT_ROOT/outputs}"' in common
     assert 'OUTPUT_ROOT="${OUTPUT_ROOT:-$OUTPUTS_ROOT/$EXPERIMENT_FAMILY}"' in common
     assert '--output "$OUTPUTS_ROOT/reports/$family/${EXPERIMENT_MODE:-test}"' in common
+    assert (
+        '--diagnostics-output "$OUTPUTS_ROOT/diagnostics/$family/'
+        '${EXPERIMENT_MODE:-test}"'
+    ) in common
     assert "srun --ntasks=1" in common
     assert 'DEFER_MANIFEST_COMPLETION=1 srun --ntasks=1' in common
     assert "pipeline.runs complete-launch" in common

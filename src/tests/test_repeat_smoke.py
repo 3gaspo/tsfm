@@ -96,7 +96,9 @@ def test_repeat_end_to_end() -> None:
         assert (run_dir / "per_user_metrics.csv").exists()
         assert (run_dir / "horizon_metrics.csv").exists()
         assert evaluate(config)["run_dir"] == summary["run_dir"]
-        report = build_report(root / "runs", root / "report")
+        report = build_report(
+            root / "runs", root / "report", diagnostics_output=root / "diagnostics"
+        )
         assert report.exists()
         assert (root / "report" / "report_manifest.json").exists()
         assert (root / "report" / "nmse_average_by_dataset.csv").exists()
@@ -104,16 +106,22 @@ def test_repeat_end_to_end() -> None:
         assert (root / "report" / "nmse_average_by_range.csv").exists()
         assert (root / "report" / "nmse_average_table.tex").exists()
         assert (root / "report" / "plot_index.csv").exists()
-        assert build_report(root / "runs", root / "report") == report
+        assert (root / "diagnostics" / "plots").is_dir()
+        assert not (root / "report" / "plots").exists()
+        assert build_report(
+            root / "runs", root / "report", diagnostics_output=root / "diagnostics"
+        ) == report
         assert build_report(
             root / "runs",
             root / "task_report",
+            diagnostics_output=root / "task_diagnostics",
             tasks={("toy", "4:2")},
         ).exists()
         try:
             build_report(
                 root / "runs",
                 root / "stale_task_report",
+                diagnostics_output=root / "stale_task_diagnostics",
                 tasks={("toy", "168:24")},
             )
         except FileNotFoundError:
@@ -123,6 +131,7 @@ def test_repeat_end_to_end() -> None:
         timing_report = build_report(
             root / "runs",
             root / "timing_report",
+            diagnostics_output=root / "timing_diagnostics",
             metric="inference_seconds_per_series_window",
             make_plots=False,
         )

@@ -22,14 +22,12 @@ class PublisherContractTest(unittest.TestCase):
         self.assertIn('logs/*_"$job_id".err', publisher)
         self.assertNotIn("launch_id", publisher)
         self.assertNotIn('find "$project_root/outputs"', publisher)
-        self.assertIn("paths=(logs outputs)", publisher)
-        self.assertIn("paths+=(logs_selena outputs_selena)", publisher)
-        self.assertIn("[ -d logs_selena ] ||", publisher)
-        self.assertIn("[ -d outputs_selena ] ||", publisher)
-        self.assertLess(
-            publisher.index("else\n  paths=(logs outputs)"),
-            publisher.index("paths+=(logs_selena outputs_selena)"),
-        )
+        self.assertIn("paths=()", publisher)
+        self.assertIn("paths+=(logs)", publisher)
+        self.assertIn('if [ -d logs_selena ]; then paths+=(logs_selena); fi', publisher)
+        self.assertIn('paths+=("$output_tree/reports")', publisher)
+        self.assertIn('if [ "$publish_size" = detailed ]', publisher)
+        self.assertNotIn("paths=(logs outputs)", publisher)
         self.assertIn("git add -v -f --", publisher)
         self.assertIn("git commit --only", publisher)
         self.assertIn("git push origin main", publisher)

@@ -312,6 +312,7 @@ build_report() {
     report_args=(
         "$OUTPUT_ROOT"
         --output "$OUTPUTS_ROOT/reports/$family/${EXPERIMENT_MODE:-test}"
+        --diagnostics-output "$OUTPUTS_ROOT/diagnostics/$family/${EXPERIMENT_MODE:-test}"
         --datasets "$(IFS=,; echo "${DATASETS[*]}")"
         --settings "$(IFS=,; echo "${SETTINGS[*]}")"
         --models "$(IFS=,; echo "${MODELS[*]}")"

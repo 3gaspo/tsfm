@@ -1,0 +1,62 @@
+\documentclass[10pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,booktabs,array,microtype}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue,urlcolor=blue]{hyperref}
+\definecolor{navy}{HTML}{17365D}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\code}[1]{\texttt{\detokenize{#1}}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\title{\color{navy}Inference-Only Evaluation of Time-Series Foundation Models\\[3pt]\large Task, controls, and population-aware metrics}
+\author{Thesis project}
+\date{Standalone method note}
+\begin{document}
+\maketitle
+\begin{abstract}
+This note isolates the scientific formulation from implementation and cluster
+operations. It is intended to be readable on its own and reusable when drafting
+a paper introduction or method section.
+\end{abstract}
+
+\section{Evaluation task}
+For user $u$ and deterministic query date $t$,
+\[
+ X_{u,t}=x_u(t-L+1{:}t),\qquad
+ Y_{u,t}=x_u(t+1{:}t+H).
+\]
+A frozen model $F_\theta$ produces
+$\widehat Y_{u,t}=F_\theta(X_{u,t},C_{u,t})$. The evaluator controls
+accessible dates and covariates but does not change the model's native
+inference algorithm.
+
+\section{Preprocessing and covariates}
+Optional target instance normalization uses
+$Z=(X-\mu_X)/(\sigma_X+\varepsilon)$ and reverses the transform on the
+forecast. Metrics are always computed on raw-scale predictions. Covariates
+remain on their source scale. Modes are none, target identity, or prepared
+known covariates; an incapable adapter rejects non-empty covariates.
+
+\section{Reference forecasts}
+Chronos-2 is compared with persistence, the lookback mean, repetition of the
+last $H$ observations, and weekly aligned lookback persistence. A separate
+family compares official Chronos-2, Chronos-Bolt, Chronos-T5, and TS-ICL
+pipelines.
+
+\section{Metrics}
+For each of MSE, MAE, nMSE, nMAE, and MASE, reports include the sample mean and
+population dispersion, equal-user mean, dispersion across user means,
+worst-10-percent-user mean, and horizon-wise behavior. Timing is amortized per
+user and per user-window without including model or data loading.
+
+\section{Controlled questions}
+The four workflow families test univariate model quality, target
+normalization/constant-window controls, covariate use, and cross-foundation
+comparison. Cadence-aware short, mid, and long ranges make horizons comparable
+across hourly, daily, and 15-minute data.
+
+\section{Evidence boundary}
+Run identity contains only declared scientific configuration and seed.
+Publishable reports contain aggregate results and provenance; detailed
+per-configuration plots and aligned inputs live in the diagnostics hierarchy.
+\end{document}

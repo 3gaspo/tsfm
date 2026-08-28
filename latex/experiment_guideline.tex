@@ -160,9 +160,11 @@ terminal state, including failure, cancellation, or timeout, the user runs
 \code{bash publish_job.sh <job-id>} from the project root. The script verifies
 \code{main}, sources \code{$HOME/codes/proxy.sh} (or
 \code{PROXY_SCRIPT_PATH}), and fast-forward pulls \code{origin/main} before
-artifact selection or staging. With a job ID, it commits only that job's exact
-stdout/stderr pair. Omitting the job ID publishes all logs and lightweight
-outputs, excluding \code{*.pt}, \code{*.npy}, and \code{*.cbm}. It then pushes
+artifact selection or staging. Lightweight publication selects the exact
+local or Selena stdout/stderr pair when a job ID is supplied, all log trees
+otherwise, and only aggregate \path{outputs*/reports/} artifacts. Detailed
+publication adds all non-binary outputs and diagnostics. Both tiers exclude
+\code{*.pt}, \code{*.npy}, and \code{*.cbm}. The script then pushes
 \code{origin/main} without opening a pull request. A
 non-fast-forward pull stops without a merge commit, and unrelated staged paths
 remain outside the publisher commit.
@@ -240,7 +242,9 @@ label. If latest-run timestamps tie, the larger \code{run_n} index wins, making
 selection deterministic. Reports write requested filters and obtained inputs to
 \path{outputs/reports/family/mode} on DGX or the same relative path below
 \path{outputs_selena/} on Selena, while \code{SELECTED_RUNS.txt} stores only
-automatic or pinned exact repeats.
+automatic or pinned exact repeats. Per-configuration plots and aligned inputs
+created for averaging live under \path{outputs/diagnostics/family/mode}; the
+report's plot index stores paths relative to that diagnostics directory.
 
 An average policy aligns and averages the selected summary, per-window,
 per-user, and per-horizon metric artifacts before computing comparisons,
@@ -254,8 +258,9 @@ cadence-independent short/mid/long range, and by literal setting, Chronos-2
 strict paired-window win rates against the best aggregate
 baseline, and a report manifest. The selected table metric may be any error
 metric or total/per-user/per-window inference time. When window artifacts are
-enabled, reports also export per-user mean-versus-dispersion scatters, window
-error histograms, and horizon-error curves as PNG and PDF with a plot index.
+enabled, the diagnostics tree also receives per-user mean-versus-dispersion
+scatters, window error histograms, and horizon-error curves as PNG and PDF,
+while the compact report retains their plot index.
 
 \vspace{0.5\baselineskip}
 \section{Validation}
