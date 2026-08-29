@@ -8,6 +8,7 @@ MODELS=(persistence expected repeat lookback chronos2)
 if [ -n "${MODELS_OVERRIDE:-}" ]; then read -r -a MODELS <<< "$MODELS_OVERRIDE"; fi
 
 if stage_enabled evaluate; then
+    stage_start evaluate
     for task_index in "${!TASK_DATASETS[@]}"; do
         dataset="${TASK_DATASETS[$task_index]}"
         setting="${TASK_SETTINGS[$task_index]}"
@@ -22,5 +23,10 @@ if stage_enabled evaluate; then
             done
         done
     done
+    stage_complete
 fi
-if stage_enabled report; then build_report univariate; fi
+if stage_enabled report; then
+    stage_start report
+    build_report univariate
+    stage_complete
+fi

@@ -10,6 +10,32 @@ log() {
     echo "$(timestamp) | $*"
 }
 
+ACTIVE_STAGE=""
+ACTIVE_TASK=""
+TASK_INDEX=0
+
+stage_start() {
+    ACTIVE_STAGE="$1"
+    log "stage $ACTIVE_STAGE started"
+}
+
+stage_complete() {
+    log "stage $ACTIVE_STAGE completed status=success"
+    ACTIVE_STAGE=""
+}
+
+task_start() {
+    TASK_INDEX=$((TASK_INDEX + 1))
+    ACTIVE_TASK="$TASK_INDEX $*"
+    log "task $ACTIVE_TASK started"
+}
+
+task_complete() {
+    local status="$1"
+    log "task $ACTIVE_TASK completed status=$status"
+    ACTIVE_TASK=""
+}
+
 stage_enabled() {
     case ",${STAGES:-evaluate,report}," in
         *",$1,"*) return 0 ;;
@@ -104,12 +130,23 @@ find_weight_path() {
 tsfm_on_exit() {
     local status=$?
     trap - EXIT
+    if [ -n "$ACTIVE_TASK" ]; then
+        log "task $ACTIVE_TASK completed status=failed exit_code=$status" >&2
+    fi
+    if [ -n "$ACTIVE_STAGE" ]; then
+        log "stage $ACTIVE_STAGE completed status=failed exit_code=$status" >&2
+    fi
     if [ "$status" -ne 0 ]; then
         uv run python -m pipeline.runs interrupt-launch --root "$OUTPUT_ROOT" --launch-id "$EXPERIMENT_LAUNCH_ID" || true
     elif uv run python -m pipeline.runs complete-launch --root "$OUTPUT_ROOT" --launch-id "$EXPERIMENT_LAUNCH_ID" >/dev/null; then
         :
     else
         status=$?
+    fi
+    if [ "$status" -eq 0 ]; then
+        log "workflow completed status=success exit_code=0"
+    else
+        log "workflow completed status=failed exit_code=$status" >&2
     fi
     exit "$status"
 }
@@ -244,6 +281,7 @@ run_evaluation() {
     local batch_size
     local purpose
     local dataset_path
+    task_start "evaluation dataset=$dataset setting=$setting model=$model covariates=$covariate_mode instance_norm=$instance_normalize remove_constant=$remove_constant seed=$seed"
     case "$model" in
         persistence|expected|repeat|lookback) batch_size=512 ;;
         chronos2) batch_size=64 ;;
@@ -303,6 +341,7 @@ run_evaluation() {
     log "configuration dataset=$dataset L=$lags H=$horizon model=$model covariates=$covariate_mode instance_norm=$instance_normalize remove_constant=$remove_constant seed=$seed batch_size=$batch_size"
     DEFER_MANIFEST_COMPLETION=1 srun --ntasks=1 "${command[@]}"
     uv run python -m pipeline.runs complete-launch --root "$OUTPUT_ROOT" --launch-id "$EXPERIMENT_LAUNCH_ID" >/dev/null
+    task_complete success
 }
 
 build_report() {
@@ -310,6 +349,7 @@ build_report() {
     local report_status
     local task_file
     local -a report_args
+    task_start "report family=$family"
     log "report family=$family"
     task_file="$(mktemp "$OUTPUTS_ROOT/.report_tasks.XXXXXX")"
     local task_index
@@ -346,5 +386,8 @@ build_report() {
         report_status=$?
     fi
     rm -f -- "$task_file"
+    if [ "$report_status" -eq 0 ]; then
+        task_complete success
+    fi
     return "$report_status"
 }

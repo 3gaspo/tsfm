@@ -9,6 +9,7 @@ if [ -n "${MODELS_OVERRIDE:-}" ]; then read -r -a MODELS <<< "$MODELS_OVERRIDE";
 log "foundation models=${MODELS[*]}"
 
 if stage_enabled evaluate; then
+    stage_start evaluate
     for task_index in "${!TASK_DATASETS[@]}"; do
         dataset="${TASK_DATASETS[$task_index]}"
         setting="${TASK_SETTINGS[$task_index]}"
@@ -18,8 +19,11 @@ if stage_enabled evaluate; then
             done
         done
     done
+    stage_complete
 fi
 if stage_enabled report; then
+    stage_start report
     TABLE_REFERENCE_MODEL="${TABLE_REFERENCE_MODEL:-chronos2}"
     build_report foundation_models
+    stage_complete
 fi

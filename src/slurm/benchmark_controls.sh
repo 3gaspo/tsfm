@@ -13,6 +13,7 @@ if [ -n "${INSTANCE_NORMS_OVERRIDE:-}" ]; then read -r -a NORMS <<< "$INSTANCE_N
 if [ -n "${REMOVE_CONSTANT_OVERRIDE:-}" ]; then read -r -a CONSTANT_POLICIES <<< "$REMOVE_CONSTANT_OVERRIDE"; fi
 
 if stage_enabled evaluate; then
+    stage_start evaluate
     for task_index in "${!TASK_DATASETS[@]}"; do
         dataset="${TASK_DATASETS[$task_index]}"
         setting="${TASK_SETTINGS[$task_index]}"
@@ -26,5 +27,10 @@ if stage_enabled evaluate; then
             done
         done
     done
+    stage_complete
 fi
-if stage_enabled report; then build_report controls; fi
+if stage_enabled report; then
+    stage_start report
+    build_report controls
+    stage_complete
+fi

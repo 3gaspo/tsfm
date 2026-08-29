@@ -79,6 +79,9 @@ def test_root_fronts_and_workflows() -> None:
     assert 'DEFER_MANIFEST_COMPLETION=1 srun --ntasks=1' in common
     assert "pipeline.runs complete-launch" in common
     assert common.count("pipeline.runs complete-launch") == 2
+    assert "workflow completed status=success exit_code=0" in common
+    assert "workflow completed status=failed exit_code=$status" in common
+    assert "task $ACTIVE_TASK completed status=$status" in common
     assert "python -m pipeline.profiles" in common
     assert '--profile "$profile"' in common
     assert '--datasets-override "$DATASETS_OVERRIDE"' in common
@@ -134,6 +137,12 @@ def test_root_fronts_and_workflows() -> None:
     assert "MODELS=(chronos2 chronos_bolt chronos_t5 ts_icl)" in foundation
     assert 'run_evaluation "$dataset" "$setting" "$model" none false false "$seed"' in foundation
     assert 'TABLE_REFERENCE_MODEL="${TABLE_REFERENCE_MODEL:-chronos2}"' in foundation
+    for family in ("univariate", "controls", "covariates", "foundation_models"):
+        source = (PROJECT_ROOT / "src/slurm" / f"benchmark_{family}.sh").read_text(
+            encoding="utf-8"
+        )
+        assert "stage_start evaluate" in source
+        assert "stage_complete" in source
     code_sync = (PROJECT_ROOT / "sync_code_to_selena.sh").read_text(
         encoding="utf-8"
     )

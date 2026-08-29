@@ -623,3 +623,18 @@ execution, and publishing were deliberately not performed.
   its completed evaluations and rerun only its report.
 - README/LaTeX and reruns: public commands and the scientific contract are
   unchanged, so no documentation update or inference rerun is required.
+
+## 2026-08-29 — Terminal Slurm completion records
+
+- Behavior and affected contracts: each TSFM evaluation/report subtask and
+  requested stage now records an explicit terminal state, while the exit trap
+  always emits the final workflow status after manifest completion or
+  interruption handling.
+- Focused check completed: `src/tests/test_slurm_workflow.py` passed in the
+  shared thesis runtime.
+- Deferred integration: observe the new markers in one successful and one
+  failed cluster job; no inference was launched locally.
+- README/LaTeX and reruns: public and scientific behavior are unchanged, so no
+  documentation update or inference rerun is required. Historical logs remain
+  valid without retroactive markers.
+
