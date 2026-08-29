@@ -151,6 +151,36 @@ def test_average_policy_precedes_comparisons_and_artifact_analysis() -> None:
         assert wins[wins["metric"] == "nmse"].iloc[0]["chronos_win_pct"] == 100.0
 
 
+def test_covariate_comparison_uses_same_model_vanilla_reference() -> None:
+    common = {
+        "dataset": "toy",
+        "lags": 4,
+        "horizon": 2,
+        "instance_normalize": True,
+        "remove_constant": False,
+        "stride": 2,
+        "seed": 1,
+    }
+    frame = pd.DataFrame(
+        [
+            {**common, "model": "chronos2", "covariate_mode": "none", "metrics_nmse": 2.0},
+            {**common, "model": "chronos2", "covariate_mode": "identity", "metrics_nmse": 1.0},
+            {**common, "model": "ts_icl", "covariate_mode": "none", "metrics_nmse": 4.0},
+            {**common, "model": "ts_icl", "covariate_mode": "identity", "metrics_nmse": 3.0},
+        ]
+    )
+
+    comparison = _comparison_frame(frame, "nmse", "no_covariates")
+    assert len(comparison) == 4
+    chronos_identity = comparison[comparison["model"] == "chronos2/identity"].iloc[0]
+    assert chronos_identity["reference_model"] == "chronos2/none"
+    assert chronos_identity["improvement_pct"] == 50.0
+    ts_icl_identity = comparison[comparison["model"] == "ts_icl/identity"].iloc[0]
+    assert ts_icl_identity["reference_model"] == "ts_icl/none"
+    assert ts_icl_identity["improvement_pct"] == 25.0
+
+
 if __name__ == "__main__":
     test_best_baseline_marginals_and_chronos_wins()
     test_average_policy_precedes_comparisons_and_artifact_analysis()
+    test_covariate_comparison_uses_same_model_vanilla_reference()

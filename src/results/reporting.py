@@ -223,12 +223,25 @@ def _comparison_frame(
     if metric_column not in frame:
         raise KeyError(f"report does not contain {metric_column}")
     rows: list[dict[str, Any]] = []
+    same_model_no_covariates = reference_model == "no_covariates"
     group_columns = _group_columns(frame)
+    if same_model_no_covariates:
+        if "covariate_mode" not in frame:
+            raise KeyError("no_covariates comparison requires covariate_mode")
+        group_columns = [name for name in group_columns if name != "covariate_mode"]
+        group_columns.append("model")
     for key, group in frame.groupby(group_columns, dropna=False, sort=False):
         key_values = key if isinstance(key, tuple) else (key,)
         identity = dict(zip(group_columns, key_values))
         candidates = group[group["model"].map(_is_baseline)]
-        if reference_model == "best_baseline":
+        if same_model_no_covariates:
+            matches = group[
+                group["covariate_mode"].astype(str).str.casefold() == "none"
+            ]
+            if matches.empty:
+                continue
+            reference = matches.iloc[0]
+        elif reference_model == "best_baseline":
             if candidates.empty:
                 continue
             reference = candidates.loc[candidates[metric_column].astype(float).idxmin()]
@@ -240,6 +253,11 @@ def _comparison_frame(
         reference_value = float(reference[metric_column])
         for _, model_row in group.iterrows():
             value = float(model_row[metric_column])
+            model_label = str(model_row["model"])
+            reference_label = str(reference["model"])
+            if same_model_no_covariates:
+                model_label = f"{model_label}/{model_row['covariate_mode']}"
+                reference_label = f"{reference_label}/{reference['covariate_mode']}"
             improvement = (
                 100.0 * (reference_value - value) / reference_value
                 if abs(reference_value) > 1e-12
@@ -252,10 +270,11 @@ def _comparison_frame(
                     "range": forecast_range_name(
                         int(model_row["lags"]), int(model_row["horizon"])
                     ),
-                    "model": str(model_row["model"]),
+                    "model": model_label,
+                    "covariate_mode": str(model_row.get("covariate_mode", "none")),
                     "metric": metric,
                     "value": value,
-                    "reference_model": str(reference["model"]),
+                    "reference_model": reference_label,
                     "reference_value": reference_value,
                     "improvement_pct": improvement,
                 }
@@ -310,13 +329,18 @@ def _write_average_latex(
             ]
         )
     )
+    reference_label = (
+        "the same model without covariates"
+        if reference_model == "no_covariates"
+        else _latex_escape(reference_model)
+    )
     lines = [
         r"\begin{table}[htbp]",
         r"\centering",
         (
             f"\\caption{{Equal-configuration mean {_latex_escape(metric)}. "
             f"Parentheses report mean percentage improvement relative to "
-            f"{_latex_escape(reference_model)}.}}"
+            f"{reference_label}.}}"
         ),
         r"\resizebox{\textwidth}{!}{%",
         fr"\begin{{tabular}}{{l{'c' * len(models)}}}",

@@ -1,51 +1,66 @@
-Last updated: 2026-08-28
+Last updated: 2026-08-29
 
-CURRENT SCHEDULER STATE
-- The full Selena foundation-model workflow was submitted on 2026-08-28.
-  Its scheduler state and job ID have not yet been synchronized locally.
-- The latest synchronized publication is commit eef9edce and contains Selena
-  logs for jobs 2955373, 2955374, 2955375, and 2955400 plus lightweight test
-  reports. Detailed run manifests were not published in this commit.
+CURRENT SCHEDULER AND ARTIFACT STATE
+- No live scheduler state is synchronized locally.
+- All four full TSFM result grids are complete and pulled from Selena. Every
+  task has the expected model/control variants and every aggregate nMSE is
+  finite.
+- Full report-only jobs 2964366 (univariate), 2964367 (controls), and 2964368
+  (covariates) completed on 2026-08-28. The covariate report used the old
+  reference logic; its raw rows are valid but its derived comparisons were
+  empty.
+- Foundation replacement job 2964473 resumed the failed workflow, completed
+  Weather, Exchange Rate, and the remaining eligible TIME tasks, and wrote the
+  full foundation report. The earlier partial report from jobs 2962543 and
+  2964370 is superseded.
 
-LATEST JOB OUTCOMES
-- sunivar, job 2955373, full profile: the evaluation stage visited all 945
-  configurations (713 exact completed runs reused and 232 new runs made
-  artifact-ready). The final full-report `srun` failed with `Pathname of a
-  file, directory or other parameter too long`; no full univariate report was
-  produced. Do not rerun evaluation.
-- scontrols, job 2955374, full profile: the evaluation stage visited all 1,512
-  configurations (546 reused and 966 new artifact-ready). The final report
-  failed with the same overlong-parameter error; no full controls report was
-  produced. Do not rerun evaluation.
-- scovars, job 2955375, full profile: the evaluation stage visited all 756
-  configurations (423 reused and 333 new artifact-ready). The final report
-  failed with the same overlong-parameter error; no full covariates report was
-  produced. Do not rerun evaluation.
-- sfoundation, job 2955400, test profile: successful. All four foundation
-  configurations were available (Chronos-2 and Chronos-Bolt reused;
-  Chronos-T5 and TS-ICL completed), and
-  outputs_selena/reports/foundation_models/test/results.csv plus its report
-  manifest were generated.
+FULL ARTIFACT COVERAGE
+- Univariate: 945 rows = 189 tasks x five models over 63 datasets.
+- Controls: 1,512 rows = 189 tasks x eight model/control combinations over 63
+  datasets.
+- Covariates: 756 rows = 189 tasks x four backbone/covariate combinations over
+  63 datasets.
+- Foundation models: 512 rows = 128 tasks x four models over 64 datasets. This
+  grid includes Weather at the mid and long settings; each Weather
+  configuration records replacement of 21 missing values.
 
-INTERPRETATION
-- The three full evaluation sweeps reached their complete configuration lists;
-  only aggregate reporting failed. The local fix now passes exact task
-  selection through a short task-file argument instead of expanding 189 task
-  pairs on the `srun` command line. Deploy it to Selena before report-only
-  resubmission.
-- The earlier Chronos-T5 checkpoint/configuration failure is resolved by job
-  2955400. The foundation-model full profile is now eligible to run.
-- CUDA determinism warnings and Chronos-T5 horizon warnings were non-fatal.
+REPORT STATE
+- The univariate, control, and foundation aggregate reports are current.
+- The covariate `results.csv`, `plot_index.csv`, and `report_manifest.json` are
+  retained as valid result/provenance artifacts. Six empty or header-only
+  comparison products from the old report were removed locally on 2026-08-29.
+- The corrected covariate report must compare each identity-covariate row with
+  the same backbone under `covariate_mode=none`. The local fixed code produces
+  756 comparison rows from the retained raw results, including 378 identity
+  rows.
+- `scripts.migrate_report_diagnostics` only moves legacy `plots/` and
+  `averaged_inputs/` directories into `diagnostics/`; it does not rebuild
+  comparison tables.
 
-NEXT JOBS
-1. Observe the submitted full foundation-model workflow and record its job ID
-   and scheduler state. If its batch shell started before this fix reached
-   Selena, keep its completed evaluations and rerun only its report afterward.
-2. Deploy the report task-file fix to Selena.
-3. `STAGES=report EXPERIMENT_MODE=full sbatch slurm/selena/main/01_univariate_selena.slurm`
-4. `STAGES=report EXPERIMENT_MODE=full sbatch slurm/selena/main/02_controls_selena.slurm`
-5. `STAGES=report EXPERIMENT_MODE=full sbatch slurm/selena/main/03_covariates_selena.slurm`
+CURRENT INTERPRETATION
+- Chronos-2 beats the best simple baseline on 153 of 189 univariate tasks, ties
+  one, and has a 24.10% median relative nMSE improvement. Persistence remains
+  better on all three Exchange Rate settings.
+- Instance normalization and constant-window removal have zero median effect;
+  neither control supports a universal intervention.
+- Identity covariates beat the same no-covariate backbone on 185 of 189
+  Chronos-2 tasks and 176 of 189 TS-ICL tasks, with median improvements of
+  97.93% and 98.07%. Identity is an oracle capability control, not a deployable
+  method.
+- Across the complete foundation grid, TS-ICL wins 51 tasks, Chronos-2 50,
+  Chronos-Bolt 17, and Chronos-T5 10. Chronos-2 has the best mean rank and
+  beats TS-ICL head-to-head on 69 of 128 tasks.
 
-After each terminal job, pull results to DGX and publish the exact logs plus
-lightweight reports. Use detailed synchronization only when manifest-level or
-per-window diagnosis is required.
+NEXT JOB
+1. Ensure the fixed TSFM code is synchronized to Selena, then run only:
+   `STAGES=report EXPERIMENT_MODE=full sbatch slurm/selena/main/03_covariates_selena.slurm`
+2. Pull the lightweight covariate report and confirm that
+   `nmse_configurations.csv` contains 756 comparison rows and the aggregate
+   tables are nonempty. No inference or evaluation rerun is required.
+
+RUNTIME ROOTS
+- DGX: project-local outputs/ and logs/.
+- Selena: /scratch/users/<lowercase-nni>/codes/tsfm/outputs_selena and
+  logs_selena.
+- Lightweight synchronization is the default; detailed sync is required only
+  for per-window or manifest-level diagnosis.

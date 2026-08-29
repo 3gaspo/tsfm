@@ -6,6 +6,7 @@ resolve_roots
 set_profile_axes
 MODELS=(chronos2 ts_icl)
 COVARIATE_MODES=(none identity)
+TABLE_REFERENCE_MODEL="${TABLE_REFERENCE_MODEL:-no_covariates}"
 if [ -n "${MODELS_OVERRIDE:-}" ]; then read -r -a MODELS <<< "$MODELS_OVERRIDE"; fi
 if [ -n "${COVARIATE_MODES_OVERRIDE:-}" ]; then read -r -a COVARIATE_MODES <<< "$COVARIATE_MODES_OVERRIDE"; fi
 
@@ -29,4 +30,3 @@ if stage_enabled report; then
     build_report covariates
     stage_complete
 fi
-

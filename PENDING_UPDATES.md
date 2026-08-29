@@ -1,5 +1,17 @@
 # Pending updates
 
+- 2026-08-29: Reconciled the synchronized full reports and completed
+  foundation replacement, corrected covariate reports to compare each
+  augmented row with the same backbone under `covariate_mode=none`, and
+  completed the shared CSV `zero|error` policy with explicit infinity
+  rejection. The README, architecture, cluster handoff, result recap,
+  guideline, and evidence summary now cover the three 189-task families and
+  the complete 128-task/512-row foundation grid from job 2964473. Focused
+  dataset/reporting checks, the actual 756-row covariate comparison, and the
+  documentation validator passed; both PDFs were rebuilt and visually
+  inspected. Deferred integration: deploy the report fix and rerun only the
+  full covariate report. No inference or foundation report needs restarting.
+
 - 2026-08-28: Reconciled the five-view documentation contract by reducing the
   public README to a 117-line goal/setup/execution quickstart and leaving the
   evaluation formulation, architecture, four workflow families, protocol, and
@@ -68,7 +80,7 @@
   synchronize the prepared cluster environment and rerun all TSFM families;
   old identities are not reusable under the new model/path contract.
 
-Last successful maintenance: 2026-08-11 10:45 +02:00.
+Last successful maintenance: 2026-08-29 00:26 +02:00.
 
 ## Pending
 
@@ -637,4 +649,3 @@ execution, and publishing were deliberately not performed.
 - README/LaTeX and reruns: public and scientific behavior are unchanged, so no
   documentation update or inference rerun is required. Historical logs remain
   valid without retroactive markers.
-

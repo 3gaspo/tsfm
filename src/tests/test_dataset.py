@@ -14,6 +14,35 @@ from data import PanelData, StridedWindowDataset, load_panel
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 
+def test_missing_values_default_to_zero_and_infinity_is_rejected() -> None:
+    with tempfile.TemporaryDirectory(dir=PROJECT_ROOT / "outputs") as directory:
+        root = Path(directory)
+        pd.DataFrame({"a": [1.0, np.nan, 3.0]}).to_csv(root / "toy.csv", index=False)
+        panel = load_panel({"path": str(root), "name": "toy", "covariate_mode": "none"})
+        assert panel.values[0, 0, 1].item() == 0.0
+        try:
+            load_panel(
+                {
+                    "path": str(root),
+                    "name": "toy",
+                    "covariate_mode": "none",
+                    "missing_values": "error",
+                }
+            )
+        except ValueError as error:
+            assert "missing values" in str(error)
+        else:
+            raise AssertionError("strict missing-value policy must reject NaNs")
+
+        pd.DataFrame({"a": [1.0, np.inf, 3.0]}).to_csv(root / "toy.csv", index=False)
+        try:
+            load_panel({"path": str(root), "name": "toy", "covariate_mode": "none"})
+        except ValueError as error:
+            assert "infinite values" in str(error)
+        else:
+            raise AssertionError("CSV infinities must be rejected")
+
+
 def test_config_merge_and_identity_covariate() -> None:
     with tempfile.TemporaryDirectory(dir=PROJECT_ROOT / "outputs") as directory:
         root = Path(directory)
@@ -94,6 +123,7 @@ def test_tensor_only_directory_is_rejected() -> None:
 
 
 if __name__ == "__main__":
+    test_missing_values_default_to_zero_and_infinity_is_rejected()
     test_config_merge_and_identity_covariate()
     test_constant_filter_is_pairwise_and_deterministic()
     test_tensor_only_directory_is_rejected()

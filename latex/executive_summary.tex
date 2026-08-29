@@ -8,62 +8,80 @@
 \definecolor{amber}{HTML}{A05A00}
 \hypersetup{colorlinks=true,linkcolor=navy,urlcolor=navy}
 \setlength{\parindent}{0pt}
-\setlength{\parskip}{0.75\baselineskip}
+\setlength{\parskip}{0.7\baselineskip}
 \newcolumntype{Y}{>{\raggedright\arraybackslash}X}
 \newcommand{\code}[1]{\texttt{\detokenize{#1}}}
 \title{\textbf{Time-series Foundation Model Evaluation}\\Executive Summary}
 \author{Thesis project}
-\date{Evidence checked through 27 August 2026}
+\date{Evidence checked through 29 August 2026}
 \begin{document}
 \maketitle
 
 \section*{Decision snapshot}
-\textcolor{amber}{\textbf{No synchronized evaluation is eligible evidence for
-the current CSV-only, replacement-exclusion contract.}}
-The completed manifests consumed prepared tensor files and, for controls,
-retained the former additive exclusions. Their measurements are historical
-signals only; the affected identities must be rerun before supporting a
-current scientific decision.
+\textcolor{navy}{\textbf{Chronos-2 beats the best simple baseline on 153 of
+189 completed full-profile tasks, but persistence remains best on all three
+Exchange Rate settings.}}
+The control effects are not universal, identity covariates are an oracle
+capability check, and the complete foundation grid splits task wins and mean
+rank between TS-ICL and Chronos-2.
 
 \section{Evidence inventory}
 \begin{center}
 \small
-\begin{tabularx}{\linewidth}{@{}Yr@{}}
+\begin{tabularx}{\linewidth}{@{}Yrr@{}}
 \toprule
-\textbf{Result object} & \textbf{Count} \\
+\textbf{Full-profile family} & \textbf{Selected inputs} & \textbf{Tasks} \\
 \midrule
-Completed pre-contract manifests & 76 \\
-Univariate / controls / covariates / foundation & 60 / 9 / 3 / 4 \\
-Manifests still marked running & 2 \\
-Interrupted foundation manifests & 1 \\
-Current-contract completed manifests & 0 \\
+Univariate & 945 & 189 \\
+Controls & 1,512 & 189 \\
+Covariates & 756 & 189 \\
+Foundation models & 512 & 128 \\
 \bottomrule
 \end{tabularx}
 \end{center}
+The first three synchronized reports use finite CSV panels. Consequently the
+new default NaN-to-zero loading policy is inert for those completed
+computations. The foundation replacement records 21 zero-filled missing values
+in each Weather configuration and completes the remaining eligible data.
 
-\section{Obtained evidence}
-Historically, the single-seed full-univariate snapshot evaluated Electricity,
-Solar, and Traffic at $168{:}24$, $336{:}48$, and $504{:}168$ with stride 512.
-Chronos-2 beat the best non-trainable baseline in nMSE on all nine settings;
-the mean improvements were 31.335\%, 43.099\%, and 37.394\%, respectively.
-These identities consumed tensor inputs and therefore cannot be reused now.
-The former Exchange Rate settings also used hourly scales on daily data.
+\section{Univariate evidence}
+Chronos-2 has lower aggregate nMSE than the best repeat, lookback, or mean
+baseline on 153 of 189 tasks, with one tie. Its median relative improvement is
+24.10\%. Across the nine Electricity, Solar, and Traffic publication settings,
+the improvement ranges from 20.88\% to 51.26\%. Exchange Rate is the important
+counterexample: persistence is better at all three settings, by 0.60\% to
+4.88\%. Raw averages across all datasets are not reported because several TIME
+tasks have near-zero normalization denominators and would dominate them.
 
-At Electricity $504{:}168$, the historical four-model test did not establish a
-metric-independent winner: Chronos-Bolt had the lowest nMSE, while TS-ICL had
-the lowest raw MSE. The covariate family showed a large Chronos-2 identity
-signal, but only three configurations completed; controls stopped after nine.
-Both families are incomplete and pre-contract, so neither supports a current
-conclusion. Two obsolete manifests remain marked running under Selena jobs
-2910738 and 2910739, and DGX job 45673 was interrupted by missing Chronos-2
-weights.
+\section{Controls and covariates}
+Removing constant windows improves only 5 of 189 matched Chronos-2 tasks and
+has zero median effect, although those five avoid extreme normalized-error
+cases. Instance normalization improves 93 of 189 tasks and also has zero
+median effect. Neither intervention is supported as a universal default.
+
+The identity-covariate capability control beats the same model without
+covariates on 185 of 189 Chronos-2 tasks and 176 of 189 TS-ICL tasks. Median
+relative nMSE improvements are 97.93\% and 98.07\%, respectively. Identity
+passes the target itself as a covariate, so this establishes adapter capability
+rather than a deployable forecasting gain.
+
+The synchronized covariate raw results are eligible, but the old report stage
+grouped by covariate mode and then searched each group for a simple baseline.
+Because that family contains only Chronos-2 and TS-ICL, the comparison tables
+were empty. The corrected report pairs each augmented row with the same
+backbone and task under \code{covariate_mode=none}; no inference rerun is
+required.
+
+\section{Foundation-model comparison}
+Replacement job 2964473 completed 512 rows for 128 tasks, four models, and 64
+datasets, superseding the failed evaluation and partial report. TS-ICL has the
+lowest nMSE on 51 tasks, Chronos-2 on 50, Chronos-Bolt on 17, and Chronos-T5 on
+10. Chronos-2 nevertheless has the best mean rank and beats TS-ICL
+head-to-head on 69 of 128 tasks. The grid therefore identifies two strong
+leaders under different summaries rather than one universal winner.
 
 \section{Next evidence}
-Publish and synchronize the current CSV-only code and dataset configuration.
-Discard the obsolete running manifests and rerun each test family so its manifest records the
-current input contract and effective exclusions. After those boundaries pass,
-run cadence-aware full univariate, controls, covariates, and foundation
-profiles with Chronos-2, Chronos-Bolt, Chronos-T5, and TS-ICL, including daily
-Exchange Rate and feasible TIME datasets, before
-making new claims.
+Deploy the report fix and rerun only the full covariate report stage. The
+foundation evaluation and report are complete and require no rerun.
+
 \end{document}

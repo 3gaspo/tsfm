@@ -35,10 +35,14 @@ date-major order, forecasts every user, reverses target preprocessing, and
 accumulates metrics without storing forecast arrays. Reports read completed
 summaries. Large per-configuration plots and averaged aligned inputs live under
 `diagnostics/`, separate from publishable `reports/`.
+Covariate reports compare every augmented row with the same backbone and task
+using `covariate_mode=none`; simple-model baselines are not part of that family.
 
 ## Important boundaries
 
 - The project does not train or reimplement a foundation model.
+- CSV NaNs are zero-filled by default after aggregation; `missing_values=error`
+  rejects them, and all infinite values are rejected.
 - Covariates are explicit and rejected by adapters that do not support them.
 - Evaluation owns accessible dates, not upstream model behavior.
 - Run manifests describe scientific configuration rather than storage state.

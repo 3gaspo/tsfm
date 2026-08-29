@@ -30,6 +30,8 @@ export PYTHONPATH=src
 ```
 
 Place wide CSV datasets and adjacent `config.json` files under `datasets/`.
+`missing_values` defaults to `zero`, replacing NaNs after aggregation;
+`error` rejects them, and infinite values are always rejected.
 Place Chronos-2, Chronos-Bolt, Chronos-T5, and TS-ICL checkpoints under
 `weights/` using the paths declared by the project configuration. Full
 profiles discover eligible TIME panels from `datasets/time/catalog.json`.

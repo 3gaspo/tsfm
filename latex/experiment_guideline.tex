@@ -14,7 +14,7 @@
 \newcommand{\code}[1]{\texttt{\detokenize{#1}}}
 \title{\textbf{Time-series Foundation Model Evaluation}\\Experiment Guideline}
 \author{Thesis project}
-\date{27 August 2026}
+\date{29 August 2026}
 \begin{document}
 \maketitle
 
@@ -175,8 +175,10 @@ Portable settings are top-level, project overrides live under
 \code{tsfm_evaluation}, explicit run values override both, and
 \code{drop_users} uses replacement precedence: null inherits, an empty list
 keeps every CSV user, and a nonempty override replaces the prior list. The
-selected path and applied keys are logged. TSFM does not consume TimeTensors
-tensor caches.
+portable \code{missing_values} policy is applied after aggregation: omission
+defaults to \code{zero}, which replaces NaNs with zero, while \code{error}
+rejects them. Infinite values are always rejected. The selected path and
+applied keys are logged. TSFM does not consume TimeTensors tensor caches.
 
 \subsection*{Selective TIME preparation}
 \code{python -m scripts.prepare_time_csv} resolves an immutable revision of
@@ -256,7 +258,10 @@ settings. They write the selected raw results, model-versus-reference
 configuration table, equal-configuration marginal tables by dataset, by
 cadence-independent short/mid/long range, and by literal setting, Chronos-2
 strict paired-window win rates against the best aggregate
-baseline, and a report manifest. The selected table metric may be any error
+baseline, and a report manifest. Covariate-family comparisons instead pair
+each augmented configuration with the same backbone, task, and pipeline using
+\code{covariate_mode=none}; they do not require a simple-model baseline. The
+selected table metric may be any error
 metric or total/per-user/per-window inference time. When window artifacts are
 enabled, the diagnostics tree also receives per-user mean-versus-dispersion
 scatters, window error histograms, and horizon-error curves as PNG and PDF,

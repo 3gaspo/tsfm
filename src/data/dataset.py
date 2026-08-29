@@ -125,6 +125,10 @@ def _read_csv(source: Path, options: Mapping[str, Any]) -> tuple[pd.DataFrame, i
     else:
         frame.index = pd.RangeIndex(len(frame))
 
+    source_infinite_count = int(np.isinf(frame.to_numpy(dtype=float)).sum())
+    if source_infinite_count:
+        raise ValueError(f"dataset contains {source_infinite_count} infinite values")
+
     aggr = options.get("aggr")
     if aggr:
         period = options.get("aggr_period") or "h"
@@ -144,6 +148,10 @@ def _read_csv(source: Path, options: Mapping[str, Any]) -> tuple[pd.DataFrame, i
         raise ValueError(f"dataset contains {missing_count} missing values")
     if missing_count:
         frame = frame.fillna(0.0)
+    values = frame.to_numpy(dtype=float)
+    infinite_count = int(np.isinf(values).sum())
+    if infinite_count:
+        raise ValueError(f"dataset contains {infinite_count} infinite values")
     return frame, missing_count
 
 
