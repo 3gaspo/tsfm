@@ -10,6 +10,19 @@ log() {
     echo "$(timestamp) | $*"
 }
 
+bootstrap_on_exit() {
+    local status=$?
+    trap - EXIT
+    if [ "$status" -eq 0 ]; then
+        log "workflow completed status=success exit_code=0"
+    else
+        log "workflow completed status=failed exit_code=$status" >&2
+    fi
+    exit "$status"
+}
+
+trap bootstrap_on_exit EXIT
+
 ACTIVE_STAGE=""
 ACTIVE_TASK=""
 TASK_INDEX=0
