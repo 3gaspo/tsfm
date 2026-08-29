@@ -1,1 +1,13 @@
 range,model,metric,mean_value,mean_reference_value,mean_improvement_pct,configurations,reference_models
+short,chronos2/identity,nmse,2.775250326798985e+16,2.775250326798985e+16,68.0641439943033,63,chronos2/none
+short,chronos2/none,nmse,2.775250326798985e+16,2.775250326798985e+16,0.0,63,chronos2/none
+short,ts_icl/identity,nmse,2.775250326798985e+16,2.775250326798985e+16,61.32662887763586,63,ts_icl/none
+short,ts_icl/none,nmse,2.775250326798985e+16,2.775250326798985e+16,0.0,63,ts_icl/none
+mid,chronos2/identity,nmse,29.886148618633047,39.49587592981188,78.79537499897975,63,chronos2/none
+mid,chronos2/none,nmse,39.49587592981188,39.49587592981188,0.0,63,chronos2/none
+mid,ts_icl/identity,nmse,38.79380289284356,39.6271881085033,81.02990060277004,63,ts_icl/none
+mid,ts_icl/none,nmse,39.6271881085033,39.6271881085033,0.0,63,ts_icl/none
+long,chronos2/identity,nmse,3.3426357529757715,7.463248865071249,87.84635451833279,63,chronos2/none
+long,chronos2/none,nmse,7.463248865071249,7.463248865071249,0.0,63,chronos2/none
+long,ts_icl/identity,nmse,6.008528724861469,7.477908640232437,82.68727832903282,63,ts_icl/none
+long,ts_icl/none,nmse,7.477908640232437,7.477908640232437,0.0,63,ts_icl/none

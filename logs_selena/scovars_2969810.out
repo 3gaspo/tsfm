@@ -3,3 +3,7 @@
 2026-08-29 17:28:14 | stage report started
 2026-08-29 17:28:14 | task 1 report family=covariates started
 2026-08-29 17:28:14 | report family=covariates
+/fslarge/scratch/users/h61084/codes/tsfm/outputs_selena/reports/covariates/full/results.csv
+2026-08-29 17:42:22 | task 1 report family=covariates completed status=success
+2026-08-29 17:42:22 | stage report completed status=success
+2026-08-29 17:42:26 | workflow completed status=success exit_code=0
